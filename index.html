@@ -3,112 +3,308 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Casino Mini App</title>
+    <title>Общага Батл</title>
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
     <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            user-select: none;
+        }
         body {
-            background-color: #1a1a2e;
-            color: white;
-            font-family: Arial, sans-serif;
+            background-color: #12131C;
+            color: #FFFFFF;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            padding: 15px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .header {
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: #1A1C29;
+            padding: 12px 20px;
+            border-radius: 12px;
+            border: 1px solid #2A2D3F;
+            margin-bottom: 20px;
+        }
+        .logo {
+            font-weight: bold;
+            font-size: 18px;
+            color: #FFB800;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        .balance-box {
+            background: #252836;
+            padding: 6px 15px;
+            border-radius: 20px;
+            font-weight: bold;
+            color: #4ECCA3;
+            border: 1px solid #3A3D52;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .dep-btn {
+            background: #FFB800;
+            color: #000;
+            border: none;
+            padding: 4px 10px;
+            border-radius: 12px;
+            font-weight: bold;
+            cursor: pointer;
+            font-size: 12px;
+        }
+        .title {
+            text-align: center;
+            margin-bottom: 15px;
+            font-size: 20px;
+            color: #E2E4F0;
+        }
+        
+        /* Сетка комнат (всего 80) */
+        .rooms-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(80px, 1fr));
+            gap: 10px;
+            width: 100%;
+            max-height: 380px;
+            overflow-y: auto;
+            padding-right: 5px;
+        }
+        .room-card {
+            background: #1A1C29;
+            border: 1px solid #2A2D3F;
+            border-radius: 10px;
+            padding: 10px 5px;
+            text-align: center;
+            cursor: pointer;
+            transition: transform 0.2s, border-color 0.2s;
+        }
+        .room-card:hover, .room-card.selected {
+            border-color: #FFB800;
+            transform: translateY(-3px);
+            background: #222536;
+        }
+        .room-number {
+            font-size: 11px;
+            color: #8A8D9F;
+        }
+        .room-icon {
+            font-size: 26px;
+            margin: 5px 0;
+        }
+        .room-price {
+            font-size: 11px;
+            color: #FFB800;
+            font-weight: bold;
+        }
+
+        /* Рулетка / Открытие */
+        .battle-area {
+            width: 100%;
+            background: #1A1C29;
+            border-radius: 15px;
+            border: 2px solid #FFB800;
+            padding: 20px;
+            margin-top: 20px;
+            text-align: center;
+            display: none;
+        }
+        .roulette-container {
+            overflow: hidden;
+            width: 100%;
+            height: 90px;
+            background: #0D0E15;
+            border-radius: 10px;
+            position: relative;
+            margin: 15px 0;
+            border: 1px solid #2A2D3F;
+        }
+        .pointer {
+            position: absolute;
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 4px;
+            height: 100%;
+            background: #FF5555;
+            z-index: 10;
+            box-shadow: 0 0 10px #FF5555;
+        }
+        .roulette-track {
+            display: flex;
+            position: absolute;
+            left: 0;
+            top: 10px;
+            transition: transform 4s cubic-bezier(0.15, 0.9, 0.15, 1);
+        }
+        .drop-item {
+            min-width: 70px;
+            height: 70px;
+            background: #1F2232;
+            margin: 0 5px;
+            border-radius: 8px;
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            height: 100vh;
-            margin: 0;
+            font-size: 24px;
+            border: 1px solid #33374D;
         }
-        .card {
-            background: #16213e;
-            padding: 20px;
-            border-radius: 15px;
-            text-align: center;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.5);
-            width: 80%;
-            max-width: 300px;
-        }
-        .slots {
-            font-size: 48px;
-            letter-spacing: 10px;
-            margin: 20px 0;
-            background: #0f3460;
-            padding: 10px;
-            border-radius: 10px;
-        }
-        button {
-            background: #e94560;
+
+        .action-btn {
+            background: linear-gradient(45deg, #FFB800, #FF8800);
             border: none;
-            color: white;
-            padding: 12px 24px;
-            font-size: 18px;
-            border-radius: 8px;
-            cursor: pointer;
-            font-weight: bold;
+            color: #000;
             width: 100%;
+            padding: 14px;
+            border-radius: 12px;
+            font-weight: bold;
+            font-size: 16px;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(255, 184, 0, 0.3);
         }
-        button:active {
-            transform: scale(0.98);
-        }
-        .balance {
-            font-size: 20px;
-            color: #4ecca3;
-            margin-bottom: 15px;
+        .action-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
         }
     </style>
 </head>
 <body>
 
-<div class="card">
-    <h2>🎰 DEMO CASINO</h2>
-    <div class="balance">Баланс: <span id="balance">1000</span> 🪙</div>
-    <div class="slots" id="slots">🎰 🎰 🎰</div>
-    <button onclick="spin()">КРУТИТЬ (50 🪙)</button>
-</div>
+    <div class="header">
+        <div class="logo">🏢 ОБЩАГА БАТЛ</div>
+        <div class="balance-box">
+            <span id="balance">1000</span> 🪙
+            <button class="dep-btn" onclick="deposit()">ДЕП</button>
+        </div>
+    </div>
+
+    <div class="title">Захвати комнату в общаге! (Всего: 80)</div>
+
+    <!-- Область батла / открытия -->
+    <div class="battle-area" id="battleArea">
+        <h3 id="selectedRoomTitle">Комната #1</h3>
+        <div class="roulette-container">
+            <div class="pointer"></div>
+            <div class="roulette-track" id="track"></div>
+        </div>
+        <button class="action-btn" id="spinBtn" onclick="startBattle()">НАЧАТЬ БАТЛ ЗА КОМНАТУ</button>
+    </div>
+
+    <!-- Сетка из 80 комнат -->
+    <div class="rooms-grid" id="roomsGrid"></div>
 
 <script>
     let tg = window.Telegram.WebApp;
-    tg.expand(); // Раскрыть на весь экран
+    tg.expand();
 
     let balance = 1000;
-    const items = ['🍎', '🍋', '🍒', '7️⃣', '💎'];
+    let selectedRoom = null;
 
-    function spin() {
-        if (balance < 50) {
-            alert("Недостаточно монет!");
-            return;
-        }
-        
-        balance -= 50;
-        document.getElementById('balance').innerText = balance;
+    // Варианты лута из комнат
+    const lootList = [
+        { name: "Доширак", icon: "🍜", val: 20 },
+        { name: "Тазик", icon: "🪣", val: 50 },
+        { name: "Чайник", icon: "🫖", val: 100 },
+        { name: "Микроволновка", icon: "📻", val: 250 },
+        { name: "Колонками JBL", icon: "🔊", val: 500 },
+        { name: "Стипендия", icon: "💵", val: 1000 },
+        { name: "Игровой Ноут", icon: "💻", val: 2500 },
+        { name: "Ключи от ректорки", icon: "🔑", val: 5000 }
+    ];
 
-        let slotElem = document.getElementById('slots');
-        let spins = 0;
+    // Генерируем 80 комнат
+    const roomsGrid = document.getElementById('roomsGrid');
+    for (let i = 1; i <= 80; i++) {
+        let price = Math.floor(i * 15 + 30);
+        let roomCard = document.createElement('div');
+        roomCard.className = 'room-card';
+        roomCard.onclick = () => selectRoom(i, price, roomCard);
         
-        // Простая анимация вращения
-        let interval = setInterval(() => {
-            let r1 = items[Math.floor(Math.random() * items.length)];
-            let r2 = items[Math.floor(Math.random() * items.length)];
-            let r3 = items[Math.floor(Math.random() * items.length)];
-            slotElem.innerText = `${r1} ${r2} ${r3}`;
-            spins++;
-            
-            if (spins > 10) {
-                clearInterval(interval);
-                checkWin(r1, r2, r3);
-            }
-        }, 100);
+        // Иконки типов комнат
+        let icon = "🚪";
+        if (i % 10 === 0) icon = "👑"; // Каждый 10-й номер — элитная
+        else if (i % 5 === 0) icon = "🛋️";
+
+        roomCard.innerHTML = `
+            <div class="room-number">№${i}</div>
+            <div class="room-icon">${icon}</div>
+            <div class="room-price">${price} 🪙</div>
+        `;
+        roomsGrid.appendChild(roomCard);
     }
 
-    function checkWin(a, b, c) {
-        if (a === b && b === c) {
-            let win = 500;
-            balance += win;
-            alert(`🎉 ДЖЕКПОТ! Вы выиграли ${win} монет!`);
-        } else if (a === b || b === c || a === c) {
-            let win = 100;
-            balance += win;
-            alert(`😊 Малый выигрыш! +${win} монет!`);
-        }
+    function selectRoom(num, price, element) {
+        document.querySelectorAll('.room-card').forEach(c => c.classList.remove('selected'));
+        element.classList.add('selected');
+        
+        selectedRoom = { num, price };
+        document.getElementById('selectedRoomTitle').innerText = `Комната №${num} (Ставка: ${price} 🪙)`;
+        document.getElementById('battleArea').style.display = 'block';
+        
+        // Прокрутка вниз к батлу
+        document.getElementById('battleArea').scrollIntoView({ behavior: 'smooth' });
+    }
+
+    function deposit() {
+        // Пополнение баланса (депозит)
+        let add = 500;
+        balance += add;
         document.getElementById('balance').innerText = balance;
+        alert(`🎉 Депозит успешный! Начислено +${add} 🪙`);
+    }
+
+    function startBattle() {
+        if (!selectedRoom) return;
+        if (balance < selectedRoom.price) {
+            alert("Недостаточно монет для захвата этой комнаты! Сделай ДЕП.");
+            return;
+        }
+
+        balance -= selectedRoom.price;
+        document.getElementById('balance').innerText = balance;
+        document.getElementById('spinBtn').disabled = true;
+
+        const track = document.getElementById('track');
+        track.style.transition = 'none';
+        track.style.transform = 'translateX(0px)';
+        track.innerHTML = '';
+
+        // Генерируем ленту предметов
+        let items = [];
+        for (let i = 0; i < 40; i++) {
+            let randomLoot = lootList[Math.floor(Math.random() * lootList.length)];
+            items.push(randomLoot);
+            
+            let itemDiv = document.createElement('div');
+            itemDiv.className = 'drop-item';
+            itemDiv.innerHTML = `<span>${randomLoot.icon}</span>`;
+            track.appendChild(itemDiv);
+        }
+
+        // Запуск прокрутки
+        setTimeout(() => {
+            track.style.transition = 'transform 4s cubic-bezier(0.15, 0.9, 0.15, 1)';
+            // Смещение под рулетку
+            let winningIndex = 32; 
+            let moveAmount = -(winningIndex * 80 - 100); 
+            track.style.transform = `translateX(${moveAmount}px)`;
+
+            setTimeout(() => {
+                let wonItem = items[winningIndex];
+                balance += wonItem.val;
+                document.getElementById('balance').innerText = balance;
+                alert(`🔥 БАТЛ ВЫИГРАН!\nТы захватил Комнату №${selectedRoom.num} и выбил: ${wonItem.name} ${wonItem.icon} (+${wonItem.val} 🪙)`);
+                document.getElementById('spinBtn').disabled = false;
+            }, 4200);
+        }, 100);
     }
 </script>
 </body>
