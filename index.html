@@ -100,11 +100,11 @@
         .inventory-list { display: flex; gap: 8px; overflow-x: auto; padding-bottom: 6px; min-height: 95px; }
         
         .inv-card {
-            min-width: 85px; height: 95px; background: rgba(11, 12, 16, 0.8); border-radius: 10px;
+            min-width: 90px; height: 95px; background: rgba(11, 12, 16, 0.8); border-radius: 10px;
             border: 1px solid rgba(255, 255, 255, 0.1); display: flex; flex-direction: column;
-            align-items: center; justify-content: space-between; padding: 6px; position: relative; cursor: pointer;
+            align-items: center; justify-content: space-between; padding: 8px 6px; position: relative; cursor: pointer;
         }
-        .inv-card-emoji { font-size: 24px; line-height: 28px; }
+        .inv-card-title { font-size: 10px; font-weight: 800; text-align: center; color: #fff; line-height: 1.2; word-break: break-word; }
         .inv-card.selected { border-color: #ffb800; box-shadow: 0 0 12px rgba(255, 184, 0, 0.6); }
         .inv-card-sell {
             background: #27ae60; color: #fff; border: none; padding: 3px 6px;
@@ -130,14 +130,13 @@
         .roulette-track { display: flex; position: absolute; left: 0; top: 10px; will-change: transform; }
 
         .drop-item {
-            width: 90px; min-width: 90px; height: 90px; margin: 0 4px;
+            width: 95px; min-width: 95px; height: 90px; margin: 0 4px;
             border-radius: 10px; border: 1px solid rgba(255,255,255,0.15);
-            display: flex; flex-direction: column; align-items: center; justify-content: space-between;
-            padding: 6px; position: relative;
+            display: flex; flex-direction: column; align-items: center; justify-content: center;
+            gap: 8px; padding: 8px; position: relative; text-align: center;
         }
-        .drop-item-emoji { font-size: 26px; }
-        .drop-item-title { font-size: 9px; color: #fff; font-weight: 700; text-align: center; line-height: 1.1; }
-        .drop-item-val { font-size: 9px; color: #ffb800; font-weight: 800; }
+        .drop-item-title { font-size: 11px; color: #fff; font-weight: 800; line-height: 1.2; text-transform: uppercase; }
+        .drop-item-val { font-size: 10px; color: #ffb800; font-weight: 800; }
 
         .rarity-junk { background: linear-gradient(180deg, rgba(80, 80, 80, 0.2), rgba(30, 30, 30, 0.8)); border-bottom: 3px solid #555; }
         .rarity-common { background: linear-gradient(180deg, rgba(108, 122, 137, 0.2), rgba(44, 62, 80, 0.8)); border-bottom: 3px solid #7f8c8d; }
@@ -147,13 +146,13 @@
         .rarity-mythic { background: linear-gradient(180deg, rgba(231, 76, 60, 0.2), rgba(192, 57, 43, 0.8)); border-bottom: 3px solid #e74c3c; }
 
         .rooms-grid {
-            display: grid; grid-template-columns: repeat(auto-fill, minmax(80px, 1fr));
+            display: grid; grid-template-columns: repeat(auto-fill, minmax(85px, 1fr));
             gap: 8px; width: 100%; max-height: 240px; overflow-y: auto; padding-right: 2px;
         }
         .room-card {
             background: linear-gradient(145deg, rgba(31, 40, 51, 0.8), rgba(11, 12, 16, 0.9));
             border: 1px solid rgba(255, 255, 255, 0.05); border-radius: 12px;
-            padding: 8px 4px; text-align: center; cursor: pointer; transition: all 0.2s;
+            padding: 10px 6px; text-align: center; cursor: pointer; transition: all 0.2s;
             display: flex; flex-direction: column; align-items: center; justify-content: space-between;
             height: 80px;
         }
@@ -161,7 +160,8 @@
             border-color: #ffb800; transform: scale(1.03);
             box-shadow: 0 4px 15px rgba(255, 184, 0, 0.2);
         }
-        .room-number { font-size: 10px; color: #66fcf1; font-weight: bold; }
+        .room-number { font-size: 11px; color: #66fcf1; font-weight: bold; }
+        .room-label { font-size: 9px; color: #888; text-transform: uppercase; font-weight: 700; }
         .room-price { font-size: 10px; color: #ffb800; font-weight: 800; }
 
         .upgrade-container {
@@ -194,8 +194,8 @@
         }
 
         .target-items-grid {
-            display: grid; grid-template-columns: repeat(auto-fill, minmax(75px, 1fr));
-            gap: 6px; width: 100%; max-height: 120px; overflow-y: auto; margin-top: 8px;
+            display: grid; grid-template-columns: repeat(auto-fill, minmax(80px, 1fr));
+            gap: 6px; width: 100%; max-height: 130px; overflow-y: auto; margin-top: 8px;
         }
 
         .action-btn {
@@ -209,21 +209,21 @@
 <body>
 
     <div class="header">
-        <div class="logo">🏢 ОБЩАГА БАТЛ</div>
+        <div class="logo">ОБЩАГА БАТЛ</div>
         <div class="balance-box">
-            <span id="balance">0</span> 🪙
+            <span id="balance">0</span> МОНЕТ
             <button class="dep-btn" onclick="deposit()">ДЕП</button>
         </div>
     </div>
 
     <div class="nav-tabs">
-        <div class="tab-btn active" id="tabRoulette" onclick="switchTab('roulette')">🎰 РУЛЕТКА</div>
-        <div class="tab-btn" id="tabUpgrade" onclick="switchTab('upgrade')">⚡ АПГРЕЙД</div>
+        <div class="tab-btn active" id="tabRoulette" onclick="switchTab('roulette')">РУЛЕТКА</div>
+        <div class="tab-btn" id="tabUpgrade" onclick="switchTab('upgrade')">АПГРЕЙД</div>
     </div>
 
     <div class="inventory-section">
         <div class="inventory-header">
-            <span>📦 Твой инвентарь:</span>
+            <span>Инвентарь:</span>
             <div>
                 <span id="invCount" style="margin-right:8px; font-weight:bold;">0 шт.</span>
                 <button class="sell-all-btn" onclick="sellAllInventory()">Продать всё</button>
@@ -295,54 +295,55 @@
 
     const FIRST_ROOM_PRICE = 400;
 
-    // Расширенный список предметов (35 штук) только с ЭМОДЗИ
+    // Полностью текстовый список предметов с добавленными презервативами
     const lootList = [
         // Хлам / Мусор
-        { id: 1, name: "Спички", val: 15, rarity: "rarity-junk", emoji: "🥢" },
-        { id: 2, name: "Сухарики", val: 30, rarity: "rarity-junk", emoji: "🍞" },
-        { id: 3, name: "Зажигалка", val: 50, rarity: "rarity-junk", emoji: "🔥" },
-        { id: 4, name: "Лапша", val: 75, rarity: "rarity-junk", emoji: "🍜" },
-        { id: 5, name: "Носки", val: 120, rarity: "rarity-junk", emoji: "🧦" },
-        { id: 6, name: "Шлепки", val: 180, rarity: "rarity-junk", emoji: "🩴" },
+        { id: 1, name: "Спички", val: 15, rarity: "rarity-junk" },
+        { id: 2, name: "Сухарики", val: 30, rarity: "rarity-junk" },
+        { id: 3, name: "Зажигалка", val: 50, rarity: "rarity-junk" },
+        { id: 4, name: "Лапша", val: 75, rarity: "rarity-junk" },
+        { id: 5, name: "Носки", val: 120, rarity: "rarity-junk" },
+        { id: 6, name: "Шлепки", val: 180, rarity: "rarity-junk" },
 
         // Обычные
-        { id: 7, name: "Тазик", val: 250, rarity: "rarity-common", emoji: "🪣" },
-        { id: 8, name: "Удлинитель", val: 450, rarity: "rarity-common", emoji: "🔌" },
-        { id: 9, name: "Чайник", val: 800, rarity: "rarity-common", emoji: "🫖" },
-        { id: 10, name: "Плитка", val: 1200, rarity: "rarity-common", emoji: "🍳" },
-        { id: 11, name: "Фен", val: 1800, rarity: "rarity-common", emoji: "💨" },
-        { id: 12, name: "Тостер", val: 2400, rarity: "rarity-common", emoji: "🍞" },
+        { id: 7, name: "Тазик", val: 250, rarity: "rarity-common" },
+        { id: 8, name: "Презервативы", val: 350, rarity: "rarity-common" },
+        { id: 9, name: "Удлинитель", val: 450, rarity: "rarity-common" },
+        { id: 10, name: "Чайник", val: 800, rarity: "rarity-common" },
+        { id: 11, name: "Плитка", val: 1200, rarity: "rarity-common" },
+        { id: 12, name: "Фен", val: 1800, rarity: "rarity-common" },
+        { id: 13, name: "Тостер", val: 2400, rarity: "rarity-common" },
 
         // Редкие
-        { id: 13, name: "Микроволновка", val: 3500, rarity: "rarity-rare", emoji: "📻" },
-        { id: 14, name: "Вентилятор", val: 5000, rarity: "rarity-rare", emoji: "🌀" },
-        { id: 15, name: "Пылесос", val: 7000, rarity: "rarity-rare", emoji: "🧹" },
-        { id: 16, name: "Холодильник", val: 10000, rarity: "rarity-rare", emoji: "🧊" },
-        { id: 17, name: "Колонка JBL", val: 16000, rarity: "rarity-rare", emoji: "🔊" },
-        { id: 18, name: "Наушники AirPods", val: 22000, rarity: "rarity-rare", emoji: "🎧" },
+        { id: 14, name: "Микроволновка", val: 3500, rarity: "rarity-rare" },
+        { id: 15, name: "Вентилятор", val: 5000, rarity: "rarity-rare" },
+        { id: 16, name: "Пылесос", val: 7000, rarity: "rarity-rare" },
+        { id: 17, name: "Холодильник", val: 10000, rarity: "rarity-rare" },
+        { id: 18, name: "Колонка JBL", val: 16000, rarity: "rarity-rare" },
+        { id: 19, name: "AirPods", val: 22000, rarity: "rarity-rare" },
 
         // Эпические
-        { id: 19, name: "Геймпад", val: 30000, rarity: "rarity-epic", emoji: "🎮" },
-        { id: 20, name: "Монитор 144Гц", val: 45000, rarity: "rarity-epic", emoji: "🖥️" },
-        { id: 21, name: "Планшет", val: 65000, rarity: "rarity-epic", emoji: "📱" },
-        { id: 22, name: "Электросамокат", val: 90000, rarity: "rarity-epic", emoji: "🛴" },
-        { id: 23, name: "Ноутбук", val: 130000, rarity: "rarity-epic", emoji: "💻" },
+        { id: 20, name: "Геймпад", val: 30000, rarity: "rarity-epic" },
+        { id: 21, name: "Монитор 144Гц", val: 45000, rarity: "rarity-epic" },
+        { id: 22, name: "Планшет", val: 65000, rarity: "rarity-epic" },
+        { id: 23, name: "Электросамокат", val: 90000, rarity: "rarity-epic" },
+        { id: 24, name: "Ноутбук", val: 130000, rarity: "rarity-epic" },
 
         // Легендарные
-        { id: 24, name: "PS5 Console", val: 180000, rarity: "rarity-legendary", emoji: "🕹️" },
-        { id: 25, name: "iPhone 15 Pro", val: 250000, rarity: "rarity-legendary", emoji: "📲" },
-        { id: 26, name: "Мощный ПК", val: 380000, rarity: "rarity-legendary", emoji: "🖥️" },
-        { id: 27, name: "Питбайк", val: 500000, rarity: "rarity-legendary", emoji: "🏍️" },
-        { id: 28, name: "Майнинг-риг", val: 750000, rarity: "rarity-legendary", emoji: "⚙️" },
+        { id: 25, name: "PS5 Console", val: 180000, rarity: "rarity-legendary" },
+        { id: 26, name: "iPhone 15 Pro", val: 250000, rarity: "rarity-legendary" },
+        { id: 27, name: "Мощный ПК", val: 380000, rarity: "rarity-legendary" },
+        { id: 28, name: "Питбайк", val: 500000, rarity: "rarity-legendary" },
+        { id: 29, name: "Майнинг-риг", val: 750000, rarity: "rarity-legendary" },
 
         // Мифические
-        { id: 29, name: "Жигули ВАЗ", val: 1200000, rarity: "rarity-mythic", emoji: "🚗" },
-        { id: 30, name: "BMW E36", val: 2500000, rarity: "rarity-mythic", emoji: "🏎️" },
-        { id: 31, name: "Ключи от хаты", val: 5000000, rarity: "rarity-mythic", emoji: "🔑" },
-        { id: 32, name: "Особняк", val: 12000000, rarity: "rarity-mythic", emoji: "🏰" },
-        { id: 33, name: "Яхта", val: 25000000, rarity: "rarity-mythic", emoji: "🛥️" },
-        { id: 34, name: "Бизнес-джет", val: 60000000, rarity: "rarity-mythic", emoji: "🛩️" },
-        { id: 35, name: "Ракета Falcon", val: 150000000, rarity: "rarity-mythic", emoji: "🚀" }
+        { id: 30, name: "Жигули ВАЗ", val: 1200000, rarity: "rarity-mythic" },
+        { id: 31, name: "BMW E36", val: 2500000, rarity: "rarity-mythic" },
+        { id: 32, name: "Ключи от хаты", val: 5000000, rarity: "rarity-mythic" },
+        { id: 33, name: "Особняк", val: 12000000, rarity: "rarity-mythic" },
+        { id: 34, name: "Яхта", val: 25000000, rarity: "rarity-mythic" },
+        { id: 35, name: "Бизнес-джет", val: 60000000, rarity: "rarity-mythic" },
+        { id: 36, name: "Ракета Falcon", val: 150000000, rarity: "rarity-mythic" }
     ];
 
     let myUpgItem = null;
@@ -364,8 +365,8 @@
         roomCard.onclick = () => selectRoom(i, price, roomCard);
         roomCard.innerHTML = `
             <div class="room-number">№${i}</div>
-            <div style="font-size:22px;">🚪</div>
-            <div class="room-price">${price} 🪙</div>
+            <div class="room-label">Комната</div>
+            <div class="room-price">${price} M</div>
         `;
         roomsGrid.appendChild(roomCard);
     }
@@ -374,7 +375,7 @@
         document.querySelectorAll('.room-card').forEach(c => c.classList.remove('selected'));
         element.classList.add('selected');
         selectedRoom = { num, price };
-        document.getElementById('selectedRoomTitle').innerText = `Комната №${num} (Ставка: ${price} 🪙)`;
+        document.getElementById('selectedRoomTitle').innerText = `Комната №${num} (Ставка: ${price} монет)`;
         document.getElementById('battleArea').style.display = 'block';
     }
 
@@ -394,8 +395,8 @@
             div.className = `inv-card ${item.rarity} ${isSelected ? 'selected' : ''}`;
             div.onclick = () => selectMyItemForUpgrade(index);
             div.innerHTML = `
-                <div class="inv-card-emoji">${item.emoji}</div>
-                <div style="font-size:9px; color:#66fcf1; font-weight:bold;">${item.val} 🪙</div>
+                <div class="inv-card-title">${item.name}</div>
+                <div style="font-size:9px; color:#66fcf1; font-weight:bold;">${item.val} M</div>
                 <button class="inv-card-sell" onclick="sellItem(event, ${index})">Продать</button>
             `;
             list.appendChild(div);
@@ -423,17 +424,17 @@
         myUpgItem = null;
         resetUpgradeSlotMy();
         updateInventoryUI();
-        alert(`💰 Продано предметов на сумму +${total} 🪙`);
+        alert(`Продано предметов на сумму +${total} монет`);
     }
 
     function deposit() {
         if (!hasClaimedFirstDep) {
             balance += FIRST_ROOM_PRICE;
             hasClaimedFirstDep = true;
-            alert(`🎉 Первый депозит получен: +${FIRST_ROOM_PRICE} 🪙 (Хватает на Комнату №1!)`);
+            alert(`Первый депозит получен: +${FIRST_ROOM_PRICE} монет!`);
         } else {
             balance += 500;
-            alert("🎉 Пополнение: +500 🪙");
+            alert("Пополнение: +500 монет");
         }
         document.getElementById('balance').innerText = balance;
     }
@@ -487,9 +488,8 @@
             let itemDiv = document.createElement('div');
             itemDiv.className = `drop-item ${drop.rarity}`;
             itemDiv.innerHTML = `
-                <div class="drop-item-emoji">${drop.emoji}</div>
                 <div class="drop-item-title">${drop.name}</div>
-                <div class="drop-item-val">${drop.val} 🪙</div>
+                <div class="drop-item-val">${drop.val} M</div>
             `;
             track.appendChild(itemDiv);
         }
@@ -497,7 +497,7 @@
         setTimeout(() => {
             track.style.transition = 'transform 5s cubic-bezier(0.08, 0.82, 0.17, 1)';
             let winningIndex = Math.floor(Math.random() * 20) + 130; 
-            let itemWidthWithMargin = 98;
+            let itemWidthWithMargin = 103;
             let containerWidth = document.getElementById('rouletteContainer').offsetWidth;
             let offsetToCenter = (containerWidth / 2) - (itemWidthWithMargin / 2); 
             let moveAmount = -(winningIndex * itemWidthWithMargin - offsetToCenter);
@@ -508,7 +508,7 @@
                 let wonItem = items[winningIndex];
                 inventory.push(wonItem);
                 updateInventoryUI();
-                alert(`🎁 Выпало: ${wonItem.name} (${wonItem.val} 🪙)!`);
+                alert(`Выпало: ${wonItem.name} (${wonItem.val} монет)!`);
                 document.getElementById('spinBtn').disabled = false;
             }, 5200);
         }, 100);
@@ -519,9 +519,8 @@
         let slot = document.getElementById('slotMy');
         slot.className = `upg-slot filled ${myUpgItem.rarity}`;
         slot.innerHTML = `
-            <div style="font-size:24px;">${myUpgItem.emoji}</div>
-            <div style="font-size:10px; font-weight:bold; margin-top:2px;">${myUpgItem.name}</div>
-            <b style="font-size:9px; color:#ffb800;">${myUpgItem.val} 🪙</b>
+            <div style="font-size:11px; font-weight:800; text-transform:uppercase;">${myUpgItem.name}</div>
+            <b style="font-size:10px; color:#ffb800; margin-top:4px;">${myUpgItem.val} M</b>
         `;
         updateInventoryUI();
         calcUpgradeChance();
@@ -545,16 +544,14 @@
                 let slot = document.getElementById('slotTarget');
                 slot.className = `upg-slot filled ${item.rarity}`;
                 slot.innerHTML = `
-                    <div style="font-size:24px;">${item.emoji}</div>
-                    <div style="font-size:10px; font-weight:bold; margin-top:2px;">${item.name}</div>
-                    <b style="font-size:9px; color:#ffb800;">${item.val} 🪙</b>
+                    <div style="font-size:11px; font-weight:800; text-transform:uppercase;">${item.name}</div>
+                    <b style="font-size:10px; color:#ffb800; margin-top:4px;">${item.val} M</b>
                 `;
                 calcUpgradeChance();
             };
             card.innerHTML = `
-                <div style="font-size:20px;">${item.emoji}</div>
-                <div style="font-size:9px; font-weight:bold;">${item.name}</div>
-                <div class="room-price">${item.val} 🪙</div>
+                <div style="font-size:10px; font-weight:bold;">${item.name}</div>
+                <div class="room-price">${item.val} M</div>
             `;
             grid.appendChild(card);
         });
@@ -600,9 +597,9 @@
 
             if (finalAngle <= winAngle) {
                 inventory.push(targetUpgItem);
-                alert(`🎉 УСПЕХ! Вы забрали: ${targetUpgItem.name}!`);
+                alert(`УСПЕХ! Вы забрали: ${targetUpgItem.name}!`);
             } else {
-                alert(`💥 НЕУДАЧА! Предмет сгорел.`);
+                alert(`НЕУДАЧА! Предмет сгорел.`);
             }
 
             myUpgItem = null;
