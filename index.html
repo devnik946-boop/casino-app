@@ -295,28 +295,54 @@
 
     const FIRST_ROOM_PRICE = 400;
 
+    // Расширенный список предметов (35 штук) только с ЭМОДЗИ
     const lootList = [
+        // Хлам / Мусор
         { id: 1, name: "Спички", val: 15, rarity: "rarity-junk", emoji: "🥢" },
-        { id: 2, name: "Сухарики", val: 35, rarity: "rarity-junk", emoji: "🍞" },
-        { id: 3, name: "Лапша", val: 70, rarity: "rarity-junk", emoji: "🍜" },
-        { id: 4, name: "Носки", val: 120, rarity: "rarity-junk", emoji: "🧦" },
-        { id: 5, name: "Тазик", val: 250, rarity: "rarity-common", emoji: "🪣" },
-        { id: 6, name: "Удлинитель", val: 450, rarity: "rarity-common", emoji: "🔌" },
-        { id: 7, name: "Чайник", val: 800, rarity: "rarity-common", emoji: "🫖" },
-        { id: 8, name: "Плитка", val: 1500, rarity: "rarity-common", emoji: "🍳" },
-        { id: 9, name: "Микроволновка", val: 3000, rarity: "rarity-rare", emoji: "📻" },
-        { id: 10, name: "Вентилятор", val: 5000, rarity: "rarity-rare", emoji: "🌀" },
-        { id: 11, name: "Холодильник", val: 9000, rarity: "rarity-rare", emoji: "🧊" },
-        { id: 12, name: "Колонка JBL", val: 15000, rarity: "rarity-rare", emoji: "🔊" },
-        { id: 13, name: "Геймпад", val: 28000, rarity: "rarity-epic", emoji: "🎮" },
-        { id: 14, name: "Монитор 144Гц", val: 45000, rarity: "rarity-epic", emoji: "🖥️" },
-        { id: 15, name: "Планшет", val: 70000, rarity: "rarity-epic", emoji: "📱" },
-        { id: 16, name: "Ноутбук", val: 120000, rarity: "rarity-legendary", emoji: "💻" },
-        { id: 17, name: "PS5 Console", val: 200000, rarity: "rarity-legendary", emoji: "🕹️" },
-        { id: 18, name: "iPhone 15", val: 350000, rarity: "rarity-legendary", emoji: "📲" },
-        { id: 19, name: "Майнинг-риг", val: 650000, rarity: "rarity-mythic", emoji: "⚙️" },
-        { id: 20, name: "Жигули ВАЗ", val: 1200000, rarity: "rarity-mythic", emoji: "🚗" },
-        { id: 21, name: "Ключи от хаты", val: 3000000, rarity: "rarity-mythic", emoji: "🔑" }
+        { id: 2, name: "Сухарики", val: 30, rarity: "rarity-junk", emoji: "🍞" },
+        { id: 3, name: "Зажигалка", val: 50, rarity: "rarity-junk", emoji: "🔥" },
+        { id: 4, name: "Лапша", val: 75, rarity: "rarity-junk", emoji: "🍜" },
+        { id: 5, name: "Носки", val: 120, rarity: "rarity-junk", emoji: "🧦" },
+        { id: 6, name: "Шлепки", val: 180, rarity: "rarity-junk", emoji: "🩴" },
+
+        // Обычные
+        { id: 7, name: "Тазик", val: 250, rarity: "rarity-common", emoji: "🪣" },
+        { id: 8, name: "Удлинитель", val: 450, rarity: "rarity-common", emoji: "🔌" },
+        { id: 9, name: "Чайник", val: 800, rarity: "rarity-common", emoji: "🫖" },
+        { id: 10, name: "Плитка", val: 1200, rarity: "rarity-common", emoji: "🍳" },
+        { id: 11, name: "Фен", val: 1800, rarity: "rarity-common", emoji: "💨" },
+        { id: 12, name: "Тостер", val: 2400, rarity: "rarity-common", emoji: "🍞" },
+
+        // Редкие
+        { id: 13, name: "Микроволновка", val: 3500, rarity: "rarity-rare", emoji: "📻" },
+        { id: 14, name: "Вентилятор", val: 5000, rarity: "rarity-rare", emoji: "🌀" },
+        { id: 15, name: "Пылесос", val: 7000, rarity: "rarity-rare", emoji: "🧹" },
+        { id: 16, name: "Холодильник", val: 10000, rarity: "rarity-rare", emoji: "🧊" },
+        { id: 17, name: "Колонка JBL", val: 16000, rarity: "rarity-rare", emoji: "🔊" },
+        { id: 18, name: "Наушники AirPods", val: 22000, rarity: "rarity-rare", emoji: "🎧" },
+
+        // Эпические
+        { id: 19, name: "Геймпад", val: 30000, rarity: "rarity-epic", emoji: "🎮" },
+        { id: 20, name: "Монитор 144Гц", val: 45000, rarity: "rarity-epic", emoji: "🖥️" },
+        { id: 21, name: "Планшет", val: 65000, rarity: "rarity-epic", emoji: "📱" },
+        { id: 22, name: "Электросамокат", val: 90000, rarity: "rarity-epic", emoji: "🛴" },
+        { id: 23, name: "Ноутбук", val: 130000, rarity: "rarity-epic", emoji: "💻" },
+
+        // Легендарные
+        { id: 24, name: "PS5 Console", val: 180000, rarity: "rarity-legendary", emoji: "🕹️" },
+        { id: 25, name: "iPhone 15 Pro", val: 250000, rarity: "rarity-legendary", emoji: "📲" },
+        { id: 26, name: "Мощный ПК", val: 380000, rarity: "rarity-legendary", emoji: "🖥️" },
+        { id: 27, name: "Питбайк", val: 500000, rarity: "rarity-legendary", emoji: "🏍️" },
+        { id: 28, name: "Майнинг-риг", val: 750000, rarity: "rarity-legendary", emoji: "⚙️" },
+
+        // Мифические
+        { id: 29, name: "Жигули ВАЗ", val: 1200000, rarity: "rarity-mythic", emoji: "🚗" },
+        { id: 30, name: "BMW E36", val: 2500000, rarity: "rarity-mythic", emoji: "🏎️" },
+        { id: 31, name: "Ключи от хаты", val: 5000000, rarity: "rarity-mythic", emoji: "🔑" },
+        { id: 32, name: "Особняк", val: 12000000, rarity: "rarity-mythic", emoji: "🏰" },
+        { id: 33, name: "Яхта", val: 25000000, rarity: "rarity-mythic", emoji: "🛥️" },
+        { id: 34, name: "Бизнес-джет", val: 60000000, rarity: "rarity-mythic", emoji: "🛩️" },
+        { id: 35, name: "Ракета Falcon", val: 150000000, rarity: "rarity-mythic", emoji: "🚀" }
     ];
 
     let myUpgItem = null;
@@ -412,24 +438,17 @@
         document.getElementById('balance').innerText = balance;
     }
 
-    // РЕВОЛЮЦИОННЫЙ РАСЧЕТ ВЕСА: Шанс строится от расстояния цен
     function getRandomLootByWeight(roomPrice) {
         let dynamicLoot = lootList.map(item => {
-            let ratio = item.val / roomPrice; // Соотношение стоимости предмета к ставке
+            let ratio = item.val / roomPrice;
             let weight = 0;
 
             if (ratio <= 1) {
-                // Предметы дешёвые или ровно по цене комнаты
-                // Чем ближе предмет по цене к ставке, тем выше шанс.
-                // Мусор в дорогих комнатах сильно режется.
                 weight = Math.pow(ratio, 2.5) * 100;
             } else {
-                // Предметы дороже комнаты (окупаемость/джекпот)
-                // Шанс резко падает с ростом цены предмета над ставкой
                 weight = 100 / Math.pow(ratio, 3.5);
             }
 
-            // Защитный минимум, чтобы у супер-дорогих вещей был хоть 0.001% шанс
             weight = Math.max(0.0001, weight);
 
             return { item, weight };
