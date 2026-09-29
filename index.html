@@ -7,149 +7,198 @@
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
     <style>
         * { box-sizing: border-box; margin: 0; padding: 0; user-select: none; }
+        
         body {
-            background-color: #12131C;
+            background: #0b0c10;
+            background-image: radial-gradient(circle at 50% 0%, #1f2833 0%, #0b0c10 75%);
             color: #FFFFFF;
-            font-family: 'Segoe UI', sans-serif;
-            padding: 10px;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            padding: 12px;
             display: flex;
             flex-direction: column;
             align-items: center;
+            min-height: 100vh;
         }
+
+        /* Шапка */
         .header {
             width: 100%;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            background: #1A1C29;
-            padding: 10px 15px;
-            border-radius: 12px;
-            border: 1px solid #2A2D3F;
+            background: rgba(31, 40, 51, 0.6);
+            backdrop-filter: blur(10px);
+            padding: 12px 16px;
+            border-radius: 16px;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
             margin-bottom: 12px;
         }
-        .logo { font-weight: bold; font-size: 15px; color: #FFB800; }
+        .logo {
+            font-weight: 900;
+            font-size: 16px;
+            background: linear-gradient(45deg, #ffb800, #ff4500);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
         .balance-box {
-            background: #252836;
-            padding: 5px 12px;
+            background: rgba(11, 12, 16, 0.7);
+            padding: 6px 14px;
             border-radius: 20px;
-            font-weight: bold;
-            color: #4ECCA3;
-            border: 1px solid #3A3D52;
+            font-weight: 700;
+            color: #66fcf1;
+            border: 1px solid rgba(102, 252, 241, 0.3);
             display: flex;
             align-items: center;
-            gap: 8px;
+            gap: 10px;
             font-size: 14px;
+            box-shadow: 0 0 10px rgba(102, 252, 241, 0.15);
         }
         .dep-btn {
-            background: #FFB800; color: #000; border: none;
-            padding: 3px 8px; border-radius: 8px; font-weight: bold;
+            background: linear-gradient(135deg, #ffb800, #ff8800);
+            color: #000; border: none;
+            padding: 4px 10px; border-radius: 10px; font-weight: 800;
             cursor: pointer; font-size: 11px;
+            transition: transform 0.1s, box-shadow 0.2s;
         }
+        .dep-btn:active { transform: scale(0.95); }
 
-        /* Навигация */
-        .tabs { display: flex; width: 100%; gap: 6px; margin-bottom: 12px; }
+        /* Вкладки */
+        .tabs { display: flex; width: 100%; gap: 8px; margin-bottom: 12px; }
         .tab-btn {
-            flex: 1; background: #1A1C29; border: 1px solid #2A2D3F;
-            color: #8A8D9F; padding: 8px; border-radius: 8px;
-            font-weight: bold; cursor: pointer; font-size: 12px; text-align: center;
+            flex: 1; background: rgba(31, 40, 51, 0.4); border: 1px solid rgba(255, 255, 255, 0.05);
+            color: #c5c6c7; padding: 10px; border-radius: 12px;
+            font-weight: 700; cursor: pointer; font-size: 13px; text-align: center;
+            transition: all 0.2s;
         }
-        .tab-btn.active { background: #252836; color: #FFB800; border-color: #FFB800; }
+        .tab-btn.active {
+            background: linear-gradient(135deg, rgba(255, 184, 0, 0.2), rgba(255, 69, 0, 0.2));
+            color: #ffb800; border-color: #ffb800;
+            box-shadow: 0 0 15px rgba(255, 184, 0, 0.2);
+        }
 
         .tab-content { display: none; width: 100%; }
         .tab-content.active { display: block; }
 
-        /* ИНВЕНТАРЬ */
+        /* Инвентарь */
         .inventory-section {
-            background: #1A1C29; border-radius: 10px; padding: 10px;
-            border: 1px solid #2A2D3F; margin-bottom: 12px; width: 100%;
+            background: rgba(31, 40, 51, 0.5); border-radius: 16px; padding: 12px;
+            border: 1px solid rgba(255, 255, 255, 0.05); margin-bottom: 12px; width: 100%;
+            box-shadow: inset 0 0 20px rgba(0,0,0,0.5);
         }
-        .inventory-title { font-size: 12px; color: #8A8D9F; margin-bottom: 8px; display: flex; justify-content: space-between; }
-        .inventory-list { display: flex; gap: 8px; overflow-x: auto; padding-bottom: 5px; min-height: 60px; }
-        .inv-item {
-            min-width: 60px; height: 60px; background: #252836; border-radius: 8px;
-            border: 1px solid #3A3D52; display: flex; flex-direction: column;
-            align-items: center; justify-content: center; position: relative; cursor: pointer;
+        .inventory-header {
+            display: flex; justify-content: space-between; align-items: center;
+            margin-bottom: 10px; font-size: 12px; color: #c5c6c7;
         }
-        .inv-item.selected { border-color: #FFB800; box-shadow: 0 0 8px rgba(255,184,0,0.5); }
-        .inv-price { font-size: 9px; color: #4ECCA3; font-weight: bold; margin-top: 2px; }
+        .sell-all-btn {
+            background: rgba(231, 76, 60, 0.2); border: 1px solid #e74c3c; color: #e74c3c;
+            padding: 4px 8px; border-radius: 6px; font-size: 10px; font-weight: bold; cursor: pointer;
+        }
+        .inventory-list { display: flex; gap: 8px; overflow-x: auto; padding-bottom: 6px; min-height: 85px; }
+        
+        .inv-card {
+            min-width: 75px; height: 80px; background: rgba(11, 12, 16, 0.8); border-radius: 10px;
+            border: 1px solid rgba(255, 255, 255, 0.1); display: flex; flex-direction: column;
+            align-items: center; justify-content: space-between; padding: 5px; position: relative; cursor: pointer;
+            transition: all 0.2s;
+        }
+        .inv-card.selected { border-color: #ffb800; box-shadow: 0 0 12px rgba(255, 184, 0, 0.6); transform: translateY(-2px); }
+        .inv-card-sell {
+            background: #27ae60; color: #white; border: none; padding: 2px 6px;
+            border-radius: 4px; font-size: 9px; font-weight: bold; cursor: pointer; width: 100%; text-align: center;
+        }
 
         /* Сетка комнат */
         .rooms-grid {
-            display: grid; grid-template-columns: repeat(auto-fill, minmax(70px, 1fr));
-            gap: 6px; width: 100%; max-height: 280px; overflow-y: auto;
+            display: grid; grid-template-columns: repeat(auto-fill, minmax(75px, 1fr));
+            gap: 8px; width: 100%; max-height: 280px; overflow-y: auto; padding-right: 2px;
         }
         .room-card {
-            background: #1A1C29; border: 1px solid #2A2D3F; border-radius: 8px;
-            padding: 6px 2px; text-align: center; cursor: pointer;
+            background: linear-gradient(145deg, rgba(31, 40, 51, 0.8), rgba(11, 12, 16, 0.9));
+            border: 1px solid rgba(255, 255, 255, 0.05); border-radius: 12px;
+            padding: 8px 4px; text-align: center; cursor: pointer; transition: all 0.2s;
         }
-        .room-card.selected { border-color: #FFB800; background: #222536; }
-        .room-number { font-size: 9px; color: #8A8D9F; }
-        .room-icon { font-size: 20px; margin: 2px 0; }
-        .room-price { font-size: 9px; color: #FFB800; font-weight: bold; }
+        .room-card:hover, .room-card.selected {
+            border-color: #ffb800; transform: scale(1.03);
+            box-shadow: 0 4px 15px rgba(255, 184, 0, 0.2);
+        }
+        .room-number { font-size: 9px; color: #66fcf1; font-weight: bold; }
+        .room-icon { font-size: 22px; margin: 4px 0; }
+        .room-price { font-size: 10px; color: #ffb800; font-weight: 800; }
 
-        /* Модалка / Зона батла */
+        /* Батл рулетка */
         .battle-area {
-            background: #1A1C29; border-radius: 12px; border: 1px solid #FFB800;
-            padding: 12px; margin-top: 12px; text-align: center;
+            background: rgba(31, 40, 51, 0.7); border-radius: 16px; border: 1px solid #ffb800;
+            padding: 14px; margin-top: 12px; text-align: center;
+            box-shadow: 0 0 25px rgba(255, 184, 0, 0.15);
         }
         .roulette-container {
-            overflow: hidden; width: 100%; height: 70px; background: #0D0E15;
-            border-radius: 8px; position: relative; margin: 10px 0; border: 1px solid #2A2D3F;
+            overflow: hidden; width: 100%; height: 75px; background: #050608;
+            border-radius: 10px; position: relative; margin: 12px 0; border: 1px solid rgba(255,255,255,0.1);
         }
         .pointer {
             position: absolute; top: 0; left: 50%; transform: translateX(-50%);
-            width: 3px; height: 100%; background: #FF5555; z-index: 10;
+            width: 4px; height: 100%; background: #ff4500; z-index: 10;
+            box-shadow: 0 0 10px #ff4500;
         }
         .roulette-track {
-            display: flex; position: absolute; left: 0; top: 5px;
+            display: flex; position: absolute; left: 0; top: 7px;
             transition: transform 4s cubic-bezier(0.15, 0.9, 0.15, 1);
         }
         .drop-item {
-            min-width: 60px; height: 55px; background: #1F2232; margin: 0 3px;
-            border-radius: 6px; display: flex; align-items: center; justify-content: center; font-size: 20px;
+            min-width: 65px; height: 60px; background: rgba(31, 40, 51, 0.9); margin: 0 4px;
+            border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 22px;
+            border: 1px solid rgba(255,255,255,0.05);
         }
 
-        /* КРУГОВАЯ РУЛЕТКА ДЛЯ АПГРЕЙДА */
+        /* КРУГОВАЯ РУЛЕТКА АПГРЕЙДА */
         .upgrade-container {
-            background: #1A1C29; border-radius: 12px; padding: 15px;
-            border: 1px solid #2A2D3F; text-align: center;
+            background: rgba(31, 40, 51, 0.7); border-radius: 16px; padding: 16px;
+            border: 1px solid rgba(255, 255, 255, 0.08); text-align: center;
         }
         .circle-wheel-box {
-            position: relative; width: 160px; height: 160px; margin: 15px auto;
+            position: relative; width: 180px; height: 180px; margin: 15px auto;
         }
-        .circle-svg { width: 100%; height: 100%; transform: rotate(-90deg); }
-        .wheel-bg { fill: none; stroke: #252836; stroke-width: 12; }
-        .wheel-win { fill: none; stroke: #4ECCA3; stroke-width: 12; transition: stroke-dasharray 0.3s; }
+        .circle-svg { width: 100%; height: 100%; transform: rotate(-90deg); filter: drop-shadow(0 0 8px rgba(102, 252, 241, 0.3)); }
+        .wheel-bg { fill: none; stroke: #0b0c10; stroke-width: 10; }
+        .wheel-win {
+            fill: none; stroke: url(#gradWin); stroke-width: 10;
+            transition: stroke-dasharray 0.3s; stroke-linecap: round;
+        }
         .wheel-arrow {
-            position: absolute; top: 0; left: 50%; transform: translateX(-50%);
-            width: 4px; height: 80px; background: #FF5555; transform-origin: bottom center;
-            border-radius: 2px; transition: transform 3s cubic-bezier(0.15, 0.85, 0.15, 1);
+            position: absolute; top: 10px; left: 50%; transform: translateX(-50%);
+            width: 4px; height: 80px; background: #ff4500; transform-origin: bottom center;
+            border-radius: 4px; transition: transform 3.5s cubic-bezier(0.15, 0.85, 0.15, 1);
+            box-shadow: 0 0 8px #ff4500;
         }
         .chance-text {
             position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
-            font-size: 20px; font-weight: bold; color: #4ECCA3;
+            font-size: 22px; font-weight: 900; color: #66fcf1;
+            text-shadow: 0 0 10px rgba(102, 252, 241, 0.5);
         }
 
-        /* Выбор предметов для апгрейда */
+        /* Выбор целей */
         .upgrade-select-grid {
-            display: grid; grid-template-columns: repeat(4, 1fr); gap: 6px; margin: 10px 0;
+            display: grid; grid-template-columns: repeat(auto-fill, minmax(75px, 1fr));
+            gap: 6px; margin: 10px 0; max-height: 150px; overflow-y: auto; padding-right: 2px;
         }
         .target-card {
-            background: #252836; border: 1px solid #3A3D52; border-radius: 8px;
-            padding: 6px; font-size: 10px; cursor: pointer; text-align: center;
+            background: rgba(11, 12, 16, 0.8); border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 10px; padding: 6px; font-size: 10px; cursor: pointer; text-align: center;
+            transition: all 0.2s;
         }
-        .target-card.selected { border-color: #FFB800; background: #2F3347; }
+        .target-card.selected { border-color: #66fcf1; background: rgba(102, 252, 241, 0.1); box-shadow: 0 0 10px rgba(102, 252, 241, 0.3); }
 
         .action-btn {
-            background: linear-gradient(45deg, #FFB800, #FF8800);
+            background: linear-gradient(135deg, #ffb800, #ff4500);
             border: none; color: #000; width: 100%; padding: 12px;
-            border-radius: 10px; font-weight: bold; font-size: 14px; cursor: pointer;
+            border-radius: 12px; font-weight: 900; font-size: 14px; cursor: pointer;
+            box-shadow: 0 4px 20px rgba(255, 69, 0, 0.3); transition: transform 0.1s;
         }
-        .action-btn:disabled { opacity: 0.5; }
-        .sell-btn {
-            background: #27AE60; color: white; border: none; padding: 6px 12px;
-            border-radius: 6px; font-size: 11px; cursor: pointer; margin-top: 5px;
-        }
+        .action-btn:active { transform: scale(0.98); }
+        .action-btn:disabled { opacity: 0.4; cursor: not-allowed; }
     </style>
 </head>
 <body>
@@ -164,18 +213,21 @@
 
     <!-- ИНВЕНТАРЬ ИГРОКА -->
     <div class="inventory-section">
-        <div class="inventory-title">
-            <span>📦 Твой инвентарь (Кликни для продажи/апгрейда):</span>
-            <span id="invCount">0 шт.</span>
+        <div class="inventory-header">
+            <span>📦 Твой инвентарь (Выбирай вещи для апгрейда):</span>
+            <div>
+                <span id="invCount" style="margin-right:8px; font-weight:bold;">0 шт.</span>
+                <button class="sell-all-btn" onclick="sellAllInventory()">Продать всё</button>
+            </div>
         </div>
         <div class="inventory-list" id="inventoryList">
-            <div style="font-size:11px; color:#5A5D73; padding:15px;">Инвентарь пуст. Открывай комнаты!</div>
+            <div style="font-size:11px; color:#5A5D73; padding:20px; text-align:center; width:100%;">Инвентарь пуст. Захватывай комнаты!</div>
         </div>
     </div>
 
     <!-- Переключатель режимов -->
     <div class="tabs">
-        <div class="tab-btn active" onclick="switchTab('rooms')">🏢 Комнаты</div>
+        <div class="tab-btn active" onclick="switchTab('rooms')">🏢 Комнаты (80)</div>
         <div class="tab-btn" onclick="switchTab('upgrade')">⚡ Апгрейд</div>
     </div>
 
@@ -183,7 +235,7 @@
     <div id="tab-rooms" class="tab-content active">
         <div class="rooms-grid" id="roomsGrid"></div>
         <div class="battle-area" id="battleArea" style="display:none;">
-            <h3 id="selectedRoomTitle">Комната #1</h3>
+            <h3 id="selectedRoomTitle" style="font-size:14px; color:#ffb800;">Комната #1</h3>
             <div class="roulette-container">
                 <div class="pointer"></div>
                 <div class="roulette-track" id="track"></div>
@@ -195,13 +247,19 @@
     <!-- Вкладка 2: Апгрейд -->
     <div id="tab-upgrade" class="tab-content">
         <div class="upgrade-container">
-            <h3 style="font-size:14px; color:#8A8D9F;">Выбери предмет из инвентаря и цель:</h3>
+            <h3 style="font-size:13px; color:#c5c6c7;">1. Выбери вещь-цель для выигрыша:</h3>
             
             <div class="upgrade-select-grid" id="targetGrid"></div>
 
             <!-- Круговая Рулетка -->
             <div class="circle-wheel-box">
                 <svg class="circle-svg" viewBox="0 0 100 100">
+                    <defs>
+                        <linearGradient id="gradWin" x1="0%" y1="0%" x2="100%" y2="100%">
+                            <stop offset="0%" stop-color="#66fcf1" />
+                            <stop offset="100%" stop-color="#45a29e" />
+                        </linearGradient>
+                    </defs>
                     <circle class="wheel-bg" cx="50" cy="50" r="40"></circle>
                     <circle class="wheel-win" id="winSector" cx="50" cy="50" r="40" stroke-dasharray="0 251.2"></circle>
                 </svg>
@@ -219,19 +277,20 @@
 
     let balance = 1000;
     let selectedRoom = null;
-    let inventory = []; // Инвентарь игрока
-    let selectedInvItems = []; // Выбранные предметы для апгрейда (1 или 2)
+    let inventory = []; // Инвентарь
+    let selectedInvIndices = []; // Массив выбранных вещей в инвентаре (БЕЗ ЛИМИТА!)
     let selectedTargetItem = null;
 
-    // Полный список лута
+    // ВСЕ ПРЕДМЕТЫ В ИГРЕ (доступны и для дропа, и для целей Апгрейда)
     const lootList = [
-        { id: 1, name: "Доширак", icon: "🍜", val: 20, weight: 50 },
-        { id: 2, name: "Тазик", icon: "🪣", val: 50, weight: 30 },
-        { id: 3, name: "Чайник", icon: "🫖", val: 120, weight: 12 },
-        { id: 4, name: "Микроволновка", icon: "📻", val: 300, weight: 5 },
-        { id: 5, name: "Колонки JBL", icon: "🔊", val: 800, weight: 2 },
-        { id: 6, name: "Игровой Ноут", icon: "💻", val: 2500, weight: 0.9 },
-        { id: 7, name: "Ректорка", icon: "🔑", val: 10000, weight: 0.1 }
+        { id: 1, name: "Доширак", icon: "🍜", val: 25, weight: 45 },
+        { id: 2, name: "Тазик", icon: "🪣", val: 60, weight: 28 },
+        { id: 3, name: "Чайник", icon: "🫖", val: 150, weight: 14 },
+        { id: 4, name: "Микроволновка", icon: "📻", val: 350, weight: 7 },
+        { id: 5, name: "Колонки JBL", icon: "🔊", val: 900, weight: 3.5 },
+        { id: 6, name: "Плейстейшн", icon: "🎮", val: 2000, weight: 1.5 },
+        { id: 7, name: "Игровой Ноут", icon: "💻", val: 4500, weight: 0.8 },
+        { id: 8, name: "Ректорка", icon: "🔑", val: 12000, weight: 0.2 }
     ];
 
     // Генерируем 80 комнат
@@ -246,13 +305,13 @@
         roomsGrid.appendChild(roomCard);
     }
 
-    // Инициализация целей для апгрейда
+    // Инициализация целей для апгрейда (ВСЕ предметы!)
     const targetGrid = document.getElementById('targetGrid');
-    lootList.slice(2).forEach(item => {
+    lootList.forEach(item => {
         let div = document.createElement('div');
         div.className = 'target-card';
         div.onclick = () => selectTarget(item, div);
-        div.innerHTML = `<div style="font-size:18px;">${item.icon}</div><div>${item.name}</div><div style="color:#4ECCA3">${item.val} 🪙</div>`;
+        div.innerHTML = `<div style="font-size:18px;">${item.icon}</div><div style="font-weight:bold;">${item.name}</div><div style="color:#66fcf1; font-weight:bold;">${item.val} 🪙</div>`;
         targetGrid.appendChild(div);
     });
 
@@ -262,30 +321,60 @@
         list.innerHTML = '';
 
         if (inventory.length === 0) {
-            list.innerHTML = `<div style="font-size:11px; color:#5A5D73; padding:15px;">Инвентарь пуст. Открывай комнаты!</div>`;
+            list.innerHTML = `<div style="font-size:11px; color:#5A5D73; padding:20px; text-align:center; width:100%;">Инвентарь пуст. Захватывай комнаты!</div>`;
+            calculateChance();
             return;
         }
 
         inventory.forEach((item, index) => {
             let div = document.createElement('div');
-            let isSelected = selectedInvItems.includes(index);
-            div.className = `inv-item ${isSelected ? 'selected' : ''}`;
+            let isSelected = selectedInvIndices.includes(index);
+            div.className = `inv-card ${isSelected ? 'selected' : ''}`;
+            
             div.innerHTML = `
-                <div style="font-size:18px;">${item.icon}</div>
-                <div class="inv-price">${item.val} 🪙</div>
+                <div style="font-size:20px; margin-top:2px;">${item.icon}</div>
+                <div style="font-size:9px; color:#66fcf1; font-weight:bold;">${item.val} 🪙</div>
+                <button class="inv-card-sell" onclick="sellItem(event, ${index})">Продать</button>
             `;
-            div.onclick = () => toggleSelectInvItem(index);
+            div.onclick = (e) => {
+                if (e.target.tagName !== 'BUTTON') toggleSelectInvItem(index);
+            };
             list.appendChild(div);
         });
         calculateChance();
     }
 
+    // Продажа конкретного предмета
+    function sellItem(event, index) {
+        event.stopPropagation();
+        let item = inventory[index];
+        balance += item.val;
+        document.getElementById('balance').innerText = balance;
+        
+        // Удаляем из инвентаря и выделения
+        inventory.splice(index, 1);
+        selectedInvIndices = selectedInvIndices.filter(i => i !== index).map(i => i > index ? i - 1 : i);
+        updateInventoryUI();
+    }
+
+    // Продажа ВСЕХ предметов
+    function sellAllInventory() {
+        if (inventory.length === 0) return;
+        let total = inventory.reduce((sum, item) => sum + item.val, 0);
+        balance += total;
+        document.getElementById('balance').innerText = balance;
+        inventory = [];
+        selectedInvIndices = [];
+        updateInventoryUI();
+        alert(`💰 Продано предметов на сумму +${total} 🪙`);
+    }
+
+    // Выбор предметов (БЕЗ ОГРАНИЧЕНИЙ по количеству!)
     function toggleSelectInvItem(index) {
-        if (selectedInvItems.includes(index)) {
-            selectedInvItems = selectedInvItems.filter(i => i !== index);
+        if (selectedInvIndices.includes(index)) {
+            selectedInvIndices = selectedInvIndices.filter(i => i !== index);
         } else {
-            if (selectedInvItems.length >= 2) selectedInvItems.shift(); // Максимум 2 вещи!
-            selectedInvItems.push(index);
+            selectedInvIndices.push(index);
         }
         updateInventoryUI();
     }
@@ -298,22 +387,23 @@
     }
 
     function calculateChance() {
-        if (!selectedTargetItem || selectedInvItems.length === 0) {
+        if (!selectedTargetItem || selectedInvIndices.length === 0) {
             setChanceUI(0);
             return;
         }
 
-        let mySum = selectedInvItems.reduce((acc, idx) => acc + inventory[idx].val, 0);
+        // Сумма всех выделенных предметов
+        let mySum = selectedInvIndices.reduce((acc, idx) => acc + (inventory[idx] ? inventory[idx].val : 0), 0);
         let chance = (mySum / selectedTargetItem.val) * 100;
-        if (chance > 80) chance = 80; // Макс шанс 80%
-        if (chance < 1) chance = 1;   // Мин шанс 1%
+        
+        if (chance > 80) chance = 80; // Максимальный шанс 80%
+        if (chance < 0.5) chance = 0.5; // Минимальный 0.5%
 
         setChanceUI(chance.toFixed(1));
     }
 
     function setChanceUI(percent) {
         document.getElementById('chancePercent').innerText = percent;
-        // Перевод процента в дугу круга (длина окружности 2*pi*r = 251.2)
         let dashVal = (percent / 100) * 251.2;
         document.getElementById('winSector').setAttribute('stroke-dasharray', `${dashVal} 251.2`);
     }
@@ -370,12 +460,12 @@
         setTimeout(() => {
             track.style.transition = 'transform 4s cubic-bezier(0.15, 0.9, 0.15, 1)';
             let winningIndex = 32; 
-            let moveAmount = -(winningIndex * 66 - 80); 
+            let moveAmount = -(winningIndex * 73 - 80); 
             track.style.transform = `translateX(${moveAmount}px)`;
 
             setTimeout(() => {
                 let wonItem = items[winningIndex];
-                inventory.push(wonItem); // Добавляем в инвентарь!
+                inventory.push(wonItem);
                 updateInventoryUI();
                 alert(`🎁 Выпало: ${wonItem.name} ${wonItem.icon}!\nПредмет добавлен в инвентарь.`);
                 document.getElementById('spinBtn').disabled = false;
@@ -393,44 +483,40 @@
         return lootList[0];
     }
 
-    // АПГРЕЙД С КРУГОВОЙ РУЛЕТКОЙ
+    // АПГРЕЙД С РУЛЕТКОЙ
     function startUpgrade() {
-        if (selectedInvItems.length === 0) { alert("Выбери 1 или 2 вещи из инвентаря!"); return; }
-        if (!selectedTargetItem) { alert("Выбери цель для апгрейда!"); return; }
+        if (selectedInvIndices.length === 0) { alert("Выбери предметы из инвентаря для ставки!"); return; }
+        if (!selectedTargetItem) { alert("Выбери желаемую вещь-цель!"); return; }
 
         let chance = parseFloat(document.getElementById('chancePercent').innerText);
         let arrow = document.getElementById('wheelArrow');
         document.getElementById('upgradeBtn').disabled = true;
 
-        // Вращаем стрелку (рандом от 3 до 5 полных оборотов + итоговый угол)
         let randomDegree = Math.floor(Math.random() * 360);
         let totalRotation = 1440 + randomDegree; 
         arrow.style.transform = `translateX(-50%) rotate(${totalRotation}deg)`;
 
         setTimeout(() => {
-            // Определение попадания в зелёный сектор
             let winDegree = (chance / 100) * 360;
+            
             if (randomDegree <= winDegree) {
-                // УСПЕХ
                 alert(`🔥 АПГРЕЙД УСПЕШЕН!\nТы получил: ${selectedTargetItem.name} ${selectedTargetItem.icon}`);
-                // Удаляем использованные и добавляем выигранный
-                selectedInvItems.sort((a,b) => b-a).forEach(idx => inventory.splice(idx, 1));
+                // Удаляем выделенные и добавляем выигранный
+                selectedInvIndices.sort((a,b) => b-a).forEach(idx => inventory.splice(idx, 1));
                 inventory.push(selectedTargetItem);
             } else {
-                // НЕУДАЧА
                 alert(`❌ АПГРЕЙД СГОРЕЛ!\nПредметы уничтожены.`);
-                selectedInvItems.sort((a,b) => b-a).forEach(idx => inventory.splice(idx, 1));
+                selectedInvIndices.sort((a,b) => b-a).forEach(idx => inventory.splice(idx, 1));
             }
 
-            // Сброс стрелки и выборки
             arrow.style.transition = 'none';
             arrow.style.transform = `translateX(-50%) rotate(0deg)`;
-            setTimeout(() => arrow.style.transition = 'transform 3s cubic-bezier(0.15, 0.85, 0.15, 1)', 50);
+            setTimeout(() => arrow.style.transition = 'transform 3.5s cubic-bezier(0.15, 0.85, 0.15, 1)', 50);
 
-            selectedInvItems = [];
+            selectedInvIndices = [];
             updateInventoryUI();
             document.getElementById('upgradeBtn').disabled = false;
-        }, 3200);
+        }, 3600);
     }
 </script>
 </body>
