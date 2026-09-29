@@ -20,6 +20,19 @@
             min-height: 100vh;
         }
 
+        /* Оверлей блокировки экрана */
+        .overlay-blocker {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: rgba(0, 0, 0, 0.4);
+            z-index: 9999;
+            cursor: wait;
+        }
+
         .header {
             width: 100%;
             display: flex;
@@ -208,6 +221,9 @@
 </head>
 <body>
 
+    <!-- Элемент блокировки экрана -->
+    <div id="screenBlocker" class="overlay-blocker"></div>
+
     <div class="header">
         <div class="logo">ОБЩАГА БАТЛ</div>
         <div class="balance-box">
@@ -295,7 +311,6 @@
 
     const FIRST_ROOM_PRICE = 400;
 
-    // Полностью текстовый список предметов с добавленными презервативами
     const lootList = [
         // Хлам / Мусор
         { id: 1, name: "Спички", val: 15, rarity: "rarity-junk" },
@@ -579,7 +594,11 @@
         if (!myUpgItem || !targetUpgItem) return;
 
         let btn = document.getElementById('btnDoUpgrade');
+        let blocker = document.getElementById('screenBlocker');
+
+        // Включаем блокировку экрана и отключаем кнопку
         btn.disabled = true;
+        blocker.style.display = 'block';
 
         let chance = (myUpgItem.val / targetUpgItem.val) * 100;
         if (chance > 75) chance = 75;
@@ -612,6 +631,9 @@
             arrow.style.transform = `translateX(-50%) rotate(0deg)`;
 
             updateInventoryUI();
+
+            // Снимаем блокировку экрана
+            blocker.style.display = 'none';
         }, 4200);
     }
 </script>
