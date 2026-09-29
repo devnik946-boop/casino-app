@@ -11,7 +11,7 @@
             background-color: #12131C;
             color: #FFFFFF;
             font-family: 'Segoe UI', sans-serif;
-            padding: 12px;
+            padding: 10px;
             display: flex;
             flex-direction: column;
             align-items: center;
@@ -25,9 +25,9 @@
             padding: 10px 15px;
             border-radius: 12px;
             border: 1px solid #2A2D3F;
-            margin-bottom: 15px;
+            margin-bottom: 12px;
         }
-        .logo { font-weight: bold; font-size: 16px; color: #FFB800; }
+        .logo { font-weight: bold; font-size: 15px; color: #FFB800; }
         .balance-box {
             background: #252836;
             padding: 5px 12px;
@@ -38,151 +38,118 @@
             display: flex;
             align-items: center;
             gap: 8px;
+            font-size: 14px;
         }
         .dep-btn {
-            background: #FFB800;
-            color: #000;
-            border: none;
-            padding: 4px 8px;
-            border-radius: 10px;
-            font-weight: bold;
-            cursor: pointer;
-            font-size: 11px;
+            background: #FFB800; color: #000; border: none;
+            padding: 3px 8px; border-radius: 8px; font-weight: bold;
+            cursor: pointer; font-size: 11px;
         }
 
-        /* Навигация (Вкладки) */
-        .tabs {
-            display: flex;
-            width: 100%;
-            gap: 8px;
-            margin-bottom: 15px;
-        }
+        /* Навигация */
+        .tabs { display: flex; width: 100%; gap: 6px; margin-bottom: 12px; }
         .tab-btn {
-            flex: 1;
-            background: #1A1C29;
-            border: 1px solid #2A2D3F;
-            color: #8A8D9F;
-            padding: 10px;
-            border-radius: 10px;
-            font-weight: bold;
-            cursor: pointer;
-            font-size: 13px;
-            text-align: center;
+            flex: 1; background: #1A1C29; border: 1px solid #2A2D3F;
+            color: #8A8D9F; padding: 8px; border-radius: 8px;
+            font-weight: bold; cursor: pointer; font-size: 12px; text-align: center;
         }
-        .tab-btn.active {
-            background: #252836;
-            color: #FFB800;
-            border-color: #FFB800;
-        }
+        .tab-btn.active { background: #252836; color: #FFB800; border-color: #FFB800; }
 
         .tab-content { display: none; width: 100%; }
         .tab-content.active { display: block; }
 
+        /* ИНВЕНТАРЬ */
+        .inventory-section {
+            background: #1A1C29; border-radius: 10px; padding: 10px;
+            border: 1px solid #2A2D3F; margin-bottom: 12px; width: 100%;
+        }
+        .inventory-title { font-size: 12px; color: #8A8D9F; margin-bottom: 8px; display: flex; justify-content: space-between; }
+        .inventory-list { display: flex; gap: 8px; overflow-x: auto; padding-bottom: 5px; min-height: 60px; }
+        .inv-item {
+            min-width: 60px; height: 60px; background: #252836; border-radius: 8px;
+            border: 1px solid #3A3D52; display: flex; flex-direction: column;
+            align-items: center; justify-content: center; position: relative; cursor: pointer;
+        }
+        .inv-item.selected { border-color: #FFB800; box-shadow: 0 0 8px rgba(255,184,0,0.5); }
+        .inv-price { font-size: 9px; color: #4ECCA3; font-weight: bold; margin-top: 2px; }
+
         /* Сетка комнат */
         .rooms-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(75px, 1fr));
-            gap: 8px;
-            width: 100%;
-            max-height: 320px;
-            overflow-y: auto;
+            display: grid; grid-template-columns: repeat(auto-fill, minmax(70px, 1fr));
+            gap: 6px; width: 100%; max-height: 280px; overflow-y: auto;
         }
         .room-card {
-            background: #1A1C29;
-            border: 1px solid #2A2D3F;
-            border-radius: 10px;
-            padding: 8px 4px;
-            text-align: center;
-            cursor: pointer;
+            background: #1A1C29; border: 1px solid #2A2D3F; border-radius: 8px;
+            padding: 6px 2px; text-align: center; cursor: pointer;
         }
         .room-card.selected { border-color: #FFB800; background: #222536; }
-        .room-number { font-size: 10px; color: #8A8D9F; }
-        .room-icon { font-size: 22px; margin: 4px 0; }
-        .room-price { font-size: 10px; color: #FFB800; font-weight: bold; }
+        .room-number { font-size: 9px; color: #8A8D9F; }
+        .room-icon { font-size: 20px; margin: 2px 0; }
+        .room-price { font-size: 9px; color: #FFB800; font-weight: bold; }
 
-        /* Кейс / Батл */
+        /* Модалка / Зона батла */
         .battle-area {
-            background: #1A1C29;
-            border-radius: 12px;
-            border: 1px solid #FFB800;
-            padding: 15px;
-            margin-top: 15px;
-            text-align: center;
+            background: #1A1C29; border-radius: 12px; border: 1px solid #FFB800;
+            padding: 12px; margin-top: 12px; text-align: center;
         }
         .roulette-container {
-            overflow: hidden;
-            width: 100%;
-            height: 80px;
-            background: #0D0E15;
-            border-radius: 10px;
-            position: relative;
-            margin: 12px 0;
-            border: 1px solid #2A2D3F;
+            overflow: hidden; width: 100%; height: 70px; background: #0D0E15;
+            border-radius: 8px; position: relative; margin: 10px 0; border: 1px solid #2A2D3F;
         }
         .pointer {
-            position: absolute;
-            top: 0; left: 50%;
-            transform: translateX(-50%);
-            width: 3px; height: 100%;
-            background: #FF5555;
-            z-index: 10;
+            position: absolute; top: 0; left: 50%; transform: translateX(-50%);
+            width: 3px; height: 100%; background: #FF5555; z-index: 10;
         }
         .roulette-track {
-            display: flex;
-            position: absolute;
-            left: 0; top: 10px;
+            display: flex; position: absolute; left: 0; top: 5px;
             transition: transform 4s cubic-bezier(0.15, 0.9, 0.15, 1);
         }
         .drop-item {
-            min-width: 65px; height: 60px;
-            background: #1F2232; margin: 0 4px;
-            border-radius: 8px;
-            display: flex; flex-direction: column;
-            align-items: center; justify-content: center;
-            font-size: 20px; border: 1px solid #33374D;
+            min-width: 60px; height: 55px; background: #1F2232; margin: 0 3px;
+            border-radius: 6px; display: flex; align-items: center; justify-content: center; font-size: 20px;
         }
 
-        /* Апгрейд */
+        /* КРУГОВАЯ РУЛЕТКА ДЛЯ АПГРЕЙДА */
         .upgrade-container {
-            background: #1A1C29;
-            border-radius: 12px;
-            padding: 15px;
-            border: 1px solid #2A2D3F;
-            text-align: center;
+            background: #1A1C29; border-radius: 12px; padding: 15px;
+            border: 1px solid #2A2D3F; text-align: center;
         }
-        .upgrade-slots {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin: 15px 0;
+        .circle-wheel-box {
+            position: relative; width: 160px; height: 160px; margin: 15px auto;
         }
-        .upgrade-card {
-            width: 45%;
-            background: #0D0E15;
-            border: 1px dashed #3A3D52;
-            border-radius: 10px;
-            padding: 15px 5px;
-            min-height: 90px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
+        .circle-svg { width: 100%; height: 100%; transform: rotate(-90deg); }
+        .wheel-bg { fill: none; stroke: #252836; stroke-width: 12; }
+        .wheel-win { fill: none; stroke: #4ECCA3; stroke-width: 12; transition: stroke-dasharray 0.3s; }
+        .wheel-arrow {
+            position: absolute; top: 0; left: 50%; transform: translateX(-50%);
+            width: 4px; height: 80px; background: #FF5555; transform-origin: bottom center;
+            border-radius: 2px; transition: transform 3s cubic-bezier(0.15, 0.85, 0.15, 1);
         }
-        .chance-badge {
-            font-size: 18px;
-            font-weight: bold;
-            color: #4ECCA3;
-            margin: 10px 0;
+        .chance-text {
+            position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
+            font-size: 20px; font-weight: bold; color: #4ECCA3;
         }
+
+        /* Выбор предметов для апгрейда */
+        .upgrade-select-grid {
+            display: grid; grid-template-columns: repeat(4, 1fr); gap: 6px; margin: 10px 0;
+        }
+        .target-card {
+            background: #252836; border: 1px solid #3A3D52; border-radius: 8px;
+            padding: 6px; font-size: 10px; cursor: pointer; text-align: center;
+        }
+        .target-card.selected { border-color: #FFB800; background: #2F3347; }
 
         .action-btn {
             background: linear-gradient(45deg, #FFB800, #FF8800);
-            border: none; color: #000;
-            width: 100%; padding: 12px;
-            border-radius: 10px; font-weight: bold;
-            font-size: 15px; cursor: pointer;
+            border: none; color: #000; width: 100%; padding: 12px;
+            border-radius: 10px; font-weight: bold; font-size: 14px; cursor: pointer;
         }
         .action-btn:disabled { opacity: 0.5; }
+        .sell-btn {
+            background: #27AE60; color: white; border: none; padding: 6px 12px;
+            border-radius: 6px; font-size: 11px; cursor: pointer; margin-top: 5px;
+        }
     </style>
 </head>
 <body>
@@ -195,9 +162,20 @@
         </div>
     </div>
 
+    <!-- ИНВЕНТАРЬ ИГРОКА -->
+    <div class="inventory-section">
+        <div class="inventory-title">
+            <span>📦 Твой инвентарь (Кликни для продажи/апгрейда):</span>
+            <span id="invCount">0 шт.</span>
+        </div>
+        <div class="inventory-list" id="inventoryList">
+            <div style="font-size:11px; color:#5A5D73; padding:15px;">Инвентарь пуст. Открывай комнаты!</div>
+        </div>
+    </div>
+
     <!-- Переключатель режимов -->
     <div class="tabs">
-        <div class="tab-btn active" onclick="switchTab('rooms')">🏢 Комнаты (80)</div>
+        <div class="tab-btn active" onclick="switchTab('rooms')">🏢 Комнаты</div>
         <div class="tab-btn" onclick="switchTab('upgrade')">⚡ Апгрейд</div>
     </div>
 
@@ -217,21 +195,21 @@
     <!-- Вкладка 2: Апгрейд -->
     <div id="tab-upgrade" class="tab-content">
         <div class="upgrade-container">
-            <h3>⚡ Апгрейд Предмета</h3>
-            <div class="upgrade-slots">
-                <div class="upgrade-card" id="userItem">
-                    <span style="font-size: 12px; color: #8A8D9F;">Твой баланс</span>
-                    <b style="color: #FFB800;">100 🪙</b>
-                </div>
-                <div style="font-size: 20px;">➡️</div>
-                <div class="upgrade-card" id="targetItem">
-                    <span style="font-size: 24px;">💻</span>
-                    <span style="font-size: 11px;">Игровой Ноут</span>
-                    <b style="color: #4ECCA3;">500 🪙</b>
-                </div>
+            <h3 style="font-size:14px; color:#8A8D9F;">Выбери предмет из инвентаря и цель:</h3>
+            
+            <div class="upgrade-select-grid" id="targetGrid"></div>
+
+            <!-- Круговая Рулетка -->
+            <div class="circle-wheel-box">
+                <svg class="circle-svg" viewBox="0 0 100 100">
+                    <circle class="wheel-bg" cx="50" cy="50" r="40"></circle>
+                    <circle class="wheel-win" id="winSector" cx="50" cy="50" r="40" stroke-dasharray="0 251.2"></circle>
+                </svg>
+                <div class="wheel-arrow" id="wheelArrow"></div>
+                <div class="chance-text"><span id="chancePercent">0</span>%</div>
             </div>
-            <div class="chance-badge">Шанс успеха: <span id="chanceVal">20</span>%</div>
-            <button class="action-btn" id="upgradeBtn" onclick="startUpgrade()">КРУТИТЬ АПГРЕЙД</button>
+
+            <button class="action-btn" id="upgradeBtn" onclick="startUpgrade()">КРУТИТЬ РУЛЕТКУ</button>
         </div>
     </div>
 
@@ -241,16 +219,19 @@
 
     let balance = 1000;
     let selectedRoom = null;
+    let inventory = []; // Инвентарь игрока
+    let selectedInvItems = []; // Выбранные предметы для апгрейда (1 или 2)
+    let selectedTargetItem = null;
 
-    // Лут с разным весом (шансом)
+    // Полный список лута
     const lootList = [
-        { name: "Доширак", icon: "🍜", val: 20, weight: 50 },      // 50%
-        { name: "Тазик", icon: "🪣", val: 50, weight: 30 },        // 30%
-        { name: "Чайник", icon: "🫖", val: 120, weight: 12 },      // 12%
-        { name: "Микроволновка", icon: "📻", val: 300, weight: 5 },// 5%
-        { name: "Колонки JBL", icon: "🔊", val: 800, weight: 2 },  // 2%
-        { name: "Игровой Ноут", icon: "💻", val: 2500, weight: 0.9 },// 0.9%
-        { name: "Ключи от ректорки", icon: "🔑", val: 10000, weight: 0.1 } // 0.1%
+        { id: 1, name: "Доширак", icon: "🍜", val: 20, weight: 50 },
+        { id: 2, name: "Тазик", icon: "🪣", val: 50, weight: 30 },
+        { id: 3, name: "Чайник", icon: "🫖", val: 120, weight: 12 },
+        { id: 4, name: "Микроволновка", icon: "📻", val: 300, weight: 5 },
+        { id: 5, name: "Колонки JBL", icon: "🔊", val: 800, weight: 2 },
+        { id: 6, name: "Игровой Ноут", icon: "💻", val: 2500, weight: 0.9 },
+        { id: 7, name: "Ректорка", icon: "🔑", val: 10000, weight: 0.1 }
     ];
 
     // Генерируем 80 комнат
@@ -260,20 +241,86 @@
         let roomCard = document.createElement('div');
         roomCard.className = 'room-card';
         roomCard.onclick = () => selectRoom(i, price, roomCard);
-        
         let icon = i % 10 === 0 ? "👑" : (i % 5 === 0 ? "🛋️" : "🚪");
-        roomCard.innerHTML = `
-            <div class="room-number">№${i}</div>
-            <div class="room-icon">${icon}</div>
-            <div class="room-price">${price} 🪙</div>
-        `;
+        roomCard.innerHTML = `<div class="room-number">№${i}</div><div class="room-icon">${icon}</div><div class="room-price">${price} 🪙</div>`;
         roomsGrid.appendChild(roomCard);
+    }
+
+    // Инициализация целей для апгрейда
+    const targetGrid = document.getElementById('targetGrid');
+    lootList.slice(2).forEach(item => {
+        let div = document.createElement('div');
+        div.className = 'target-card';
+        div.onclick = () => selectTarget(item, div);
+        div.innerHTML = `<div style="font-size:18px;">${item.icon}</div><div>${item.name}</div><div style="color:#4ECCA3">${item.val} 🪙</div>`;
+        targetGrid.appendChild(div);
+    });
+
+    function updateInventoryUI() {
+        const list = document.getElementById('inventoryList');
+        document.getElementById('invCount').innerText = `${inventory.length} шт.`;
+        list.innerHTML = '';
+
+        if (inventory.length === 0) {
+            list.innerHTML = `<div style="font-size:11px; color:#5A5D73; padding:15px;">Инвентарь пуст. Открывай комнаты!</div>`;
+            return;
+        }
+
+        inventory.forEach((item, index) => {
+            let div = document.createElement('div');
+            let isSelected = selectedInvItems.includes(index);
+            div.className = `inv-item ${isSelected ? 'selected' : ''}`;
+            div.innerHTML = `
+                <div style="font-size:18px;">${item.icon}</div>
+                <div class="inv-price">${item.val} 🪙</div>
+            `;
+            div.onclick = () => toggleSelectInvItem(index);
+            list.appendChild(div);
+        });
+        calculateChance();
+    }
+
+    function toggleSelectInvItem(index) {
+        if (selectedInvItems.includes(index)) {
+            selectedInvItems = selectedInvItems.filter(i => i !== index);
+        } else {
+            if (selectedInvItems.length >= 2) selectedInvItems.shift(); // Максимум 2 вещи!
+            selectedInvItems.push(index);
+        }
+        updateInventoryUI();
+    }
+
+    function selectTarget(item, el) {
+        document.querySelectorAll('.target-card').forEach(c => c.classList.remove('selected'));
+        el.classList.add('selected');
+        selectedTargetItem = item;
+        calculateChance();
+    }
+
+    function calculateChance() {
+        if (!selectedTargetItem || selectedInvItems.length === 0) {
+            setChanceUI(0);
+            return;
+        }
+
+        let mySum = selectedInvItems.reduce((acc, idx) => acc + inventory[idx].val, 0);
+        let chance = (mySum / selectedTargetItem.val) * 100;
+        if (chance > 80) chance = 80; // Макс шанс 80%
+        if (chance < 1) chance = 1;   // Мин шанс 1%
+
+        setChanceUI(chance.toFixed(1));
+    }
+
+    function setChanceUI(percent) {
+        document.getElementById('chancePercent').innerText = percent;
+        // Перевод процента в дугу круга (длина окружности 2*pi*r = 251.2)
+        let dashVal = (percent / 100) * 251.2;
+        document.getElementById('winSector').setAttribute('stroke-dasharray', `${dashVal} 251.2`);
     }
 
     function switchTab(tab) {
         document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
         document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
-        
         if (tab === 'rooms') {
             document.querySelectorAll('.tab-btn')[0].classList.add('active');
             document.getElementById('tab-rooms').classList.add('active');
@@ -291,28 +338,15 @@
         document.getElementById('battleArea').style.display = 'block';
     }
 
-    function getRandomLootByWeight() {
-        let rand = Math.random() * 100;
-        let cumulative = 0;
-        for (let item of lootList) {
-            cumulative += item.weight;
-            if (rand <= cumulative) return item;
-        }
-        return lootList[0];
-    }
-
     function deposit() {
         balance += 500;
         document.getElementById('balance').innerText = balance;
-        alert("🎉 Депозит успешный! Начислено +500 🪙");
+        alert("🎉 Депозит успешный! +500 🪙");
     }
 
     function startBattle() {
         if (!selectedRoom) return;
-        if (balance < selectedRoom.price) {
-            alert("Недостаточно монет! Сделай ДЕП.");
-            return;
-        }
+        if (balance < selectedRoom.price) { alert("Недостаточно монет! Сделай ДЕП."); return; }
 
         balance -= selectedRoom.price;
         document.getElementById('balance').innerText = balance;
@@ -336,45 +370,67 @@
         setTimeout(() => {
             track.style.transition = 'transform 4s cubic-bezier(0.15, 0.9, 0.15, 1)';
             let winningIndex = 32; 
-            let moveAmount = -(winningIndex * 73 - 90); 
+            let moveAmount = -(winningIndex * 66 - 80); 
             track.style.transform = `translateX(${moveAmount}px)`;
 
             setTimeout(() => {
                 let wonItem = items[winningIndex];
-                balance += wonItem.val;
-                document.getElementById('balance').innerText = balance;
-                alert(`🎁 Выпало: ${wonItem.name} ${wonItem.icon}\nЦенность: +${wonItem.val} 🪙`);
+                inventory.push(wonItem); // Добавляем в инвентарь!
+                updateInventoryUI();
+                alert(`🎁 Выпало: ${wonItem.name} ${wonItem.icon}!\nПредмет добавлен в инвентарь.`);
                 document.getElementById('spinBtn').disabled = false;
             }, 4200);
         }, 100);
     }
 
-    // Режим Апгрейда
-    function startUpgrade() {
-        let betCost = 100;
-        let targetVal = 500;
-        let chance = (betCost / targetVal) * 100; // 20%
-        
-        if (balance < betCost) {
-            alert("Нужно минимум 100 🪙 для апгрейда!");
-            return;
+    function getRandomLootByWeight() {
+        let rand = Math.random() * 100;
+        let cumulative = 0;
+        for (let item of lootList) {
+            cumulative += item.weight;
+            if (rand <= cumulative) return item;
         }
+        return lootList[0];
+    }
 
-        balance -= betCost;
-        document.getElementById('balance').innerText = balance;
+    // АПГРЕЙД С КРУГОВОЙ РУЛЕТКОЙ
+    function startUpgrade() {
+        if (selectedInvItems.length === 0) { alert("Выбери 1 или 2 вещи из инвентаря!"); return; }
+        if (!selectedTargetItem) { alert("Выбери цель для апгрейда!"); return; }
+
+        let chance = parseFloat(document.getElementById('chancePercent').innerText);
+        let arrow = document.getElementById('wheelArrow');
         document.getElementById('upgradeBtn').disabled = true;
 
+        // Вращаем стрелку (рандом от 3 до 5 полных оборотов + итоговый угол)
+        let randomDegree = Math.floor(Math.random() * 360);
+        let totalRotation = 1440 + randomDegree; 
+        arrow.style.transform = `translateX(-50%) rotate(${totalRotation}deg)`;
+
         setTimeout(() => {
-            let roll = Math.random() * 100;
-            if (roll <= chance) {
-                balance += targetVal;
-                alert(`🔥 АПГРЕЙД УСПЕШЕН! Ты получил Игровой Ноут 💻 (+${targetVal} 🪙)`);
+            // Определение попадания в зелёный сектор
+            let winDegree = (chance / 100) * 360;
+            if (randomDegree <= winDegree) {
+                // УСПЕХ
+                alert(`🔥 АПГРЕЙД УСПЕШЕН!\nТы получил: ${selectedTargetItem.name} ${selectedTargetItem.icon}`);
+                // Удаляем использованные и добавляем выигранный
+                selectedInvItems.sort((a,b) => b-a).forEach(idx => inventory.splice(idx, 1));
+                inventory.push(selectedTargetItem);
             } else {
-                alert(`❌ АПГРЕЙД СГОРЕЛ! Повезет в следующий раз.`);
+                // НЕУДАЧА
+                alert(`❌ АПГРЕЙД СГОРЕЛ!\nПредметы уничтожены.`);
+                selectedInvItems.sort((a,b) => b-a).forEach(idx => inventory.splice(idx, 1));
             }
-            document.getElementById('balance').innerText = balance;
+
+            // Сброс стрелки и выборки
+            arrow.style.transition = 'none';
+            arrow.style.transform = `translateX(-50%) rotate(0deg)`;
+            setTimeout(() => arrow.style.transition = 'transform 3s cubic-bezier(0.15, 0.85, 0.15, 1)', 50);
+
+            selectedInvItems = [];
+            updateInventoryUI();
             document.getElementById('upgradeBtn').disabled = false;
-        }, 1500);
+        }, 3200);
     }
 </script>
 </body>
