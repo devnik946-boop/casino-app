@@ -82,12 +82,12 @@
         .tab-content { display: none; width: 100%; }
         .tab-content.active { display: block; }
 
-        /* Общие стили для картинок предметов */
-        .item-img {
+        /* Стили для векторных иконок */
+        .svg-icon {
             width: 32px;
             height: 32px;
-            object-fit: contain;
-            filter: drop-shadow(0 2px 4px rgba(0,0,0,0.5));
+            fill: #66fcf1;
+            filter: drop-shadow(0 0 6px rgba(102, 252, 241, 0.4));
         }
 
         /* Инвентарь */
@@ -104,10 +104,10 @@
             background: rgba(231, 76, 60, 0.2); border: 1px solid #e74c3c; color: #e74c3c;
             padding: 4px 8px; border-radius: 6px; font-size: 10px; font-weight: bold; cursor: pointer;
         }
-        .inventory-list { display: flex; gap: 8px; overflow-x: auto; padding-bottom: 6px; min-height: 85px; }
+        .inventory-list { display: flex; gap: 8px; overflow-x: auto; padding-bottom: 6px; min-height: 90px; }
         
         .inv-card {
-            min-width: 75px; height: 85px; background: rgba(11, 12, 16, 0.8); border-radius: 10px;
+            min-width: 80px; height: 90px; background: rgba(11, 12, 16, 0.8); border-radius: 10px;
             border: 1px solid rgba(255, 255, 255, 0.1); display: flex; flex-direction: column;
             align-items: center; justify-content: space-between; padding: 6px; position: relative; cursor: pointer;
             transition: all 0.2s;
@@ -128,7 +128,7 @@
             border: 1px solid rgba(255, 255, 255, 0.05); border-radius: 12px;
             padding: 8px 4px; text-align: center; cursor: pointer; transition: all 0.2s;
             display: flex; flex-direction: column; align-items: center; justify-content: space-between;
-            height: 80px;
+            height: 85px;
         }
         .room-card:hover, .room-card.selected {
             border-color: #ffb800; transform: scale(1.03);
@@ -144,7 +144,7 @@
             box-shadow: 0 0 25px rgba(255, 184, 0, 0.15);
         }
         .roulette-container {
-            overflow: hidden; width: 100%; height: 75px; background: #050608;
+            overflow: hidden; width: 100%; height: 80px; background: #050608;
             border-radius: 10px; position: relative; margin: 12px 0; border: 1px solid rgba(255,255,255,0.1);
         }
         .pointer {
@@ -153,7 +153,7 @@
             box-shadow: 0 0 10px #ff4500;
         }
         .roulette-track {
-            display: flex; position: absolute; left: 0; top: 7px;
+            display: flex; position: absolute; left: 0; top: 10px;
             transition: transform 4s cubic-bezier(0.15, 0.9, 0.15, 1);
         }
         .drop-item {
@@ -290,20 +290,19 @@
     let selectedInvIndices = []; 
     let selectedTargetItem = null;
 
-    // Ссылки на векторные иконки предметов (SVG из открытого CDN)
-    const lootList = [
-        { id: 1, name: "Лапша", img: "https://cdn-icons-png.flaticon.com/512/1046/1046784.png", val: 25, weight: 45 },
-        { id: 2, name: "Тазик", img: "https://cdn-icons-png.flaticon.com/512/3109/3109829.png", val: 60, weight: 28 },
-        { id: 3, name: "Чайник", img: "https://cdn-icons-png.flaticon.com/512/2933/2933804.png", val: 150, weight: 14 },
-        { id: 4, name: "Микроволновка", img: "https://cdn-icons-png.flaticon.com/512/2933/2933866.png", val: 350, weight: 7 },
-        { id: 5, name: "Колонка JBL", img: "https://cdn-icons-png.flaticon.com/512/3202/3202928.png", val: 900, weight: 3.5 },
-        { id: 6, name: "Консоль", img: "https://cdn-icons-png.flaticon.com/512/808/808439.png", val: 2000, weight: 1.5 },
-        { id: 7, name: "Ноутбук", img: "https://cdn-icons-png.flaticon.com/512/428/428001.png", val: 4500, weight: 0.8 },
-        { id: 8, name: "Ключ-Карта", img: "https://cdn-icons-png.flaticon.com/512/565/565547.png", val: 12000, weight: 0.2 }
-    ];
+    // Векторные SVG-иконки для предметов
+    const svgDoor = `<svg class="svg-icon" viewBox="0 0 24 24"><path d="M19,2H5A2,2 0 0,0 3,4V20A2,2 0 0,0 5,22H19A2,2 0 0,0 21,20V4A2,2 0 0,0 19,2M13,13A1,1 0 0,1 12,12A1,1 0 0,1 13,11A1,1 0 0,1 14,12A1,1 0 0,1 13,13Z"/></svg>`;
 
-    // Иконка для дверей комнат
-    const roomDoorImg = "https://cdn-icons-png.flaticon.com/512/2983/2983788.png";
+    const lootList = [
+        { id: 1, name: "Лапша", val: 25, weight: 45, svg: `<svg class="svg-icon" viewBox="0 0 24 24"><path d="M22 9C22 8.4 21.6 8 21 8H3C2.4 8 2 8.4 2 9C2 12.9 4.8 16.1 8.5 16.8V19H7C6.4 19 6 19.4 6 20S6.4 21 7 21H17C17.6 21 18 20.6 18 20S17.6 19 17 19H15.5V16.8C19.2 16.1 22 12.9 22 9Z"/></svg>` },
+        { id: 2, name: "Тазик", val: 60, weight: 28, svg: `<svg class="svg-icon" viewBox="0 0 24 24"><path d="M3 6L5 18C5.1 19.1 6 20 7.1 20H16.9C18 20 18.9 19.1 19 18L21 6H3Z"/></svg>` },
+        { id: 3, name: "Чайник", val: 150, weight: 14, svg: `<svg class="svg-icon" viewBox="0 0 24 24"><path d="M1 10C1 11.7 2.3 13 4 13H5V18C5 19.1 5.9 20 7 20H17C18.1 20 19 19.1 19 18V13H20C21.7 13 23 11.7 23 10V9H1V10Z"/></svg>` },
+        { id: 4, name: "Микроволновка", val: 350, weight: 7, svg: `<svg class="svg-icon" viewBox="0 0 24 24"><path d="M4 5C2.9 5 2 5.9 2 7V17C2 18.1 2.9 19 4 19H20C21.1 19 22 18.1 22 17V7C22 5.9 21.1 5 20 5H4ZM4 7H14V17H4V7Z"/></svg>` },
+        { id: 5, name: "Колонка JBL", val: 900, weight: 3.5, svg: `<svg class="svg-icon" viewBox="0 0 24 24"><path d="M7 3C5.9 3 5 3.9 5 5V19C5 20.1 5.9 21 7 21H17C18.1 21 19 20.1 19 19V5C19 3.9 18.1 3 17 3H7ZM12 8C13.1 8 14 8.9 14 10C14 11.1 13.1 12 12 12C10.9 12 10 11.1 10 10C10 8.9 10.9 8 12 8ZM12 14C13.7 14 15 15.3 15 17C15 18.7 13.7 20 12 20C10.3 20 9 18.7 9 17C9 15.3 10.3 14 12 14Z"/></svg>` },
+        { id: 6, name: "Геймпад", val: 2000, weight: 1.5, svg: `<svg class="svg-icon" viewBox="0 0 24 24"><path d="M8 11H6V9H5V11H3V12H5V14H6V12H8V11ZM15.5 11C15.2 11 15 11.2 15 11.5S15.2 12 15.5 12 16 11.8 16 11.5 15.8 11 15.5 11ZM18.5 11C18.2 11 18 11.2 18 11.5S18.2 12 18.5 12 19 11.8 19 11.5 18.8 11 18.5 11ZM17 9.5C16.7 9.5 16.5 9.7 16.5 10S16.7 10.5 17 10.5 17.5 10.3 17.5 10 17.3 9.5 17 9.5ZM17 12.5C16.7 12.5 16.5 12.7 16.5 13S16.7 13.5 17 13.5 17.5 13.3 17.5 13 17.3 12.5 17 12.5Z"/></svg>` },
+        { id: 7, name: "Ноутбук", val: 4500, weight: 0.8, svg: `<svg class="svg-icon" viewBox="0 0 24 24"><path d="M4 5C2.9 5 2 5.9 2 7V16H22V7C22 5.9 21.1 5 20 5H4ZM0 18C0 17.4 0.4 17 1 17H23C23.6 17 24 17.4 24 18V19H0V18Z"/></svg>` },
+        { id: 8, name: "Ключ-Карта", val: 12000, weight: 0.2, svg: `<svg class="svg-icon" viewBox="0 0 24 24"><path d="M7 14C5.9 14 5 13.1 5 12C5 10.9 5.9 10 7 10C8.1 10 9 10.9 9 12C9 13.1 8.1 14 7 14ZM12.6 10H22V14H19V16H17V14H15V16H13V14H12.6C11.8 15.2 10.5 16 9 16C6.8 16 5 14.2 5 12C5 9.8 6.8 8 9 8C10.5 8 11.8 8.8 12.6 10Z"/></svg>` }
+    ];
 
     // Генерируем 80 комнат
     const roomsGrid = document.getElementById('roomsGrid');
@@ -314,7 +313,7 @@
         roomCard.onclick = () => selectRoom(i, price, roomCard);
         roomCard.innerHTML = `
             <div class="room-number">№${i}</div>
-            <img class="item-img" src="${roomDoorImg}" alt="Room">
+            ${svgDoor}
             <div class="room-price">${price} 🪙</div>
         `;
         roomsGrid.appendChild(roomCard);
@@ -327,7 +326,7 @@
         div.className = 'target-card';
         div.onclick = () => selectTarget(item, div);
         div.innerHTML = `
-            <img class="item-img" src="${item.img}" alt="${item.name}">
+            ${item.svg}
             <div style="font-weight:bold;">${item.name}</div>
             <div style="color:#66fcf1; font-weight:bold;">${item.val} 🪙</div>
         `;
@@ -351,7 +350,7 @@
             div.className = `inv-card ${isSelected ? 'selected' : ''}`;
             
             div.innerHTML = `
-                <img class="item-img" src="${item.img}" alt="${item.name}">
+                ${item.svg}
                 <div style="font-size:9px; color:#66fcf1; font-weight:bold;">${item.val} 🪙</div>
                 <button class="inv-card-sell" onclick="sellItem(event, ${index})">Продать</button>
             `;
@@ -467,7 +466,7 @@
             items.push(drop);
             let itemDiv = document.createElement('div');
             itemDiv.className = 'drop-item';
-            itemDiv.innerHTML = `<img class="item-img" src="${drop.img}" alt="${drop.name}">`;
+            itemDiv.innerHTML = drop.svg;
             track.appendChild(itemDiv);
         }
 
