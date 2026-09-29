@@ -61,7 +61,7 @@
             color: #000; border: none;
             padding: 4px 10px; border-radius: 10px; font-weight: 800;
             cursor: pointer; font-size: 11px;
-            transition: transform 0.1s, box-shadow 0.2s;
+            transition: transform 0.1s;
         }
         .dep-btn:active { transform: scale(0.95); }
 
@@ -82,6 +82,14 @@
         .tab-content { display: none; width: 100%; }
         .tab-content.active { display: block; }
 
+        /* Общие стили для картинок предметов */
+        .item-img {
+            width: 32px;
+            height: 32px;
+            object-fit: contain;
+            filter: drop-shadow(0 2px 4px rgba(0,0,0,0.5));
+        }
+
         /* Инвентарь */
         .inventory-section {
             background: rgba(31, 40, 51, 0.5); border-radius: 16px; padding: 12px;
@@ -99,14 +107,14 @@
         .inventory-list { display: flex; gap: 8px; overflow-x: auto; padding-bottom: 6px; min-height: 85px; }
         
         .inv-card {
-            min-width: 75px; height: 80px; background: rgba(11, 12, 16, 0.8); border-radius: 10px;
+            min-width: 75px; height: 85px; background: rgba(11, 12, 16, 0.8); border-radius: 10px;
             border: 1px solid rgba(255, 255, 255, 0.1); display: flex; flex-direction: column;
-            align-items: center; justify-content: space-between; padding: 5px; position: relative; cursor: pointer;
+            align-items: center; justify-content: space-between; padding: 6px; position: relative; cursor: pointer;
             transition: all 0.2s;
         }
         .inv-card.selected { border-color: #ffb800; box-shadow: 0 0 12px rgba(255, 184, 0, 0.6); transform: translateY(-2px); }
         .inv-card-sell {
-            background: #27ae60; color: #white; border: none; padding: 2px 6px;
+            background: #27ae60; color: #fff; border: none; padding: 2px 6px;
             border-radius: 4px; font-size: 9px; font-weight: bold; cursor: pointer; width: 100%; text-align: center;
         }
 
@@ -119,13 +127,14 @@
             background: linear-gradient(145deg, rgba(31, 40, 51, 0.8), rgba(11, 12, 16, 0.9));
             border: 1px solid rgba(255, 255, 255, 0.05); border-radius: 12px;
             padding: 8px 4px; text-align: center; cursor: pointer; transition: all 0.2s;
+            display: flex; flex-direction: column; align-items: center; justify-content: space-between;
+            height: 80px;
         }
         .room-card:hover, .room-card.selected {
             border-color: #ffb800; transform: scale(1.03);
             box-shadow: 0 4px 15px rgba(255, 184, 0, 0.2);
         }
         .room-number { font-size: 9px; color: #66fcf1; font-weight: bold; }
-        .room-icon { font-size: 22px; margin: 4px 0; }
         .room-price { font-size: 10px; color: #ffb800; font-weight: 800; }
 
         /* Батл рулетка */
@@ -149,7 +158,7 @@
         }
         .drop-item {
             min-width: 65px; height: 60px; background: rgba(31, 40, 51, 0.9); margin: 0 4px;
-            border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 22px;
+            border-radius: 8px; display: flex; align-items: center; justify-content: center;
             border: 1px solid rgba(255,255,255,0.05);
         }
 
@@ -182,12 +191,12 @@
         /* Выбор целей */
         .upgrade-select-grid {
             display: grid; grid-template-columns: repeat(auto-fill, minmax(75px, 1fr));
-            gap: 6px; margin: 10px 0; max-height: 150px; overflow-y: auto; padding-right: 2px;
+            gap: 6px; margin: 10px 0; max-height: 160px; overflow-y: auto; padding-right: 2px;
         }
         .target-card {
             background: rgba(11, 12, 16, 0.8); border: 1px solid rgba(255, 255, 255, 0.08);
             border-radius: 10px; padding: 6px; font-size: 10px; cursor: pointer; text-align: center;
-            transition: all 0.2s;
+            transition: all 0.2s; display: flex; flex-direction: column; align-items: center; gap: 3px;
         }
         .target-card.selected { border-color: #66fcf1; background: rgba(102, 252, 241, 0.1); box-shadow: 0 0 10px rgba(102, 252, 241, 0.3); }
 
@@ -214,7 +223,7 @@
     <!-- ИНВЕНТАРЬ ИГРОКА -->
     <div class="inventory-section">
         <div class="inventory-header">
-            <span>📦 Твой инвентарь (Выбирай вещи для апгрейда):</span>
+            <span>📦 Твой инвентарь:</span>
             <div>
                 <span id="invCount" style="margin-right:8px; font-weight:bold;">0 шт.</span>
                 <button class="sell-all-btn" onclick="sellAllInventory()">Продать всё</button>
@@ -227,7 +236,7 @@
 
     <!-- Переключатель режимов -->
     <div class="tabs">
-        <div class="tab-btn active" onclick="switchTab('rooms')">🏢 Комнаты (80)</div>
+        <div class="tab-btn active" onclick="switchTab('rooms')">🏢 Комнаты</div>
         <div class="tab-btn" onclick="switchTab('upgrade')">⚡ Апгрейд</div>
     </div>
 
@@ -247,7 +256,7 @@
     <!-- Вкладка 2: Апгрейд -->
     <div id="tab-upgrade" class="tab-content">
         <div class="upgrade-container">
-            <h3 style="font-size:13px; color:#c5c6c7;">1. Выбери вещь-цель для выигрыша:</h3>
+            <h3 style="font-size:13px; color:#c5c6c7;">Выбери цель для выигрыша:</h3>
             
             <div class="upgrade-select-grid" id="targetGrid"></div>
 
@@ -277,21 +286,24 @@
 
     let balance = 1000;
     let selectedRoom = null;
-    let inventory = []; // Инвентарь
-    let selectedInvIndices = []; // Массив выбранных вещей в инвентаре (БЕЗ ЛИМИТА!)
+    let inventory = []; 
+    let selectedInvIndices = []; 
     let selectedTargetItem = null;
 
-    // ВСЕ ПРЕДМЕТЫ В ИГРЕ (доступны и для дропа, и для целей Апгрейда)
+    // Ссылки на векторные иконки предметов (SVG из открытого CDN)
     const lootList = [
-        { id: 1, name: "Доширак", icon: "🍜", val: 25, weight: 45 },
-        { id: 2, name: "Тазик", icon: "🪣", val: 60, weight: 28 },
-        { id: 3, name: "Чайник", icon: "🫖", val: 150, weight: 14 },
-        { id: 4, name: "Микроволновка", icon: "📻", val: 350, weight: 7 },
-        { id: 5, name: "Колонки JBL", icon: "🔊", val: 900, weight: 3.5 },
-        { id: 6, name: "Плейстейшн", icon: "🎮", val: 2000, weight: 1.5 },
-        { id: 7, name: "Игровой Ноут", icon: "💻", val: 4500, weight: 0.8 },
-        { id: 8, name: "Ректорка", icon: "🔑", val: 12000, weight: 0.2 }
+        { id: 1, name: "Лапша", img: "https://cdn-icons-png.flaticon.com/512/1046/1046784.png", val: 25, weight: 45 },
+        { id: 2, name: "Тазик", img: "https://cdn-icons-png.flaticon.com/512/3109/3109829.png", val: 60, weight: 28 },
+        { id: 3, name: "Чайник", img: "https://cdn-icons-png.flaticon.com/512/2933/2933804.png", val: 150, weight: 14 },
+        { id: 4, name: "Микроволновка", img: "https://cdn-icons-png.flaticon.com/512/2933/2933866.png", val: 350, weight: 7 },
+        { id: 5, name: "Колонка JBL", img: "https://cdn-icons-png.flaticon.com/512/3202/3202928.png", val: 900, weight: 3.5 },
+        { id: 6, name: "Консоль", img: "https://cdn-icons-png.flaticon.com/512/808/808439.png", val: 2000, weight: 1.5 },
+        { id: 7, name: "Ноутбук", img: "https://cdn-icons-png.flaticon.com/512/428/428001.png", val: 4500, weight: 0.8 },
+        { id: 8, name: "Ключ-Карта", img: "https://cdn-icons-png.flaticon.com/512/565/565547.png", val: 12000, weight: 0.2 }
     ];
+
+    // Иконка для дверей комнат
+    const roomDoorImg = "https://cdn-icons-png.flaticon.com/512/2983/2983788.png";
 
     // Генерируем 80 комнат
     const roomsGrid = document.getElementById('roomsGrid');
@@ -300,18 +312,25 @@
         let roomCard = document.createElement('div');
         roomCard.className = 'room-card';
         roomCard.onclick = () => selectRoom(i, price, roomCard);
-        let icon = i % 10 === 0 ? "👑" : (i % 5 === 0 ? "🛋️" : "🚪");
-        roomCard.innerHTML = `<div class="room-number">№${i}</div><div class="room-icon">${icon}</div><div class="room-price">${price} 🪙</div>`;
+        roomCard.innerHTML = `
+            <div class="room-number">№${i}</div>
+            <img class="item-img" src="${roomDoorImg}" alt="Room">
+            <div class="room-price">${price} 🪙</div>
+        `;
         roomsGrid.appendChild(roomCard);
     }
 
-    // Инициализация целей для апгрейда (ВСЕ предметы!)
+    // Инициализация целей для апгрейда
     const targetGrid = document.getElementById('targetGrid');
     lootList.forEach(item => {
         let div = document.createElement('div');
         div.className = 'target-card';
         div.onclick = () => selectTarget(item, div);
-        div.innerHTML = `<div style="font-size:18px;">${item.icon}</div><div style="font-weight:bold;">${item.name}</div><div style="color:#66fcf1; font-weight:bold;">${item.val} 🪙</div>`;
+        div.innerHTML = `
+            <img class="item-img" src="${item.img}" alt="${item.name}">
+            <div style="font-weight:bold;">${item.name}</div>
+            <div style="color:#66fcf1; font-weight:bold;">${item.val} 🪙</div>
+        `;
         targetGrid.appendChild(div);
     });
 
@@ -332,7 +351,7 @@
             div.className = `inv-card ${isSelected ? 'selected' : ''}`;
             
             div.innerHTML = `
-                <div style="font-size:20px; margin-top:2px;">${item.icon}</div>
+                <img class="item-img" src="${item.img}" alt="${item.name}">
                 <div style="font-size:9px; color:#66fcf1; font-weight:bold;">${item.val} 🪙</div>
                 <button class="inv-card-sell" onclick="sellItem(event, ${index})">Продать</button>
             `;
@@ -344,20 +363,17 @@
         calculateChance();
     }
 
-    // Продажа конкретного предмета
     function sellItem(event, index) {
         event.stopPropagation();
         let item = inventory[index];
         balance += item.val;
         document.getElementById('balance').innerText = balance;
         
-        // Удаляем из инвентаря и выделения
         inventory.splice(index, 1);
         selectedInvIndices = selectedInvIndices.filter(i => i !== index).map(i => i > index ? i - 1 : i);
         updateInventoryUI();
     }
 
-    // Продажа ВСЕХ предметов
     function sellAllInventory() {
         if (inventory.length === 0) return;
         let total = inventory.reduce((sum, item) => sum + item.val, 0);
@@ -369,7 +385,6 @@
         alert(`💰 Продано предметов на сумму +${total} 🪙`);
     }
 
-    // Выбор предметов (БЕЗ ОГРАНИЧЕНИЙ по количеству!)
     function toggleSelectInvItem(index) {
         if (selectedInvIndices.includes(index)) {
             selectedInvIndices = selectedInvIndices.filter(i => i !== index);
@@ -392,12 +407,11 @@
             return;
         }
 
-        // Сумма всех выделенных предметов
         let mySum = selectedInvIndices.reduce((acc, idx) => acc + (inventory[idx] ? inventory[idx].val : 0), 0);
         let chance = (mySum / selectedTargetItem.val) * 100;
         
-        if (chance > 80) chance = 80; // Максимальный шанс 80%
-        if (chance < 0.5) chance = 0.5; // Минимальный 0.5%
+        if (chance > 80) chance = 80;
+        if (chance < 0.5) chance = 0.5;
 
         setChanceUI(chance.toFixed(1));
     }
@@ -453,7 +467,7 @@
             items.push(drop);
             let itemDiv = document.createElement('div');
             itemDiv.className = 'drop-item';
-            itemDiv.innerHTML = `<span>${drop.icon}</span>`;
+            itemDiv.innerHTML = `<img class="item-img" src="${drop.img}" alt="${drop.name}">`;
             track.appendChild(itemDiv);
         }
 
@@ -467,7 +481,7 @@
                 let wonItem = items[winningIndex];
                 inventory.push(wonItem);
                 updateInventoryUI();
-                alert(`🎁 Выпало: ${wonItem.name} ${wonItem.icon}!\nПредмет добавлен в инвентарь.`);
+                alert(`🎁 Выпало: ${wonItem.name}!\nПредмет добавлен в инвентарь.`);
                 document.getElementById('spinBtn').disabled = false;
             }, 4200);
         }, 100);
@@ -483,7 +497,6 @@
         return lootList[0];
     }
 
-    // АПГРЕЙД С РУЛЕТКОЙ
     function startUpgrade() {
         if (selectedInvIndices.length === 0) { alert("Выбери предметы из инвентаря для ставки!"); return; }
         if (!selectedTargetItem) { alert("Выбери желаемую вещь-цель!"); return; }
@@ -500,8 +513,7 @@
             let winDegree = (chance / 100) * 360;
             
             if (randomDegree <= winDegree) {
-                alert(`🔥 АПГРЕЙД УСПЕШЕН!\nТы получил: ${selectedTargetItem.name} ${selectedTargetItem.icon}`);
-                // Удаляем выделенные и добавляем выигранный
+                alert(`🔥 АПГРЕЙД УСПЕШЕН!\nТы получил: ${selectedTargetItem.name}`);
                 selectedInvIndices.sort((a,b) => b-a).forEach(idx => inventory.splice(idx, 1));
                 inventory.push(selectedTargetItem);
             } else {
