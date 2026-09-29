@@ -20,7 +20,6 @@
             min-height: 100vh;
         }
 
-        /* Шапка */
         .header {
             width: 100%;
             display: flex;
@@ -54,18 +53,14 @@
             align-items: center;
             gap: 8px;
             font-size: 14px;
-            box-shadow: 0 0 10px rgba(102, 252, 241, 0.15);
         }
         .dep-btn {
             background: linear-gradient(135deg, #ffb800, #ff8800);
             color: #000; border: none;
             padding: 4px 10px; border-radius: 10px; font-weight: 800;
             cursor: pointer; font-size: 11px;
-            transition: transform 0.1s;
         }
-        .dep-btn:active { transform: scale(0.95); }
 
-        /* Навигационные Табы */
         .nav-tabs {
             display: flex;
             gap: 10px;
@@ -83,20 +78,16 @@
             cursor: pointer;
             text-align: center;
             font-size: 13px;
-            transition: all 0.2s;
         }
         .tab-btn.active {
             background: linear-gradient(135deg, #ffb800, #ff4500);
             color: #000;
             border: none;
-            box-shadow: 0 0 15px rgba(255, 184, 0, 0.3);
         }
 
-        /* Инвентарь */
         .inventory-section {
             background: rgba(31, 40, 51, 0.5); border-radius: 16px; padding: 12px;
             border: 1px solid rgba(255, 255, 255, 0.05); margin-bottom: 12px; width: 100%;
-            box-shadow: inset 0 0 20px rgba(0,0,0,0.5);
         }
         .inventory-header {
             display: flex; justify-content: space-between; align-items: center;
@@ -112,24 +103,20 @@
             min-width: 85px; height: 95px; background: rgba(11, 12, 16, 0.8); border-radius: 10px;
             border: 1px solid rgba(255, 255, 255, 0.1); display: flex; flex-direction: column;
             align-items: center; justify-content: space-between; padding: 6px; position: relative; cursor: pointer;
-            transition: all 0.2s;
         }
-        .inv-card img { width: 36px; height: 36px; object-fit: contain; }
-        .inv-card.selected { border-color: #ffb800; box-shadow: 0 0 12px rgba(255, 184, 0, 0.6); transform: translateY(-2px); }
+        .inv-card-emoji { font-size: 24px; line-height: 28px; }
+        .inv-card.selected { border-color: #ffb800; box-shadow: 0 0 12px rgba(255, 184, 0, 0.6); }
         .inv-card-sell {
             background: #27ae60; color: #fff; border: none; padding: 3px 6px;
             border-radius: 4px; font-size: 9px; font-weight: bold; cursor: pointer; width: 100%; text-align: center;
         }
 
-        /* Разделы Экранов */
         .view-page { display: none; width: 100%; }
         .view-page.active { display: block; }
 
-        /* Рулетка комнат */
         .battle-area {
             background: rgba(31, 40, 51, 0.7); border-radius: 16px; border: 1px solid #ffb800;
             padding: 14px; margin-top: 12px; text-align: center; width: 100%;
-            box-shadow: 0 0 25px rgba(255, 184, 0, 0.15);
         }
         .roulette-container {
             overflow: hidden; width: 100%; height: 110px; background: #050608;
@@ -140,32 +127,28 @@
             width: 4px; height: 100%; background: #ff4500; z-index: 10;
             box-shadow: 0 0 14px #ff4500, 0 0 4px #fff;
         }
-        .roulette-track {
-            display: flex; position: absolute; left: 0; top: 10px;
-            will-change: transform;
-        }
+        .roulette-track { display: flex; position: absolute; left: 0; top: 10px; will-change: transform; }
 
-        /* Карточки лута */
         .drop-item {
             width: 90px; min-width: 90px; height: 90px; margin: 0 4px;
             border-radius: 10px; border: 1px solid rgba(255,255,255,0.15);
             display: flex; flex-direction: column; align-items: center; justify-content: space-between;
-            padding: 6px; position: relative; overflow: hidden;
+            padding: 6px; position: relative;
         }
-        .drop-item img { width: 45px; height: 45px; object-fit: contain; filter: drop-shadow(0 4px 6px rgba(0,0,0,0.5)); }
-        .drop-item-title { font-size: 10px; color: #fff; font-weight: 700; text-shadow: 0 1px 2px #000; }
+        .drop-item-emoji { font-size: 26px; }
+        .drop-item-title { font-size: 9px; color: #fff; font-weight: 700; text-align: center; line-height: 1.1; }
         .drop-item-val { font-size: 9px; color: #ffb800; font-weight: 800; }
 
-        /* Цвета редкости */
+        .rarity-junk { background: linear-gradient(180deg, rgba(80, 80, 80, 0.2), rgba(30, 30, 30, 0.8)); border-bottom: 3px solid #555; }
         .rarity-common { background: linear-gradient(180deg, rgba(108, 122, 137, 0.2), rgba(44, 62, 80, 0.8)); border-bottom: 3px solid #7f8c8d; }
         .rarity-rare { background: linear-gradient(180deg, rgba(52, 152, 219, 0.2), rgba(41, 128, 185, 0.8)); border-bottom: 3px solid #3498db; }
         .rarity-epic { background: linear-gradient(180deg, rgba(155, 89, 182, 0.2), rgba(142, 68, 173, 0.8)); border-bottom: 3px solid #9b59b6; }
         .rarity-legendary { background: linear-gradient(180deg, rgba(241, 196, 15, 0.2), rgba(243, 156, 18, 0.8)); border-bottom: 3px solid #f1c40f; }
+        .rarity-mythic { background: linear-gradient(180deg, rgba(231, 76, 60, 0.2), rgba(192, 57, 43, 0.8)); border-bottom: 3px solid #e74c3c; }
 
-        /* Сетка комнат */
         .rooms-grid {
-            display: grid; grid-template-columns: repeat(auto-fill, minmax(75px, 1fr));
-            gap: 8px; width: 100%; max-height: 220px; overflow-y: auto; padding-right: 2px;
+            display: grid; grid-template-columns: repeat(auto-fill, minmax(80px, 1fr));
+            gap: 8px; width: 100%; max-height: 240px; overflow-y: auto; padding-right: 2px;
         }
         .room-card {
             background: linear-gradient(145deg, rgba(31, 40, 51, 0.8), rgba(11, 12, 16, 0.9));
@@ -178,19 +161,14 @@
             border-color: #ffb800; transform: scale(1.03);
             box-shadow: 0 4px 15px rgba(255, 184, 0, 0.2);
         }
-        .room-number { font-size: 9px; color: #66fcf1; font-weight: bold; }
+        .room-number { font-size: 10px; color: #66fcf1; font-weight: bold; }
         .room-price { font-size: 10px; color: #ffb800; font-weight: 800; }
 
-        /* ОКНО АПГРЕЙДА (CASE-BATTLE) */
         .upgrade-container {
             background: rgba(31, 40, 51, 0.7); border-radius: 16px; border: 1px solid rgba(255,255,255,0.1);
             padding: 16px; display: flex; flex-direction: column; align-items: center; width: 100%;
-            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
         }
-        
-        .upgrade-slots {
-            display: flex; justify-content: space-between; width: 100%; gap: 10px; margin-bottom: 10px;
-        }
+        .upgrade-slots { display: flex; justify-content: space-between; width: 100%; gap: 10px; margin-bottom: 10px; }
         .upg-slot {
             flex: 1; height: 85px; background: rgba(11, 12, 16, 0.8); border: 2px dashed rgba(255,255,255,0.15);
             border-radius: 12px; display: flex; flex-direction: column; align-items: center;
@@ -198,25 +176,17 @@
         }
         .upg-slot.filled { border-style: solid; border-color: #ffb800; }
 
-        /* Колесо Case-Battle */
-        .circle-wrapper {
-            position: relative; width: 170px; height: 170px; margin: 10px 0;
-        }
+        .circle-wrapper { position: relative; width: 170px; height: 170px; margin: 10px 0; }
         .circle-svg { width: 100%; height: 100%; transform: rotate(-90deg); }
         .circle-bg { fill: none; stroke: #151922; stroke-width: 12; }
-        .circle-sector {
-            fill: none; stroke: url(#gradSector); stroke-width: 12;
-            stroke-dasharray: 0 440; transition: stroke-dasharray 0.3s ease;
-        }
+        .circle-sector { fill: none; stroke: url(#gradSector); stroke-width: 12; stroke-dasharray: 0 440; transition: stroke-dasharray 0.3s ease; }
         .circle-arrow {
             position: absolute; top: 0; left: 50%; width: 4px; height: 85px;
-            transform-origin: bottom center; transform: translateX(-50%) rotate(0deg);
-            z-index: 5;
+            transform-origin: bottom center; transform: translateX(-50%) rotate(0deg); z-index: 5;
         }
         .circle-arrow::before {
             content: ''; position: absolute; top: -5px; left: -5px;
-            width: 14px; height: 14px; background: #ff4500; border-radius: 50%;
-            box-shadow: 0 0 10px #ff4500;
+            width: 14px; height: 14px; background: #ff4500; border-radius: 50%; box-shadow: 0 0 10px #ff4500;
         }
         .chance-text {
             position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
@@ -232,9 +202,7 @@
             background: linear-gradient(135deg, #ffb800, #ff4500);
             border: none; color: #000; width: 100%; padding: 12px;
             border-radius: 12px; font-weight: 900; font-size: 14px; cursor: pointer;
-            box-shadow: 0 4px 20px rgba(255, 69, 0, 0.3); transition: transform 0.1s;
         }
-        .action-btn:active { transform: scale(0.98); }
         .action-btn:disabled { opacity: 0.4; cursor: not-allowed; }
     </style>
 </head>
@@ -243,18 +211,16 @@
     <div class="header">
         <div class="logo">🏢 ОБЩАГА БАТЛ</div>
         <div class="balance-box">
-            <span id="balance">1000</span> 🪙
+            <span id="balance">0</span> 🪙
             <button class="dep-btn" onclick="deposit()">ДЕП</button>
         </div>
     </div>
 
-    <!-- ТАБЫ ПЕРЕКЛЮЧЕНИЯ -->
     <div class="nav-tabs">
         <div class="tab-btn active" id="tabRoulette" onclick="switchTab('roulette')">🎰 РУЛЕТКА</div>
         <div class="tab-btn" id="tabUpgrade" onclick="switchTab('upgrade')">⚡ АПГРЕЙД</div>
     </div>
 
-    <!-- ИНВЕНТАРЬ -->
     <div class="inventory-section">
         <div class="inventory-header">
             <span>📦 Твой инвентарь:</span>
@@ -268,7 +234,6 @@
         </div>
     </div>
 
-    <!-- ВЕБ-СТРАНИЦА 1: РУЛЕТКА -->
     <div id="pageRoulette" class="view-page active">
         <div class="rooms-grid" id="roomsGrid"></div>
 
@@ -282,7 +247,6 @@
         </div>
     </div>
 
-    <!-- ВЕБ-СТРАНИЦА 2: АПГРЕЙД (CASE-BATTLE) -->
     <div id="pageUpgrade" class="view-page">
         <div class="upgrade-container">
             <div class="upgrade-slots">
@@ -296,7 +260,6 @@
                 </div>
             </div>
 
-            <!-- Колесо Спиннер Case-Battle -->
             <div class="circle-wrapper">
                 <svg class="circle-svg" viewBox="0 0 160 160">
                     <defs>
@@ -325,26 +288,41 @@
     let tg = window.Telegram.WebApp;
     tg.expand();
 
-    let balance = 1000;
+    let balance = 0;
+    let hasClaimedFirstDep = false;
     let selectedRoom = null;
     let inventory = []; 
 
-    // Базовые предметы с их стандартными весами
+    const FIRST_ROOM_PRICE = 400; // Цена первой комнаты
+
+    // Большой пул предметов разной ценности без сторонних картинок (используются эмодзи)
     const lootList = [
-        { id: 1, name: "Лапша", val: 25, baseWeight: 50, rarity: "rarity-common", img: "https://cdn-icons-png.flaticon.com/512/3041/3041130.png" },
-        { id: 2, name: "Тазик", val: 60, baseWeight: 30, rarity: "rarity-common", img: "https://cdn-icons-png.flaticon.com/512/3920/3920701.png" },
-        { id: 3, name: "Чайник", val: 150, baseWeight: 15, rarity: "rarity-rare", img: "https://cdn-icons-png.flaticon.com/512/2933/2933866.png" },
-        { id: 4, name: "Микроволновка", val: 350, baseWeight: 8, rarity: "rarity-rare", img: "https://cdn-icons-png.flaticon.com/512/2933/2933839.png" },
-        { id: 5, name: "Колонка JBL", val: 900, baseWeight: 4, rarity: "rarity-epic", img: "https://cdn-icons-png.flaticon.com/512/3659/3659898.png" },
-        { id: 6, name: "Геймпад", val: 2000, baseWeight: 2, rarity: "rarity-epic", img: "https://cdn-icons-png.flaticon.com/512/808/808439.png" },
-        { id: 7, name: "Ноутбук", val: 4500, baseWeight: 0.8, rarity: "rarity-legendary", img: "https://cdn-icons-png.flaticon.com/512/428/428001.png" },
-        { id: 8, name: "Ключ-Карта", val: 12000, baseWeight: 0.2, rarity: "rarity-legendary", img: "https://cdn-icons-png.flaticon.com/512/565/565547.png" }
+        { id: 1, name: "Спички", val: 15, baseWeight: 100, rarity: "rarity-junk", emoji: "🥢" },
+        { id: 2, name: "Сухарики", val: 35, baseWeight: 80, rarity: "rarity-junk", emoji: "🍞" },
+        { id: 3, name: "Лапша", val: 70, baseWeight: 65, rarity: "rarity-junk", emoji: "🍜" },
+        { id: 4, name: "Носки", val: 120, baseWeight: 50, rarity: "rarity-junk", emoji: "🧦" },
+        { id: 5, name: "Тазик", val: 250, baseWeight: 40, rarity: "rarity-common", emoji: "🪣" },
+        { id: 6, name: "Удлинитель", val: 450, baseWeight: 30, rarity: "rarity-common", emoji: "🔌" },
+        { id: 7, name: "Чайник", val: 800, baseWeight: 22, rarity: "rarity-common", emoji: "🫖" },
+        { id: 8, name: "Плитка", val: 1500, baseWeight: 16, rarity: "rarity-common", emoji: "🍳" },
+        { id: 9, name: "Микроволновка", val: 3000, baseWeight: 12, rarity: "rarity-rare", emoji: "📻" },
+        { id: 10, name: "Вентилятор", val: 5000, baseWeight: 9, rarity: "rarity-rare", emoji: "🌀" },
+        { id: 11, name: "Холодильник", val: 9000, baseWeight: 6.5, rarity: "rarity-rare", emoji: "🧊" },
+        { id: 12, name: "Колонка JBL", val: 15000, baseWeight: 4.5, rarity: "rarity-rare", emoji: "🔊" },
+        { id: 13, name: "Геймпад", val: 28000, baseWeight: 3.0, rarity: "rarity-epic", emoji: "🎮" },
+        { id: 14, name: "Монитор 144Гц", val: 45000, baseWeight: 2.0, rarity: "rarity-epic", emoji: "🖥️" },
+        { id: 15, name: "Планшет", val: 70000, baseWeight: 1.2, rarity: "rarity-epic", emoji: "📱" },
+        { id: 16, name: "Ноутбук", val: 120000, baseWeight: 0.8, rarity: "rarity-legendary", emoji: "💻" },
+        { id: 17, name: "PS5 Console", val: 200000, baseWeight: 0.5, rarity: "rarity-legendary", emoji: "🕹️" },
+        { id: 18, name: "iPhone 15", val: 350000, baseWeight: 0.3, rarity: "rarity-legendary", emoji: "📲" },
+        { id: 19, name: "Майнинг-риг", val: 650000, baseWeight: 0.15, rarity: "rarity-mythic", emoji: "⚙️" },
+        { id: 20, name: "Жигули ВАЗ", val: 1200000, baseWeight: 0.08, rarity: "rarity-mythic", emoji: "🚗" },
+        { id: 21, name: "Ключи от хаты", val: 3000000, baseWeight: 0.03, rarity: "rarity-mythic", emoji: "🔑" }
     ];
 
     let myUpgItem = null;
     let targetUpgItem = null;
 
-    // Переключение вкладок
     function switchTab(tab) {
         document.getElementById('tabRoulette').classList.toggle('active', tab === 'roulette');
         document.getElementById('tabUpgrade').classList.toggle('active', tab === 'upgrade');
@@ -353,16 +331,16 @@
         if (tab === 'upgrade') renderTargetItems();
     }
 
-    // Генерируем 80 комнат
+    // Повышенная стоимость комнат: от 400 до ~12 250 монет
     const roomsGrid = document.getElementById('roomsGrid');
     for (let i = 1; i <= 80; i++) {
-        let price = Math.floor(i * 12 + 25);
+        let price = Math.floor((i - 1) * 150 + FIRST_ROOM_PRICE);
         let roomCard = document.createElement('div');
         roomCard.className = 'room-card';
         roomCard.onclick = () => selectRoom(i, price, roomCard);
         roomCard.innerHTML = `
             <div class="room-number">№${i}</div>
-            <img src="https://cdn-icons-png.flaticon.com/512/2887/2887982.png" style="width:28px; height:28px;" />
+            <div style="font-size:22px;">🚪</div>
             <div class="room-price">${price} 🪙</div>
         `;
         roomsGrid.appendChild(roomCard);
@@ -392,7 +370,7 @@
             div.className = `inv-card ${item.rarity} ${isSelected ? 'selected' : ''}`;
             div.onclick = () => selectMyItemForUpgrade(index);
             div.innerHTML = `
-                <img src="${item.img}" />
+                <div class="inv-card-emoji">${item.emoji}</div>
                 <div style="font-size:9px; color:#66fcf1; font-weight:bold;">${item.val} 🪙</div>
                 <button class="inv-card-sell" onclick="sellItem(event, ${index})">Продать</button>
             `;
@@ -424,35 +402,41 @@
         alert(`💰 Продано предметов на сумму +${total} 🪙`);
     }
 
+    // Первый депозит четко на сумму первой комнаты
     function deposit() {
-        balance += 500;
+        if (!hasClaimedFirstDep) {
+            balance += FIRST_ROOM_PRICE;
+            hasClaimedFirstDep = true;
+            alert(`🎉 Первый депозит получен: +${FIRST_ROOM_PRICE} 🪙 (Хватает на Комнату №1!)`);
+        } else {
+            balance += 500;
+            alert("🎉 Пополнение: +500 🪙");
+        }
         document.getElementById('balance').innerText = balance;
-        alert("🎉 Депозит успешный! +500 🪙");
     }
 
-    // ДИНАМИЧЕСКИЙ РАСЧЕТ ВЕСА ДРОПА ПО ЦЕНЕ КОМНАТЫ
+    // Умеренный расчёт шанса выпадения
     function getRandomLootByWeight(roomPrice) {
-        // Вычисляем коэфф сложности/богатства комнаты (от 1.0 до 25.0)
-        let roomFactor = roomPrice / 37; 
+        let roomMultiplier = roomPrice / FIRST_ROOM_PRICE; // От 1 до ~30
 
-        // Рассчитываем временные динамические веса
         let dynamicLoot = lootList.map(item => {
             let dynWeight = item.baseWeight;
             
-            // Если вещь дороже ставки комнаты — умножаем вес пропорционально стоимости комнаты
-            if (item.val > roomPrice) {
-                let boost = Math.pow(roomFactor, 1.4);
+            // Если предмет сопоставим со ставкой
+            if (item.val >= roomPrice * 0.3) {
+                // Мягкий коэффициент 1.35 (шанс не будет взлетать слишком высоко)
+                let boost = Math.pow(roomMultiplier, 1.35);
                 dynWeight = item.baseWeight * boost;
             } else {
-                // Дешевые вещи становятся реже в дорогих комнатах
-                dynWeight = item.baseWeight / Math.sqrt(roomFactor);
+                // Приглушение мусора в дорогих комнатах
+                let nerfed = item.baseWeight / Math.pow(roomMultiplier, 1.2);
+                dynWeight = Math.max(0.05, nerfed);
             }
+
             return { item, weight: dynWeight };
         });
 
-        // Считаем общую сумму всех динамических весов
         let totalWeight = dynamicLoot.reduce((sum, el) => sum + el.weight, 0);
-        
         let rand = Math.random() * totalWeight;
         let cumulative = 0;
 
@@ -466,7 +450,7 @@
 
     function startBattle() {
         if (!selectedRoom) return;
-        if (balance < selectedRoom.price) { alert("Недостаточно монет! Сделай ДЕП."); return; }
+        if (balance < selectedRoom.price) { alert("Недостаточно монет! Нажми ДЕП."); return; }
 
         balance -= selectedRoom.price;
         document.getElementById('balance').innerText = balance;
@@ -478,14 +462,14 @@
         track.innerHTML = '';
 
         let items = [];
-        const TOTAL_ITEMS = 200;
+        const TOTAL_ITEMS = 180;
         for (let i = 0; i < TOTAL_ITEMS; i++) {
             let drop = getRandomLootByWeight(selectedRoom.price);
             items.push(drop);
             let itemDiv = document.createElement('div');
             itemDiv.className = `drop-item ${drop.rarity}`;
             itemDiv.innerHTML = `
-                <img src="${drop.img}" />
+                <div class="drop-item-emoji">${drop.emoji}</div>
                 <div class="drop-item-title">${drop.name}</div>
                 <div class="drop-item-val">${drop.val} 🪙</div>
             `;
@@ -494,7 +478,7 @@
 
         setTimeout(() => {
             track.style.transition = 'transform 5s cubic-bezier(0.08, 0.82, 0.17, 1)';
-            let winningIndex = Math.floor(Math.random() * 20) + 140; 
+            let winningIndex = Math.floor(Math.random() * 20) + 130; 
             let itemWidthWithMargin = 98;
             let containerWidth = document.getElementById('rouletteContainer').offsetWidth;
             let offsetToCenter = (containerWidth / 2) - (itemWidthWithMargin / 2); 
@@ -512,13 +496,12 @@
         }, 100);
     }
 
-    // ЛОГИКА АПГРЕЙДА (CASE-BATTLE)
     function selectMyItemForUpgrade(index) {
         myUpgItem = { ...inventory[index], invIndex: index };
         let slot = document.getElementById('slotMy');
         slot.className = `upg-slot filled ${myUpgItem.rarity}`;
         slot.innerHTML = `
-            <img src="${myUpgItem.img}" style="width:32px; height:32px; object-fit:contain;" />
+            <div style="font-size:24px;">${myUpgItem.emoji}</div>
             <div style="font-size:10px; font-weight:bold; margin-top:2px;">${myUpgItem.name}</div>
             <b style="font-size:9px; color:#ffb800;">${myUpgItem.val} 🪙</b>
         `;
@@ -544,14 +527,14 @@
                 let slot = document.getElementById('slotTarget');
                 slot.className = `upg-slot filled ${item.rarity}`;
                 slot.innerHTML = `
-                    <img src="${item.img}" style="width:32px; height:32px; object-fit:contain;" />
+                    <div style="font-size:24px;">${item.emoji}</div>
                     <div style="font-size:10px; font-weight:bold; margin-top:2px;">${item.name}</div>
                     <b style="font-size:9px; color:#ffb800;">${item.val} 🪙</b>
                 `;
                 calcUpgradeChance();
             };
             card.innerHTML = `
-                <img src="${item.img}" style="width:28px; height:28px; object-fit:contain;" />
+                <div style="font-size:20px;">${item.emoji}</div>
                 <div style="font-size:9px; font-weight:bold;">${item.name}</div>
                 <div class="room-price">${item.val} 🪙</div>
             `;
@@ -568,7 +551,7 @@
         }
 
         let chance = (myUpgItem.val / targetUpgItem.val) * 100;
-        if (chance > 80) chance = 80;
+        if (chance > 75) chance = 75; // Максимальный шанс на апгрейд 75%
 
         document.getElementById('chanceVal').innerText = chance.toFixed(1) + '%';
 
@@ -584,7 +567,7 @@
         btn.disabled = true;
 
         let chance = (myUpgItem.val / targetUpgItem.val) * 100;
-        if (chance > 80) chance = 80;
+        if (chance > 75) chance = 75;
 
         let randomDeg = Math.floor(Math.random() * 360) + 1440;
         let arrow = document.getElementById('upgradeArrow');
