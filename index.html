@@ -329,16 +329,16 @@
     let selectedRoom = null;
     let inventory = []; 
 
-    // Полноцветные качественные картинки предметов
+    // Базовые предметы с их стандартными весами
     const lootList = [
-        { id: 1, name: "Лапша", val: 25, weight: 45, rarity: "rarity-common", img: "https://cdn-icons-png.flaticon.com/512/3041/3041130.png" },
-        { id: 2, name: "Тазик", val: 60, weight: 28, rarity: "rarity-common", img: "https://cdn-icons-png.flaticon.com/512/3920/3920701.png" },
-        { id: 3, name: "Чайник", val: 150, weight: 14, rarity: "rarity-rare", img: "https://cdn-icons-png.flaticon.com/512/2933/2933866.png" },
-        { id: 4, name: "Микроволновка", val: 350, weight: 7, rarity: "rarity-rare", img: "https://cdn-icons-png.flaticon.com/512/2933/2933839.png" },
-        { id: 5, name: "Колонка JBL", val: 900, weight: 3.5, rarity: "rarity-epic", img: "https://cdn-icons-png.flaticon.com/512/3659/3659898.png" },
-        { id: 6, name: "Геймпад", val: 2000, weight: 1.5, rarity: "rarity-epic", img: "https://cdn-icons-png.flaticon.com/512/808/808439.png" },
-        { id: 7, name: "Ноутбук", val: 4500, weight: 0.8, rarity: "rarity-legendary", img: "https://cdn-icons-png.flaticon.com/512/428/428001.png" },
-        { id: 8, name: "Ключ-Карта", val: 12000, weight: 0.2, rarity: "rarity-legendary", img: "https://cdn-icons-png.flaticon.com/512/565/565547.png" }
+        { id: 1, name: "Лапша", val: 25, baseWeight: 50, rarity: "rarity-common", img: "https://cdn-icons-png.flaticon.com/512/3041/3041130.png" },
+        { id: 2, name: "Тазик", val: 60, baseWeight: 30, rarity: "rarity-common", img: "https://cdn-icons-png.flaticon.com/512/3920/3920701.png" },
+        { id: 3, name: "Чайник", val: 150, baseWeight: 15, rarity: "rarity-rare", img: "https://cdn-icons-png.flaticon.com/512/2933/2933866.png" },
+        { id: 4, name: "Микроволновка", val: 350, baseWeight: 8, rarity: "rarity-rare", img: "https://cdn-icons-png.flaticon.com/512/2933/2933839.png" },
+        { id: 5, name: "Колонка JBL", val: 900, baseWeight: 4, rarity: "rarity-epic", img: "https://cdn-icons-png.flaticon.com/512/3659/3659898.png" },
+        { id: 6, name: "Геймпад", val: 2000, baseWeight: 2, rarity: "rarity-epic", img: "https://cdn-icons-png.flaticon.com/512/808/808439.png" },
+        { id: 7, name: "Ноутбук", val: 4500, baseWeight: 0.8, rarity: "rarity-legendary", img: "https://cdn-icons-png.flaticon.com/512/428/428001.png" },
+        { id: 8, name: "Ключ-Карта", val: 12000, baseWeight: 0.2, rarity: "rarity-legendary", img: "https://cdn-icons-png.flaticon.com/512/565/565547.png" }
     ];
 
     let myUpgItem = null;
@@ -430,13 +430,37 @@
         alert("🎉 Депозит успешный! +500 🪙");
     }
 
-    function getRandomLootByWeight() {
-        let rand = Math.random() * 100;
+    // ДИНАМИЧЕСКИЙ РАСЧЕТ ВЕСА ДРОПА ПО ЦЕНЕ КОМНАТЫ
+    function getRandomLootByWeight(roomPrice) {
+        // Вычисляем коэфф сложности/богатства комнаты (от 1.0 до 25.0)
+        let roomFactor = roomPrice / 37; 
+
+        // Рассчитываем временные динамические веса
+        let dynamicLoot = lootList.map(item => {
+            let dynWeight = item.baseWeight;
+            
+            // Если вещь дороже ставки комнаты — умножаем вес пропорционально стоимости комнаты
+            if (item.val > roomPrice) {
+                let boost = Math.pow(roomFactor, 1.4);
+                dynWeight = item.baseWeight * boost;
+            } else {
+                // Дешевые вещи становятся реже в дорогих комнатах
+                dynWeight = item.baseWeight / Math.sqrt(roomFactor);
+            }
+            return { item, weight: dynWeight };
+        });
+
+        // Считаем общую сумму всех динамических весов
+        let totalWeight = dynamicLoot.reduce((sum, el) => sum + el.weight, 0);
+        
+        let rand = Math.random() * totalWeight;
         let cumulative = 0;
-        for (let item of lootList) {
-            cumulative += item.weight;
-            if (rand <= cumulative) return item;
+
+        for (let el of dynamicLoot) {
+            cumulative += el.weight;
+            if (rand <= cumulative) return el.item;
         }
+
         return lootList[0];
     }
 
@@ -456,7 +480,7 @@
         let items = [];
         const TOTAL_ITEMS = 200;
         for (let i = 0; i < TOTAL_ITEMS; i++) {
-            let drop = getRandomLootByWeight();
+            let drop = getRandomLootByWeight(selectedRoom.price);
             items.push(drop);
             let itemDiv = document.createElement('div');
             itemDiv.className = `drop-item ${drop.rarity}`;
@@ -544,11 +568,10 @@
         }
 
         let chance = (myUpgItem.val / targetUpgItem.val) * 100;
-        if (chance > 80) chance = 80; // Кап шанса 80%
+        if (chance > 80) chance = 80;
 
         document.getElementById('chanceVal').innerText = chance.toFixed(1) + '%';
 
-        // Длина окружности 2 * pi * 70 = 439.8
         let sectorLength = (chance / 100) * 440;
         document.getElementById('upgradeSector').style.strokeDasharray = `${sectorLength} 440`;
         document.getElementById('btnDoUpgrade').disabled = (chance <= 0);
@@ -563,7 +586,7 @@
         let chance = (myUpgItem.val / targetUpgItem.val) * 100;
         if (chance > 80) chance = 80;
 
-        let randomDeg = Math.floor(Math.random() * 360) + 1440; // Минимум 4 оборота
+        let randomDeg = Math.floor(Math.random() * 360) + 1440;
         let arrow = document.getElementById('upgradeArrow');
         arrow.style.transition = 'transform 4s cubic-bezier(0.15, 0.9, 0.2, 1)';
         arrow.style.transform = `translateX(-50%) rotate(${randomDeg}deg)`;
@@ -572,19 +595,15 @@
             let finalAngle = randomDeg % 360;
             let winAngle = (chance / 100) * 360;
 
-            // Удаляем исходный предмет
             inventory.splice(myUpgItem.invIndex, 1);
 
             if (finalAngle <= winAngle) {
-                // Победил
                 inventory.push(targetUpgItem);
                 alert(`🎉 УСПЕХ! Вы забрали: ${targetUpgItem.name}!`);
             } else {
-                // Проиграл
                 alert(`💥 НЕУДАЧА! Предмет сгорел.`);
             }
 
-            // Сброс состояния апгрейда
             myUpgItem = null;
             targetUpgItem = null;
             resetUpgradeSlotMy();
