@@ -6,17 +6,12 @@
     <title>Общага Батл</title>
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
     <style>
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-            user-select: none;
-        }
+        * { box-sizing: border-box; margin: 0; padding: 0; user-select: none; }
         body {
             background-color: #12131C;
             color: #FFFFFF;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            padding: 15px;
+            font-family: 'Segoe UI', sans-serif;
+            padding: 12px;
             display: flex;
             flex-direction: column;
             align-items: center;
@@ -27,21 +22,15 @@
             justify-content: space-between;
             align-items: center;
             background: #1A1C29;
-            padding: 12px 20px;
+            padding: 10px 15px;
             border-radius: 12px;
             border: 1px solid #2A2D3F;
-            margin-bottom: 20px;
+            margin-bottom: 15px;
         }
-        .logo {
-            font-weight: bold;
-            font-size: 18px;
-            color: #FFB800;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-        }
+        .logo { font-weight: bold; font-size: 16px; color: #FFB800; }
         .balance-box {
             background: #252836;
-            padding: 6px 15px;
+            padding: 5px 12px;
             border-radius: 20px;
             font-weight: bold;
             color: #4ECCA3;
@@ -54,126 +43,146 @@
             background: #FFB800;
             color: #000;
             border: none;
-            padding: 4px 10px;
-            border-radius: 12px;
+            padding: 4px 8px;
+            border-radius: 10px;
             font-weight: bold;
             cursor: pointer;
-            font-size: 12px;
+            font-size: 11px;
         }
-        .title {
-            text-align: center;
+
+        /* Навигация (Вкладки) */
+        .tabs {
+            display: flex;
+            width: 100%;
+            gap: 8px;
             margin-bottom: 15px;
-            font-size: 20px;
-            color: #E2E4F0;
         }
-        
-        /* Сетка комнат (всего 80) */
+        .tab-btn {
+            flex: 1;
+            background: #1A1C29;
+            border: 1px solid #2A2D3F;
+            color: #8A8D9F;
+            padding: 10px;
+            border-radius: 10px;
+            font-weight: bold;
+            cursor: pointer;
+            font-size: 13px;
+            text-align: center;
+        }
+        .tab-btn.active {
+            background: #252836;
+            color: #FFB800;
+            border-color: #FFB800;
+        }
+
+        .tab-content { display: none; width: 100%; }
+        .tab-content.active { display: block; }
+
+        /* Сетка комнат */
         .rooms-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(80px, 1fr));
-            gap: 10px;
+            grid-template-columns: repeat(auto-fill, minmax(75px, 1fr));
+            gap: 8px;
             width: 100%;
-            max-height: 380px;
+            max-height: 320px;
             overflow-y: auto;
-            padding-right: 5px;
         }
         .room-card {
             background: #1A1C29;
             border: 1px solid #2A2D3F;
             border-radius: 10px;
-            padding: 10px 5px;
+            padding: 8px 4px;
             text-align: center;
             cursor: pointer;
-            transition: transform 0.2s, border-color 0.2s;
         }
-        .room-card:hover, .room-card.selected {
-            border-color: #FFB800;
-            transform: translateY(-3px);
-            background: #222536;
-        }
-        .room-number {
-            font-size: 11px;
-            color: #8A8D9F;
-        }
-        .room-icon {
-            font-size: 26px;
-            margin: 5px 0;
-        }
-        .room-price {
-            font-size: 11px;
-            color: #FFB800;
-            font-weight: bold;
-        }
+        .room-card.selected { border-color: #FFB800; background: #222536; }
+        .room-number { font-size: 10px; color: #8A8D9F; }
+        .room-icon { font-size: 22px; margin: 4px 0; }
+        .room-price { font-size: 10px; color: #FFB800; font-weight: bold; }
 
-        /* Рулетка / Открытие */
+        /* Кейс / Батл */
         .battle-area {
-            width: 100%;
             background: #1A1C29;
-            border-radius: 15px;
-            border: 2px solid #FFB800;
-            padding: 20px;
-            margin-top: 20px;
+            border-radius: 12px;
+            border: 1px solid #FFB800;
+            padding: 15px;
+            margin-top: 15px;
             text-align: center;
-            display: none;
         }
         .roulette-container {
             overflow: hidden;
             width: 100%;
-            height: 90px;
+            height: 80px;
             background: #0D0E15;
             border-radius: 10px;
             position: relative;
-            margin: 15px 0;
+            margin: 12px 0;
             border: 1px solid #2A2D3F;
         }
         .pointer {
             position: absolute;
-            top: 0;
-            left: 50%;
+            top: 0; left: 50%;
             transform: translateX(-50%);
-            width: 4px;
-            height: 100%;
+            width: 3px; height: 100%;
             background: #FF5555;
             z-index: 10;
-            box-shadow: 0 0 10px #FF5555;
         }
         .roulette-track {
             display: flex;
             position: absolute;
-            left: 0;
-            top: 10px;
+            left: 0; top: 10px;
             transition: transform 4s cubic-bezier(0.15, 0.9, 0.15, 1);
         }
         .drop-item {
-            min-width: 70px;
-            height: 70px;
-            background: #1F2232;
-            margin: 0 5px;
+            min-width: 65px; height: 60px;
+            background: #1F2232; margin: 0 4px;
             border-radius: 8px;
+            display: flex; flex-direction: column;
+            align-items: center; justify-content: center;
+            font-size: 20px; border: 1px solid #33374D;
+        }
+
+        /* Апгрейд */
+        .upgrade-container {
+            background: #1A1C29;
+            border-radius: 12px;
+            padding: 15px;
+            border: 1px solid #2A2D3F;
+            text-align: center;
+        }
+        .upgrade-slots {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin: 15px 0;
+        }
+        .upgrade-card {
+            width: 45%;
+            background: #0D0E15;
+            border: 1px dashed #3A3D52;
+            border-radius: 10px;
+            padding: 15px 5px;
+            min-height: 90px;
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            font-size: 24px;
-            border: 1px solid #33374D;
+        }
+        .chance-badge {
+            font-size: 18px;
+            font-weight: bold;
+            color: #4ECCA3;
+            margin: 10px 0;
         }
 
         .action-btn {
             background: linear-gradient(45deg, #FFB800, #FF8800);
-            border: none;
-            color: #000;
-            width: 100%;
-            padding: 14px;
-            border-radius: 12px;
-            font-weight: bold;
-            font-size: 16px;
-            cursor: pointer;
-            box-shadow: 0 4px 15px rgba(255, 184, 0, 0.3);
+            border: none; color: #000;
+            width: 100%; padding: 12px;
+            border-radius: 10px; font-weight: bold;
+            font-size: 15px; cursor: pointer;
         }
-        .action-btn:disabled {
-            opacity: 0.5;
-            cursor: not-allowed;
-        }
+        .action-btn:disabled { opacity: 0.5; }
     </style>
 </head>
 <body>
@@ -186,20 +195,45 @@
         </div>
     </div>
 
-    <div class="title">Захвати комнату в общаге! (Всего: 80)</div>
-
-    <!-- Область батла / открытия -->
-    <div class="battle-area" id="battleArea">
-        <h3 id="selectedRoomTitle">Комната #1</h3>
-        <div class="roulette-container">
-            <div class="pointer"></div>
-            <div class="roulette-track" id="track"></div>
-        </div>
-        <button class="action-btn" id="spinBtn" onclick="startBattle()">НАЧАТЬ БАТЛ ЗА КОМНАТУ</button>
+    <!-- Переключатель режимов -->
+    <div class="tabs">
+        <div class="tab-btn active" onclick="switchTab('rooms')">🏢 Комнаты (80)</div>
+        <div class="tab-btn" onclick="switchTab('upgrade')">⚡ Апгрейд</div>
     </div>
 
-    <!-- Сетка из 80 комнат -->
-    <div class="rooms-grid" id="roomsGrid"></div>
+    <!-- Вкладка 1: Комнаты -->
+    <div id="tab-rooms" class="tab-content active">
+        <div class="rooms-grid" id="roomsGrid"></div>
+        <div class="battle-area" id="battleArea" style="display:none;">
+            <h3 id="selectedRoomTitle">Комната #1</h3>
+            <div class="roulette-container">
+                <div class="pointer"></div>
+                <div class="roulette-track" id="track"></div>
+            </div>
+            <button class="action-btn" id="spinBtn" onclick="startBattle()">ОТКРЫТЬ КОМНАТУ</button>
+        </div>
+    </div>
+
+    <!-- Вкладка 2: Апгрейд -->
+    <div id="tab-upgrade" class="tab-content">
+        <div class="upgrade-container">
+            <h3>⚡ Апгрейд Предмета</h3>
+            <div class="upgrade-slots">
+                <div class="upgrade-card" id="userItem">
+                    <span style="font-size: 12px; color: #8A8D9F;">Твой баланс</span>
+                    <b style="color: #FFB800;">100 🪙</b>
+                </div>
+                <div style="font-size: 20px;">➡️</div>
+                <div class="upgrade-card" id="targetItem">
+                    <span style="font-size: 24px;">💻</span>
+                    <span style="font-size: 11px;">Игровой Ноут</span>
+                    <b style="color: #4ECCA3;">500 🪙</b>
+                </div>
+            </div>
+            <div class="chance-badge">Шанс успеха: <span id="chanceVal">20</span>%</div>
+            <button class="action-btn" id="upgradeBtn" onclick="startUpgrade()">КРУТИТЬ АПГРЕЙД</button>
+        </div>
+    </div>
 
 <script>
     let tg = window.Telegram.WebApp;
@@ -208,31 +242,26 @@
     let balance = 1000;
     let selectedRoom = null;
 
-    // Варианты лута из комнат
+    // Лут с разным весом (шансом)
     const lootList = [
-        { name: "Доширак", icon: "🍜", val: 20 },
-        { name: "Тазик", icon: "🪣", val: 50 },
-        { name: "Чайник", icon: "🫖", val: 100 },
-        { name: "Микроволновка", icon: "📻", val: 250 },
-        { name: "Колонками JBL", icon: "🔊", val: 500 },
-        { name: "Стипендия", icon: "💵", val: 1000 },
-        { name: "Игровой Ноут", icon: "💻", val: 2500 },
-        { name: "Ключи от ректорки", icon: "🔑", val: 5000 }
+        { name: "Доширак", icon: "🍜", val: 20, weight: 50 },      // 50%
+        { name: "Тазик", icon: "🪣", val: 50, weight: 30 },        // 30%
+        { name: "Чайник", icon: "🫖", val: 120, weight: 12 },      // 12%
+        { name: "Микроволновка", icon: "📻", val: 300, weight: 5 },// 5%
+        { name: "Колонки JBL", icon: "🔊", val: 800, weight: 2 },  // 2%
+        { name: "Игровой Ноут", icon: "💻", val: 2500, weight: 0.9 },// 0.9%
+        { name: "Ключи от ректорки", icon: "🔑", val: 10000, weight: 0.1 } // 0.1%
     ];
 
     // Генерируем 80 комнат
     const roomsGrid = document.getElementById('roomsGrid');
     for (let i = 1; i <= 80; i++) {
-        let price = Math.floor(i * 15 + 30);
+        let price = Math.floor(i * 12 + 25);
         let roomCard = document.createElement('div');
         roomCard.className = 'room-card';
         roomCard.onclick = () => selectRoom(i, price, roomCard);
         
-        // Иконки типов комнат
-        let icon = "🚪";
-        if (i % 10 === 0) icon = "👑"; // Каждый 10-й номер — элитная
-        else if (i % 5 === 0) icon = "🛋️";
-
+        let icon = i % 10 === 0 ? "👑" : (i % 5 === 0 ? "🛋️" : "🚪");
         roomCard.innerHTML = `
             <div class="room-number">№${i}</div>
             <div class="room-icon">${icon}</div>
@@ -241,30 +270,47 @@
         roomsGrid.appendChild(roomCard);
     }
 
+    function switchTab(tab) {
+        document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+        document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+        
+        if (tab === 'rooms') {
+            document.querySelectorAll('.tab-btn')[0].classList.add('active');
+            document.getElementById('tab-rooms').classList.add('active');
+        } else {
+            document.querySelectorAll('.tab-btn')[1].classList.add('active');
+            document.getElementById('tab-upgrade').classList.add('active');
+        }
+    }
+
     function selectRoom(num, price, element) {
         document.querySelectorAll('.room-card').forEach(c => c.classList.remove('selected'));
         element.classList.add('selected');
-        
         selectedRoom = { num, price };
         document.getElementById('selectedRoomTitle').innerText = `Комната №${num} (Ставка: ${price} 🪙)`;
         document.getElementById('battleArea').style.display = 'block';
-        
-        // Прокрутка вниз к батлу
-        document.getElementById('battleArea').scrollIntoView({ behavior: 'smooth' });
+    }
+
+    function getRandomLootByWeight() {
+        let rand = Math.random() * 100;
+        let cumulative = 0;
+        for (let item of lootList) {
+            cumulative += item.weight;
+            if (rand <= cumulative) return item;
+        }
+        return lootList[0];
     }
 
     function deposit() {
-        // Пополнение баланса (депозит)
-        let add = 500;
-        balance += add;
+        balance += 500;
         document.getElementById('balance').innerText = balance;
-        alert(`🎉 Депозит успешный! Начислено +${add} 🪙`);
+        alert("🎉 Депозит успешный! Начислено +500 🪙");
     }
 
     function startBattle() {
         if (!selectedRoom) return;
         if (balance < selectedRoom.price) {
-            alert("Недостаточно монет для захвата этой комнаты! Сделай ДЕП.");
+            alert("Недостаточно монет! Сделай ДЕП.");
             return;
         }
 
@@ -277,34 +323,58 @@
         track.style.transform = 'translateX(0px)';
         track.innerHTML = '';
 
-        // Генерируем ленту предметов
         let items = [];
         for (let i = 0; i < 40; i++) {
-            let randomLoot = lootList[Math.floor(Math.random() * lootList.length)];
-            items.push(randomLoot);
-            
+            let drop = getRandomLootByWeight();
+            items.push(drop);
             let itemDiv = document.createElement('div');
             itemDiv.className = 'drop-item';
-            itemDiv.innerHTML = `<span>${randomLoot.icon}</span>`;
+            itemDiv.innerHTML = `<span>${drop.icon}</span>`;
             track.appendChild(itemDiv);
         }
 
-        // Запуск прокрутки
         setTimeout(() => {
             track.style.transition = 'transform 4s cubic-bezier(0.15, 0.9, 0.15, 1)';
-            // Смещение под рулетку
             let winningIndex = 32; 
-            let moveAmount = -(winningIndex * 80 - 100); 
+            let moveAmount = -(winningIndex * 73 - 90); 
             track.style.transform = `translateX(${moveAmount}px)`;
 
             setTimeout(() => {
                 let wonItem = items[winningIndex];
                 balance += wonItem.val;
                 document.getElementById('balance').innerText = balance;
-                alert(`🔥 БАТЛ ВЫИГРАН!\nТы захватил Комнату №${selectedRoom.num} и выбил: ${wonItem.name} ${wonItem.icon} (+${wonItem.val} 🪙)`);
+                alert(`🎁 Выпало: ${wonItem.name} ${wonItem.icon}\nЦенность: +${wonItem.val} 🪙`);
                 document.getElementById('spinBtn').disabled = false;
             }, 4200);
         }, 100);
+    }
+
+    // Режим Апгрейда
+    function startUpgrade() {
+        let betCost = 100;
+        let targetVal = 500;
+        let chance = (betCost / targetVal) * 100; // 20%
+        
+        if (balance < betCost) {
+            alert("Нужно минимум 100 🪙 для апгрейда!");
+            return;
+        }
+
+        balance -= betCost;
+        document.getElementById('balance').innerText = balance;
+        document.getElementById('upgradeBtn').disabled = true;
+
+        setTimeout(() => {
+            let roll = Math.random() * 100;
+            if (roll <= chance) {
+                balance += targetVal;
+                alert(`🔥 АПГРЕЙД УСПЕШЕН! Ты получил Игровой Ноут 💻 (+${targetVal} 🪙)`);
+            } else {
+                alert(`❌ АПГРЕЙД СГОРЕЛ! Повезет в следующий раз.`);
+            }
+            document.getElementById('balance').innerText = balance;
+            document.getElementById('upgradeBtn').disabled = false;
+        }, 1500);
     }
 </script>
 </body>
