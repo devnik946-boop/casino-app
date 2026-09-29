@@ -221,7 +221,6 @@
 </head>
 <body>
 
-    <!-- Элемент блокировки экрана -->
     <div id="screenBlocker" class="overlay-blocker"></div>
 
     <div class="header">
@@ -305,14 +304,12 @@
     tg.expand();
 
     let balance = 0;
-    let hasClaimedFirstDep = false;
     let selectedRoom = null;
     let inventory = []; 
 
     const FIRST_ROOM_PRICE = 400;
 
     const lootList = [
-        // Хлам / Мусор
         { id: 1, name: "Спички", val: 15, rarity: "rarity-junk" },
         { id: 2, name: "Сухарики", val: 30, rarity: "rarity-junk" },
         { id: 3, name: "Зажигалка", val: 50, rarity: "rarity-junk" },
@@ -320,7 +317,6 @@
         { id: 5, name: "Носки", val: 120, rarity: "rarity-junk" },
         { id: 6, name: "Шлепки", val: 180, rarity: "rarity-junk" },
 
-        // Обычные
         { id: 7, name: "Тазик", val: 250, rarity: "rarity-common" },
         { id: 8, name: "Презервативы", val: 350, rarity: "rarity-common" },
         { id: 9, name: "Удлинитель", val: 450, rarity: "rarity-common" },
@@ -329,7 +325,6 @@
         { id: 12, name: "Фен", val: 1800, rarity: "rarity-common" },
         { id: 13, name: "Тостер", val: 2400, rarity: "rarity-common" },
 
-        // Редкие
         { id: 14, name: "Микроволновка", val: 3500, rarity: "rarity-rare" },
         { id: 15, name: "Вентилятор", val: 5000, rarity: "rarity-rare" },
         { id: 16, name: "Пылесос", val: 7000, rarity: "rarity-rare" },
@@ -337,21 +332,18 @@
         { id: 18, name: "Колонка JBL", val: 16000, rarity: "rarity-rare" },
         { id: 19, name: "AirPods", val: 22000, rarity: "rarity-rare" },
 
-        // Эпические
         { id: 20, name: "Геймпад", val: 30000, rarity: "rarity-epic" },
         { id: 21, name: "Монитор 144Гц", val: 45000, rarity: "rarity-epic" },
         { id: 22, name: "Планшет", val: 65000, rarity: "rarity-epic" },
         { id: 23, name: "Электросамокат", val: 90000, rarity: "rarity-epic" },
         { id: 24, name: "Ноутбук", val: 130000, rarity: "rarity-epic" },
 
-        // Легендарные
         { id: 25, name: "PS5 Console", val: 180000, rarity: "rarity-legendary" },
         { id: 26, name: "iPhone 15 Pro", val: 250000, rarity: "rarity-legendary" },
         { id: 27, name: "Мощный ПК", val: 380000, rarity: "rarity-legendary" },
         { id: 28, name: "Питбайк", val: 500000, rarity: "rarity-legendary" },
         { id: 29, name: "Майнинг-риг", val: 750000, rarity: "rarity-legendary" },
 
-        // Мифические
         { id: 30, name: "Жигули ВАЗ", val: 1200000, rarity: "rarity-mythic" },
         { id: 31, name: "BMW E36", val: 2500000, rarity: "rarity-mythic" },
         { id: 32, name: "Ключи от хаты", val: 5000000, rarity: "rarity-mythic" },
@@ -443,15 +435,18 @@
     }
 
     function deposit() {
-        if (!hasClaimedFirstDep) {
-            balance += FIRST_ROOM_PRICE;
-            hasClaimedFirstDep = true;
-            alert(`Первый депозит получен: +${FIRST_ROOM_PRICE} монет!`);
-        } else {
-            balance += 500;
-            alert("Пополнение: +500 монет");
+        const MAX_BALANCE = 500;
+
+        if (balance >= MAX_BALANCE) {
+            alert(`Пополнение недоступно! На балансе уже есть ${MAX_BALANCE} или больше монет.`);
+            return;
         }
+
+        let addAmount = MAX_BALANCE - balance;
+        balance += addAmount;
+        
         document.getElementById('balance').innerText = balance;
+        alert(`Пополнение: +${addAmount} монет! Баланс восстановлен до ${MAX_BALANCE}.`);
     }
 
     function getRandomLootByWeight(roomPrice) {
@@ -596,7 +591,6 @@
         let btn = document.getElementById('btnDoUpgrade');
         let blocker = document.getElementById('screenBlocker');
 
-        // Включаем блокировку экрана и отключаем кнопку
         btn.disabled = true;
         blocker.style.display = 'block';
 
@@ -632,7 +626,6 @@
 
             updateInventoryUI();
 
-            // Снимаем блокировку экрана
             blocker.style.display = 'none';
         }, 4200);
     }
