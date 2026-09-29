@@ -3,302 +3,382 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Текстовая RPG Кликер</title>
+    <title>Общага Батл Казино</title>
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
     <style>
-        :root {
-            --common: #b0c3d9;
-            --uncommon: #5e98d9;
-            --rare: #4b69ff;
-            --mythical: #d32ce6;
-            --legendary: #eb4b4b;
-        }
-
+        * { box-sizing: border-box; margin: 0; padding: 0; user-select: none; }
+        
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background-color: #121214;
-            color: #e0e0e0;
+            background: #0b0c10;
+            background-image: radial-gradient(circle at 50% 0%, #1f2833 0%, #0b0c10 75%);
+            color: #FFFFFF;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            padding: 12px;
             display: flex;
-            justify-content: center;
+            flex-direction: column;
             align-items: center;
             min-height: 100vh;
-            margin: 0;
         }
 
-        .game-container {
+        /* Шапка */
+        .header {
             width: 100%;
-            max-width: 600px;
-            background-color: #1a1a1e;
-            border-radius: 12px;
-            padding: 20px;
-            box-shadow: 0 8px 24px rgba(0,0,0,0.5);
-            border: 1px solid #2a2a30;
-        }
-
-        h1, h2 {
-            text-align: center;
-            margin-top: 0;
-            color: #fff;
-        }
-
-        .stats-panel {
-            background-color: #24242a;
-            padding: 15px;
-            border-radius: 8px;
-            margin-bottom: 20px;
-            display: flex;
-            justify-content: space-around;
-            font-size: 1.1em;
-            font-weight: bold;
-        }
-
-        .gold { color: #ffd700; }
-        .damage { color: #ff5555; }
-
-        .btn-main {
-            width: 100%;
-            padding: 15px;
-            font-size: 1.2em;
-            font-weight: bold;
-            background-color: #2e7d32;
-            color: white;
-            border: none;
-            border-radius: 8px;
-            cursor: pointer;
-            transition: background 0.2s, transform 0.1s;
-            margin-bottom: 20px;
-        }
-
-        .btn-main:hover { background-color: #388e3c; }
-        .btn-main:active { transform: scale(0.98); }
-
-        .inventory {
-            background-color: #24242a;
-            padding: 15px;
-            border-radius: 8px;
-            max-height: 400px;
-            overflow-y: auto;
-        }
-
-        .item-card {
-            background-color: #1a1a1e;
-            border: 2px solid #333;
-            border-radius: 6px;
-            padding: 12px;
-            margin-bottom: 10px;
             display: flex;
             justify-content: space-between;
             align-items: center;
+            background: rgba(31, 40, 51, 0.6);
+            backdrop-filter: blur(10px);
+            padding: 12px 16px;
+            border-radius: 16px;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            margin-bottom: 12px;
         }
-
-        .item-info {
+        .logo {
+            font-weight: 900;
+            font-size: 16px;
+            background: linear-gradient(45deg, #ffb800, #ff4500);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-transform: uppercase;
+        }
+        .balance-box {
+            background: rgba(11, 12, 16, 0.7);
+            padding: 6px 14px;
+            border-radius: 20px;
+            font-weight: 700;
+            color: #66fcf1;
+            border: 1px solid rgba(102, 252, 241, 0.3);
             display: flex;
-            flex-direction: column;
-            gap: 4px;
-        }
-
-        .item-title {
-            font-weight: bold;
-            font-size: 1.05em;
-        }
-
-        .item-stats {
-            font-size: 0.9em;
-            color: #aaa;
-        }
-
-        /* Цвета редкости */
-        .rarity-Обычный { border-color: var(--common); }
-        .rarity-Обычный .item-title { color: var(--common); }
-
-        .rarity-Необычный { border-color: var(--uncommon); }
-        .rarity-Необычный .item-title { color: var(--uncommon); }
-
-        .rarity-Редкий { border-color: var(--rare); }
-        .rarity-Редкий .item-title { color: var(--rare); }
-
-        .rarity-Мифический { border-color: var(--mythical); }
-        .rarity-Мифический .item-title { color: var(--mythical); }
-
-        .rarity-Легендарный { border-color: var(--legendary); }
-        .rarity-Легендарный .item-title { color: var(--legendary); }
-
-        .item-actions {
-            display: flex;
+            align-items: center;
             gap: 8px;
+            font-size: 14px;
+        }
+        .dep-btn {
+            background: linear-gradient(135deg, #ffb800, #ff8800);
+            color: #000; border: none;
+            padding: 4px 10px; border-radius: 10px; font-weight: 800;
+            cursor: pointer; font-size: 11px;
         }
 
-        .btn-action {
-            padding: 6px 12px;
-            border: none;
-            border-radius: 4px;
-            cursor: pointer;
-            font-weight: bold;
-            color: #fff;
-            transition: opacity 0.2s;
+        /* Инвентарь */
+        .inventory-section {
+            background: rgba(31, 40, 51, 0.5); border-radius: 16px; padding: 12px;
+            border: 1px solid rgba(255, 255, 255, 0.05); margin-bottom: 12px; width: 100%;
+        }
+        .inventory-header {
+            display: flex; justify-content: space-between; align-items: center;
+            margin-bottom: 10px; font-size: 12px; color: #c5c6c7;
+        }
+        .sell-all-btn {
+            background: rgba(231, 76, 60, 0.2); border: 1px solid #e74c3c; color: #e74c3c;
+            padding: 4px 8px; border-radius: 6px; font-size: 10px; font-weight: bold; cursor: pointer;
+        }
+        .inventory-list { display: flex; gap: 8px; overflow-x: auto; padding-bottom: 6px; min-height: 105px; }
+        
+        .inv-card {
+            min-width: 110px; height: 100px; background: rgba(11, 12, 16, 0.8); border-radius: 10px;
+            border: 1px solid rgba(255, 255, 255, 0.1); display: flex; flex-direction: column;
+            align-items: center; justify-content: space-between; padding: 6px; position: relative;
+        }
+        .inv-card-name { font-size: 11px; font-weight: bold; text-align: center; }
+        .inv-card-val { font-size: 10px; color: #ffb800; font-weight: bold; }
+        .inv-btns { display: flex; gap: 4px; width: 100%; }
+        .inv-btn {
+            flex: 1; border: none; padding: 4px 2px; border-radius: 4px;
+            font-size: 9px; font-weight: bold; cursor: pointer; color: #fff; text-align: center;
+        }
+        .btn-upg { background: #2980b9; }
+        .btn-upg:hover { background: #3498db; }
+        .btn-sell { background: #27ae60; }
+
+        /* Текстовая Рулетка */
+        .battle-area {
+            background: rgba(31, 40, 51, 0.7); border-radius: 16px; border: 1px solid #ffb800;
+            padding: 14px; margin-top: 12px; text-align: center; width: 100%;
+        }
+        .roulette-container {
+            overflow: hidden; width: 100%; height: 90px; background: #050608;
+            border-radius: 12px; position: relative; margin: 12px 0; border: 1px solid rgba(255,255,255,0.1);
+        }
+        .pointer {
+            position: absolute; top: 0; left: 50%; transform: translateX(-50%);
+            width: 4px; height: 100%; background: #ff4500; z-index: 10;
+            box-shadow: 0 0 14px #ff4500, 0 0 4px #fff;
+        }
+        .roulette-track {
+            display: flex; position: absolute; left: 0; top: 10px;
+            will-change: transform;
         }
 
-        .btn-action:hover { opacity: 0.8; }
-        .btn-upgrade { background-color: #0288d1; }
-        .btn-sell { background-color: #d32f2f; }
+        /* Текстовые карточки предмета в рулетке */
+        .drop-item {
+            width: 100px; min-width: 100px; height: 70px; margin: 0 4px;
+            border-radius: 8px; border: 1px solid rgba(255,255,255,0.15);
+            display: flex; flex-direction: column; align-items: center; justify-content: center;
+            padding: 6px; gap: 4px; text-align: center;
+        }
+        .drop-item-title { font-size: 11px; color: #fff; font-weight: 800; }
+        .drop-item-val { font-size: 10px; color: #ffb800; font-weight: bold; }
+
+        /* Цвета редкости по рамкам и градиентам */
+        .rarity-common { background: rgba(127, 140, 141, 0.2); border: 1px solid #7f8c8d; }
+        .rarity-common .drop-item-title, .rarity-common .inv-card-name { color: #bdc3c7; }
+
+        .rarity-rare { background: rgba(52, 152, 219, 0.2); border: 1px solid #3498db; }
+        .rarity-rare .drop-item-title, .rarity-rare .inv-card-name { color: #54a0ff; }
+
+        .rarity-epic { background: rgba(155, 89, 182, 0.2); border: 1px solid #9b59b6; }
+        .rarity-epic .drop-item-title, .rarity-epic .inv-card-name { color: #be2edd; }
+
+        .rarity-legendary { background: rgba(241, 196, 15, 0.2); border: 1px solid #f1c40f; }
+        .rarity-legendary .drop-item-title, .rarity-legendary .inv-card-name { color: #f1c40f; }
+
+        /* Сетка комнат */
+        .rooms-grid {
+            display: grid; grid-template-columns: repeat(auto-fill, minmax(75px, 1fr));
+            gap: 8px; width: 100%; max-height: 200px; overflow-y: auto; padding-right: 2px;
+        }
+        .room-card {
+            background: linear-gradient(145deg, rgba(31, 40, 51, 0.8), rgba(11, 12, 16, 0.9));
+            border: 1px solid rgba(255, 255, 255, 0.05); border-radius: 12px;
+            padding: 10px 4px; text-align: center; cursor: pointer; transition: all 0.2s;
+            display: flex; flex-direction: column; align-items: center; justify-content: space-between;
+            height: 70px;
+        }
+        .room-card:hover, .room-card.selected {
+            border-color: #ffb800; transform: scale(1.03);
+            box-shadow: 0 4px 15px rgba(255, 184, 0, 0.2);
+        }
+        .room-number { font-size: 10px; color: #66fcf1; font-weight: bold; }
+        .room-price { font-size: 11px; color: #ffb800; font-weight: 800; }
+
+        .action-btn {
+            background: linear-gradient(135deg, #ffb800, #ff4500);
+            border: none; color: #000; width: 100%; padding: 12px;
+            border-radius: 12px; font-weight: 900; font-size: 14px; cursor: pointer;
+            box-shadow: 0 4px 20px rgba(255, 69, 0, 0.3);
+        }
+        .action-btn:disabled { opacity: 0.4; cursor: not-allowed; }
     </style>
 </head>
 <body>
 
-<div class="game-container">
-    <h1>Текстовая RPG</h1>
-    
-    <div class="stats-panel">
-        <div>Золото: <span id="gold-count" class="gold">0</span> 🪙</div>
-        <div>Урон: <span id="damage-count" class="damage">10</span> ⚔️</div>
+    <div class="header">
+        <div class="logo">🏢 ОБЩАГА БАТЛ</div>
+        <div class="balance-box">
+            <span id="balance">1000</span> 🪙
+            <button class="dep-btn" onclick="deposit()">ДЕП</button>
+        </div>
     </div>
 
-    <button class="btn-main" id="btn-hunt">Отправиться на охоту</button>
-
-    <h2>Инвентарь</h2>
-    <div class="inventory" id="inventory-list">
-        <!-- Предметы будут создаваться здесь -->
+    <!-- ИНВЕНТАРЬ -->
+    <div class="inventory-section">
+        <div class="inventory-header">
+            <span>📦 Твой инвентарь:</span>
+            <div>
+                <span id="invCount" style="margin-right:8px; font-weight:bold;">0 шт.</span>
+                <button class="sell-all-btn" onclick="sellAllInventory()">Продать всё</button>
+            </div>
+        </div>
+        <div class="inventory-list" id="inventoryList">
+            <div style="font-size:11px; color:#5A5D73; padding:20px; text-align:center; width:100%;">Инвентарь пуст. Захватывай комнаты!</div>
+        </div>
     </div>
-</div>
+
+    <!-- СЕТКА КОМНАТ -->
+    <div class="rooms-grid" id="roomsGrid"></div>
+
+    <!-- РУЛЕТКА -->
+    <div class="battle-area" id="battleArea" style="display:none;">
+        <h3 id="selectedRoomTitle" style="font-size:14px; color:#ffb800; margin-bottom: 5px;">Комната №1</h3>
+        <div class="roulette-container" id="rouletteContainer">
+            <div class="pointer"></div>
+            <div class="roulette-track" id="track"></div>
+        </div>
+        <button class="action-btn" id="spinBtn" onclick="startBattle()">ОТКРЫТЬ КОМНАТУ</button>
+    </div>
 
 <script>
-    // Игровое состояние
-    let gameState = {
-        gold: 0,
-        baseDamage: 10,
-        inventory: []
-    };
+    let tg = window.Telegram.WebApp;
+    tg.expand();
 
-    // Конфигурация редкости и предметов
-    const rarities = [
-        { name: 'Обычный', chance: 50, color: '#b0c3d9', multiplier: 1 },
-        { name: 'Необычный', chance: 30, color: '#5e98d9', multiplier: 1.5 },
-        { name: 'Редкий', chance: 13, color: '#4b69ff', multiplier: 2.5 },
-        { name: 'Мифический', chance: 5, color: '#d32ce6', multiplier: 4 },
-        { name: 'Легендарный', chance: 2, color: '#eb4b4b', multiplier: 7 }
+    let balance = 1000;
+    let selectedRoom = null;
+    let inventory = []; 
+
+    // Чисто текстовый список лута с распределением редкости
+    const lootList = [
+        { id: 1, name: "Доширак", val: 25, weight: 45, rarity: "rarity-common" },
+        { id: 2, name: "Старый Тазик", val: 60, weight: 28, rarity: "rarity-common" },
+        { id: 3, name: "Чайник", val: 150, weight: 14, rarity: "rarity-rare" },
+        { id: 4, name: "Микроволновка", val: 350, weight: 7, rarity: "rarity-rare" },
+        { id: 5, name: "Колонка JBL", val: 900, weight: 3.5, rarity: "rarity-epic" },
+        { id: 6, name: "Геймпад", val: 2000, weight: 1.5, rarity: "rarity-epic" },
+        { id: 7, name: "Ноутбук", val: 4500, weight: 0.8, rarity: "rarity-legendary" },
+        { id: 8, name: "Ключ от Рефки", val: 12000, weight: 0.2, rarity: "rarity-legendary" }
     ];
 
-    const weaponTypes = ['Меч', 'Топор', 'Кинжал', 'Молот', 'Копьё', 'Посох'];
-
-    // Получение суммарного урона (базовый + от предметов)
-    function getTotalDamage() {
-        return gameState.baseDamage + gameState.inventory.reduce((sum, item) => sum + item.damage, 0);
+    // Генерируем 80 комнат
+    const roomsGrid = document.getElementById('roomsGrid');
+    for (let i = 1; i <= 80; i++) {
+        let price = Math.floor(i * 12 + 25);
+        let roomCard = document.createElement('div');
+        roomCard.className = 'room-card';
+        roomCard.onclick = () => selectRoom(i, price, roomCard);
+        roomCard.innerHTML = `
+            <div class="room-number">№${i}</div>
+            <div style="font-size:16px;">🔑</div>
+            <div class="room-price">${price} 🪙</div>
+        `;
+        roomsGrid.appendChild(roomCard);
     }
 
-    // Случайная генерация предмета
-    function generateItem() {
-        // Определение редкости по шансам
-        const rand = Math.random() * 100;
-        let cumulative = 0;
-        let selectedRarity = rarities[0];
-
-        for (let rarity of rarities) {
-            cumulative += rarity.chance;
-            if (rand <= cumulative) {
-                selectedRarity = rarity;
-                break;
-            }
-        }
-
-        const type = weaponTypes[Math.floor(Math.random() * weaponTypes.length)];
-        const baseItemDamage = Math.floor(Math.random() * 5) + 5;
-        const damage = Math.round(baseItemDamage * selectedRarity.multiplier);
-        const price = Math.round(damage * 3);
-
-        return {
-            id: Date.now() + Math.random(),
-            name: `${selectedRarity.name} ${type}`,
-            rarity: selectedRarity.name,
-            damage: damage,
-            level: 1,
-            price: price,
-            upgradePrice: Math.round(price * 0.8)
-        };
+    function selectRoom(num, price, element) {
+        document.querySelectorAll('.room-card').forEach(c => c.classList.remove('selected'));
+        element.classList.add('selected');
+        selectedRoom = { num, price };
+        document.getElementById('selectedRoomTitle').innerText = `Комната №${num} (Ставка: ${price} 🪙)`;
+        document.getElementById('battleArea').style.display = 'block';
     }
 
-    // Функция кнопки "Охота"
-    document.getElementById('btn-hunt').addEventListener('click', () => {
-        // Заработок золота зависит от суммарного урона
-        const currentDamage = getTotalDamage();
-        const earnedGold = Math.floor(currentDamage * (0.8 + Math.random() * 0.4));
-        gameState.gold += earnedGold;
+    function updateInventoryUI() {
+        const list = document.getElementById('inventoryList');
+        document.getElementById('invCount').innerText = `${inventory.length} шт.`;
+        list.innerHTML = '';
 
-        // 40% шанс найти предмет при охоте
-        if (Math.random() < 0.4) {
-            const newItem = generateItem();
-            gameState.inventory.push(newItem);
-        }
-
-        updateUI();
-    });
-
-    // Функция улучшения предмета
-    function upgradeItem(id) {
-        const item = gameState.inventory.find(i => i.id === id);
-        if (!item) return;
-
-        if (gameState.gold >= item.upgradePrice) {
-            gameState.gold -= item.upgradePrice;
-            item.level += 1;
-            
-            // Увеличение характеристик при апгрейде
-            const bonusDamage = Math.max(2, Math.floor(item.damage * 0.25));
-            item.damage += bonusDamage;
-            item.price += Math.round(item.upgradePrice * 0.6);
-            item.upgradePrice = Math.round(item.upgradePrice * 1.5);
-
-            updateUI();
-        } else {
-            alert('Недостаточно золота для улучшения!');
-        }
-    }
-
-    // Функция продажи предмета
-    function sellItem(id) {
-        const itemIndex = gameState.inventory.findIndex(i => i.id === id);
-        if (itemIndex !== -1) {
-            gameState.gold += gameState.inventory[itemIndex].price;
-            gameState.inventory.splice(itemIndex, 1);
-            updateUI();
-        }
-    }
-
-    // Обновление интерфейса
-    function updateUI() {
-        document.getElementById('gold-count').innerText = gameState.gold;
-        document.getElementById('damage-count').innerText = getTotalDamage();
-
-        const inventoryList = document.getElementById('inventory-list');
-        inventoryList.innerHTML = '';
-
-        if (gameState.inventory.length === 0) {
-            inventoryList.innerHTML = '<div style="text-align: center; color: #777;">Инвентарь пуст. Отправляйтесь на охоту!</div>';
+        if (inventory.length === 0) {
+            list.innerHTML = `<div style="font-size:11px; color:#5A5D73; padding:20px; text-align:center; width:100%;">Инвентарь пуст. Захватывай комнаты!</div>`;
             return;
         }
 
-        gameState.inventory.forEach(item => {
-            const card = document.createElement('div');
-            card.className = `item-card rarity-${item.rarity}`;
-            card.innerHTML = `
-                <div class="item-info">
-                    <div class="item-title">${item.name} ${item.level > 1 ? `[+${item.level - 1}]` : ''}</div>
-                    <div class="item-stats">Урон: +${item.damage}</div>
-                </div>
-                <div class="item-actions">
-                    <button class="btn-action btn-upgrade" onclick="upgradeItem(${item.id})">
-                        Улучшить (${item.upgradePrice} 🪙)
-                    </button>
-                    <button class="btn-action btn-sell" onclick="sellItem(${item.id})">
-                        Продать (${item.price} 🪙)
-                    </button>
+        inventory.forEach((item, index) => {
+            let div = document.createElement('div');
+            div.className = `inv-card ${item.rarity}`;
+            
+            let upgradeCost = Math.round(item.val * 0.5);
+            
+            div.innerHTML = `
+                <div class="inv-card-name">${item.name} ${item.level > 1 ? '+' + item.level : ''}</div>
+                <div class="inv-card-val">${item.val} 🪙</div>
+                <div class="inv-btns">
+                    <button class="inv-btn btn-upg" onclick="upgradeItem(event, ${index})">+ (${upgradeCost})</button>
+                    <button class="inv-btn btn-sell" onclick="sellItem(event, ${index})">Продать</button>
                 </div>
             `;
-            inventoryList.appendChild(card);
+            list.appendChild(div);
         });
     }
 
-    // Инициализация при старте
-    updateUI();
-</script>
+    // Апгрейд предмета в инвентаре
+    function upgradeItem(event, index) {
+        event.stopPropagation();
+        let item = inventory[index];
+        let cost = Math.round(item.val * 0.5);
 
+        if (balance < cost) {
+            alert("Недостаточно монет для апгрейда!");
+            return;
+        }
+
+        balance -= cost;
+        document.getElementById('balance').innerText = balance;
+
+        // 60% шанс успешного апгрейда
+        if (Math.random() < 0.6) {
+            item.val = Math.round(item.val * 1.8);
+            item.level = (item.level || 1) + 1;
+            alert(`🎉 Успешный апгрейд! ${item.name} теперь стоит ${item.val} 🪙!`);
+        } else {
+            alert(`💥 Апгрейд не удался! Предмет сломался.`);
+            inventory.splice(index, 1);
+        }
+
+        updateInventoryUI();
+    }
+
+    function sellItem(event, index) {
+        event.stopPropagation();
+        balance += inventory[index].val;
+        document.getElementById('balance').innerText = balance;
+        inventory.splice(index, 1);
+        updateInventoryUI();
+    }
+
+    function sellAllInventory() {
+        if (inventory.length === 0) return;
+        let total = inventory.reduce((sum, item) => sum + item.val, 0);
+        balance += total;
+        document.getElementById('balance').innerText = balance;
+        inventory = [];
+        updateInventoryUI();
+        alert(`💰 Продано предметов на сумму +${total} 🪙`);
+    }
+
+    function deposit() {
+        balance += 500;
+        document.getElementById('balance').innerText = balance;
+        alert("🎉 Депозит успешный! +500 🪙");
+    }
+
+    function getRandomLootByWeight() {
+        let rand = Math.random() * 100;
+        let cumulative = 0;
+        for (let item of lootList) {
+            cumulative += item.weight;
+            if (rand <= cumulative) return { ...item, level: 1 };
+        }
+        return { ...lootList[0], level: 1 };
+    }
+
+    function startBattle() {
+        if (!selectedRoom) return;
+        if (balance < selectedRoom.price) { alert("Недостаточно монет! Сделай ДЕП."); return; }
+
+        balance -= selectedRoom.price;
+        document.getElementById('balance').innerText = balance;
+        document.getElementById('spinBtn').disabled = true;
+
+        const track = document.getElementById('track');
+        track.style.transition = 'none';
+        track.style.transform = 'translateX(0px)';
+        track.innerHTML = '';
+
+        // Генерируем 200 предметов, чтобы лента никогда не заканчивалась
+        let items = [];
+        const TOTAL_ITEMS = 200;
+        for (let i = 0; i < TOTAL_ITEMS; i++) {
+            let drop = getRandomLootByWeight();
+            items.push(drop);
+            let itemDiv = document.createElement('div');
+            itemDiv.className = `drop-item ${drop.rarity}`;
+            itemDiv.innerHTML = `
+                <div class="drop-item-title">${drop.name}</div>
+                <div class="drop-item-val">${drop.val} 🪙</div>
+            `;
+            track.appendChild(itemDiv);
+        }
+
+        setTimeout(() => {
+            track.style.transition = 'transform 5s cubic-bezier(0.08, 0.82, 0.17, 1)';
+            
+            let winningIndex = Math.floor(Math.random() * 20) + 140; 
+            let itemWidthWithMargin = 108; // 100px + 8px margin
+            let containerWidth = document.getElementById('rouletteContainer').offsetWidth;
+            
+            let offsetToCenter = (containerWidth / 2) - (itemWidthWithMargin / 2); 
+            let moveAmount = -(winningIndex * itemWidthWithMargin - offsetToCenter);
+
+            track.style.transform = `translateX(${moveAmount}px)`;
+
+            setTimeout(() => {
+                let wonItem = items[winningIndex];
+                inventory.push(wonItem);
+                updateInventoryUI();
+                alert(`🎁 Выпало: ${wonItem.name} (${wonItem.val} 🪙)!`);
+                document.getElementById('spinBtn').disabled = false;
+            }, 5200);
+        }, 100);
+    }
+</script>
 </body>
 </html>
