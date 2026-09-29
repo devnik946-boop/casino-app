@@ -52,7 +52,7 @@
             border: 1px solid rgba(102, 252, 241, 0.3);
             display: flex;
             align-items: center;
-            gap: 10px;
+            gap: 8px;
             font-size: 14px;
             box-shadow: 0 0 10px rgba(102, 252, 241, 0.15);
         }
@@ -64,31 +64,6 @@
             transition: transform 0.1s;
         }
         .dep-btn:active { transform: scale(0.95); }
-
-        /* Вкладки */
-        .tabs { display: flex; width: 100%; gap: 8px; margin-bottom: 12px; }
-        .tab-btn {
-            flex: 1; background: rgba(31, 40, 51, 0.4); border: 1px solid rgba(255, 255, 255, 0.05);
-            color: #c5c6c7; padding: 10px; border-radius: 12px;
-            font-weight: 700; cursor: pointer; font-size: 13px; text-align: center;
-            transition: all 0.2s;
-        }
-        .tab-btn.active {
-            background: linear-gradient(135deg, rgba(255, 184, 0, 0.2), rgba(255, 69, 0, 0.2));
-            color: #ffb800; border-color: #ffb800;
-            box-shadow: 0 0 15px rgba(255, 184, 0, 0.2);
-        }
-
-        .tab-content { display: none; width: 100%; }
-        .tab-content.active { display: block; }
-
-        /* Иконки */
-        .svg-icon {
-            width: 32px;
-            height: 32px;
-            fill: #66fcf1;
-            filter: drop-shadow(0 0 6px rgba(102, 252, 241, 0.4));
-        }
 
         /* Инвентарь */
         .inventory-section {
@@ -104,31 +79,69 @@
             background: rgba(231, 76, 60, 0.2); border: 1px solid #e74c3c; color: #e74c3c;
             padding: 4px 8px; border-radius: 6px; font-size: 10px; font-weight: bold; cursor: pointer;
         }
-        .inventory-list { display: flex; gap: 8px; overflow-x: auto; padding-bottom: 6px; min-height: 90px; }
+        .inventory-list { display: flex; gap: 8px; overflow-x: auto; padding-bottom: 6px; min-height: 95px; }
         
         .inv-card {
-            min-width: 80px; height: 90px; background: rgba(11, 12, 16, 0.8); border-radius: 10px;
+            min-width: 85px; height: 95px; background: rgba(11, 12, 16, 0.8); border-radius: 10px;
             border: 1px solid rgba(255, 255, 255, 0.1); display: flex; flex-direction: column;
             align-items: center; justify-content: space-between; padding: 6px; position: relative; cursor: pointer;
             transition: all 0.2s;
         }
+        .inv-card img { width: 40px; height: 40px; object-fit: contain; }
         .inv-card.selected { border-color: #ffb800; box-shadow: 0 0 12px rgba(255, 184, 0, 0.6); transform: translateY(-2px); }
         .inv-card-sell {
-            background: #27ae60; color: #fff; border: none; padding: 2px 6px;
+            background: #27ae60; color: #fff; border: none; padding: 3px 6px;
             border-radius: 4px; font-size: 9px; font-weight: bold; cursor: pointer; width: 100%; text-align: center;
         }
+
+        /* Рулетка комнат */
+        .battle-area {
+            background: rgba(31, 40, 51, 0.7); border-radius: 16px; border: 1px solid #ffb800;
+            padding: 14px; margin-top: 12px; text-align: center; width: 100%;
+            box-shadow: 0 0 25px rgba(255, 184, 0, 0.15);
+        }
+        .roulette-container {
+            overflow: hidden; width: 100%; height: 110px; background: #050608;
+            border-radius: 12px; position: relative; margin: 12px 0; border: 1px solid rgba(255,255,255,0.1);
+        }
+        .pointer {
+            position: absolute; top: 0; left: 50%; transform: translateX(-50%);
+            width: 4px; height: 100%; background: #ff4500; z-index: 10;
+            box-shadow: 0 0 14px #ff4500, 0 0 4px #fff;
+        }
+        .roulette-track {
+            display: flex; position: absolute; left: 0; top: 10px;
+            will-change: transform;
+        }
+
+        /* Сочные карточки лута */
+        .drop-item {
+            width: 90px; min-width: 90px; height: 90px; margin: 0 4px;
+            border-radius: 10px; border: 1px solid rgba(255,255,255,0.15);
+            display: flex; flex-direction: column; align-items: center; justify-content: space-between;
+            padding: 6px; position: relative; overflow: hidden;
+        }
+        .drop-item img { width: 45px; height: 45px; object-fit: contain; filter: drop-shadow(0 4px 6px rgba(0,0,0,0.5)); }
+        .drop-item-title { font-size: 10px; color: #fff; font-weight: 700; text-shadow: 0 1px 2px #000; }
+        .drop-item-val { font-size: 9px; color: #ffb800; font-weight: 800; }
+
+        /* Цвета редкости */
+        .rarity-common { background: linear-gradient(180deg, rgba(108, 122, 137, 0.2), rgba(44, 62, 80, 0.8)); border-bottom: 3px solid #7f8c8d; }
+        .rarity-rare { background: linear-gradient(180deg, rgba(52, 152, 219, 0.2), rgba(41, 128, 185, 0.8)); border-bottom: 3px solid #3498db; }
+        .rarity-epic { background: linear-gradient(180deg, rgba(155, 89, 182, 0.2), rgba(142, 68, 173, 0.8)); border-bottom: 3px solid #9b59b6; }
+        .rarity-legendary { background: linear-gradient(180deg, rgba(241, 196, 15, 0.2), rgba(243, 156, 18, 0.8)); border-bottom: 3px solid #f1c40f; }
 
         /* Сетка комнат */
         .rooms-grid {
             display: grid; grid-template-columns: repeat(auto-fill, minmax(75px, 1fr));
-            gap: 8px; width: 100%; max-height: 250px; overflow-y: auto; padding-right: 2px;
+            gap: 8px; width: 100%; max-height: 220px; overflow-y: auto; padding-right: 2px;
         }
         .room-card {
             background: linear-gradient(145deg, rgba(31, 40, 51, 0.8), rgba(11, 12, 16, 0.9));
             border: 1px solid rgba(255, 255, 255, 0.05); border-radius: 12px;
             padding: 8px 4px; text-align: center; cursor: pointer; transition: all 0.2s;
             display: flex; flex-direction: column; align-items: center; justify-content: space-between;
-            height: 85px;
+            height: 80px;
         }
         .room-card:hover, .room-card.selected {
             border-color: #ffb800; transform: scale(1.03);
@@ -136,73 +149,6 @@
         }
         .room-number { font-size: 9px; color: #66fcf1; font-weight: bold; }
         .room-price { font-size: 10px; color: #ffb800; font-weight: 800; }
-
-        /* Батл рулетка */
-        .battle-area {
-            background: rgba(31, 40, 51, 0.7); border-radius: 16px; border: 1px solid #ffb800;
-            padding: 14px; margin-top: 12px; text-align: center;
-            box-shadow: 0 0 25px rgba(255, 184, 0, 0.15);
-        }
-        .roulette-container {
-            overflow: hidden; width: 100%; height: 95px; background: #050608;
-            border-radius: 12px; position: relative; margin: 12px 0; border: 1px solid rgba(255,255,255,0.1);
-        }
-        .pointer {
-            position: absolute; top: 0; left: 50%; transform: translateX(-50%);
-            width: 4px; height: 100%; background: #ff4500; z-index: 10;
-            box-shadow: 0 0 12px #ff4500;
-        }
-        .roulette-track {
-            display: flex; position: absolute; left: 0; top: 7px;
-            transition: transform 5s cubic-bezier(0.1, 0.9, 0.1, 1);
-        }
-
-        /* Выравнивание лута в рулетке */
-        .drop-item {
-            width: 80px; min-width: 80px; height: 80px; background: rgba(31, 40, 51, 0.9); margin: 0 4px;
-            border-radius: 10px; border: 1px solid rgba(255,255,255,0.08);
-            display: flex; flex-direction: column; align-items: center; justify-content: center;
-        }
-        .drop-item-content {
-            display: flex; flex-direction: column; align-items: center; justify-content: center;
-            gap: 4px; width: 100%; height: 100%;
-        }
-        .drop-item-title {
-            font-size: 9px; color: #c5c6c7; font-weight: 600; text-align: center;
-            white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 70px;
-        }
-
-        /* Апгрейд */
-        .upgrade-container {
-            background: rgba(31, 40, 51, 0.7); border-radius: 16px; padding: 16px;
-            border: 1px solid rgba(255, 255, 255, 0.08); text-align: center;
-        }
-        .circle-wheel-box { position: relative; width: 180px; height: 180px; margin: 15px auto; }
-        .circle-svg { width: 100%; height: 100%; transform: rotate(-90deg); filter: drop-shadow(0 0 8px rgba(102, 252, 241, 0.3)); }
-        .wheel-bg { fill: none; stroke: #0b0c10; stroke-width: 10; }
-        .wheel-win { fill: none; stroke: url(#gradWin); stroke-width: 10; transition: stroke-dasharray 0.3s; stroke-linecap: round; }
-        .wheel-arrow {
-            position: absolute; top: 10px; left: 50%; transform: translateX(-50%);
-            width: 4px; height: 80px; background: #ff4500; transform-origin: bottom center;
-            border-radius: 4px; transition: transform 3.5s cubic-bezier(0.15, 0.85, 0.15, 1);
-            box-shadow: 0 0 8px #ff4500;
-        }
-        .chance-text {
-            position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
-            font-size: 22px; font-weight: 900; color: #66fcf1;
-            text-shadow: 0 0 10px rgba(102, 252, 241, 0.5);
-        }
-
-        .upgrade-select-grid {
-            display: grid; grid-template-columns: repeat(auto-fill, minmax(75px, 1fr));
-            gap: 6px; margin: 10px 0; max-height: 160px; overflow-y: auto; padding-right: 2px;
-        }
-        .target-card {
-            background: rgba(11, 12, 16, 0.8); border: 1px solid rgba(255, 255, 255, 0.08);
-            border-radius: 10px; padding: 6px; font-size: 10px; cursor: pointer; text-align: center;
-            transition: all 0.2s; display: flex; flex-direction: column; align-items: center; gap: 3px;
-        }
-        .target-card.selected { border-color: #66fcf1; background: rgba(102, 252, 241, 0.1); box-shadow: 0 0 10px rgba(102, 252, 241, 0.3); }
 
         .action-btn {
             background: linear-gradient(135deg, #ffb800, #ff4500);
@@ -238,48 +184,17 @@
         </div>
     </div>
 
-    <!-- Переключатель режимов -->
-    <div class="tabs">
-        <div class="tab-btn active" onclick="switchTab('rooms')">🏢 Комнаты</div>
-        <div class="tab-btn" onclick="switchTab('upgrade')">⚡ Апгрейд</div>
-    </div>
+    <!-- Комнаты -->
+    <div class="rooms-grid" id="roomsGrid"></div>
 
-    <!-- Вкладка 1: Комнаты -->
-    <div id="tab-rooms" class="tab-content active">
-        <div class="rooms-grid" id="roomsGrid"></div>
-        <div class="battle-area" id="battleArea" style="display:none;">
-            <h3 id="selectedRoomTitle" style="font-size:14px; color:#ffb800;">Комната #1</h3>
-            <div class="roulette-container" id="rouletteContainer">
-                <div class="pointer"></div>
-                <div class="roulette-track" id="track"></div>
-            </div>
-            <button class="action-btn" id="spinBtn" onclick="startBattle()">ОТКРЫТЬ КОМНАТУ</button>
+    <!-- Батл рулетка -->
+    <div class="battle-area" id="battleArea" style="display:none;">
+        <h3 id="selectedRoomTitle" style="font-size:14px; color:#ffb800; margin-bottom: 5px;">Комната №1</h3>
+        <div class="roulette-container" id="rouletteContainer">
+            <div class="pointer"></div>
+            <div class="roulette-track" id="track"></div>
         </div>
-    </div>
-
-    <!-- Вкладка 2: Апгрейд -->
-    <div id="tab-upgrade" class="tab-content">
-        <div class="upgrade-container">
-            <h3 style="font-size:13px; color:#c5c6c7;">Выбери цель для выигрыша:</h3>
-            <div class="upgrade-select-grid" id="targetGrid"></div>
-
-            <div class="circle-wheel-box">
-                <svg class="circle-svg" viewBox="0 0 100 100">
-                    <defs>
-                        <linearGradient id="gradWin" x1="0%" y1="0%" x2="100%" y2="100%">
-                            <stop offset="0%" stop-color="#66fcf1" />
-                            <stop offset="100%" stop-color="#45a29e" />
-                        </linearGradient>
-                    </defs>
-                    <circle class="wheel-bg" cx="50" cy="50" r="40"></circle>
-                    <circle class="wheel-win" id="winSector" cx="50" cy="50" r="40" stroke-dasharray="0 251.2"></circle>
-                </svg>
-                <div class="wheel-arrow" id="wheelArrow"></div>
-                <div class="chance-text"><span id="chancePercent">0</span>%</div>
-            </div>
-
-            <button class="action-btn" id="upgradeBtn" onclick="startUpgrade()">КРУТИТЬ РУЛЕТКУ</button>
-        </div>
+        <button class="action-btn" id="spinBtn" onclick="startBattle()">ОТКРЫТЬ КОМНАТУ</button>
     </div>
 
 <script>
@@ -289,20 +204,17 @@
     let balance = 1000;
     let selectedRoom = null;
     let inventory = []; 
-    let selectedInvIndices = []; 
-    let selectedTargetItem = null;
 
-    const svgDoor = `<svg class="svg-icon" viewBox="0 0 24 24"><path d="M19,2H5A2,2 0 0,0 3,4V20A2,2 0 0,0 5,22H19A2,2 0 0,0 21,20V4A2,2 0 0,0 19,2M13,13A1,1 0 0,1 12,12A1,1 0 0,1 13,11A1,1 0 0,1 14,12A1,1 0 0,1 13,13Z"/></svg>`;
-
+    // Полноцветные качественные картинки предметов
     const lootList = [
-        { id: 1, name: "Лапша", val: 25, weight: 45, svg: `<svg class="svg-icon" viewBox="0 0 24 24"><path d="M22 9C22 8.4 21.6 8 21 8H3C2.4 8 2 8.4 2 9C2 12.9 4.8 16.1 8.5 16.8V19H7C6.4 19 6 19.4 6 20S6.4 21 7 21H17C17.6 21 18 20.6 18 20S17.6 19 17 19H15.5V16.8C19.2 16.1 22 12.9 22 9Z"/></svg>` },
-        { id: 2, name: "Тазик", val: 60, weight: 28, svg: `<svg class="svg-icon" viewBox="0 0 24 24"><path d="M3 6L5 18C5.1 19.1 6 20 7.1 20H16.9C18 20 18.9 19.1 19 18L21 6H3Z"/></svg>` },
-        { id: 3, name: "Чайник", val: 150, weight: 14, svg: `<svg class="svg-icon" viewBox="0 0 24 24"><path d="M1 10C1 11.7 2.3 13 4 13H5V18C5 19.1 5.9 20 7 20H17C18.1 20 19 19.1 19 18V13H20C21.7 13 23 11.7 23 10V9H1V10Z"/></svg>` },
-        { id: 4, name: "Микроволновка", val: 350, weight: 7, svg: `<svg class="svg-icon" viewBox="0 0 24 24"><path d="M4 5C2.9 5 2 5.9 2 7V17C2 18.1 2.9 19 4 19H20C21.1 19 22 18.1 22 17V7C22 5.9 21.1 5 20 5H4ZM4 7H14V17H4V7Z"/></svg>` },
-        { id: 5, name: "Колонка JBL", val: 900, weight: 3.5, svg: `<svg class="svg-icon" viewBox="0 0 24 24"><path d="M7 3C5.9 3 5 3.9 5 5V19C5 20.1 5.9 21 7 21H17C18.1 21 19 20.1 19 19V5C19 3.9 18.1 3 17 3H7ZM12 8C13.1 8 14 8.9 14 10C14 11.1 13.1 12 12 12C10.9 12 10 11.1 10 10C10 8.9 10.9 8 12 8ZM12 14C13.7 14 15 15.3 15 17C15 18.7 13.7 20 12 20C10.3 20 9 18.7 9 17C9 15.3 10.3 14 12 14Z"/></svg>` },
-        { id: 6, name: "Геймпад", val: 2000, weight: 1.5, svg: `<svg class="svg-icon" viewBox="0 0 24 24"><path d="M8 11H6V9H5V11H3V12H5V14H6V12H8V11ZM15.5 11C15.2 11 15 11.2 15 11.5S15.2 12 15.5 12 16 11.8 16 11.5 15.8 11 15.5 11ZM18.5 11C18.2 11 18 11.2 18 11.5S18.2 12 18.5 12 19 11.8 19 11.5 18.8 11 18.5 11ZM17 9.5C16.7 9.5 16.5 9.7 16.5 10S16.7 10.5 17 10.5 17.5 10.3 17.5 10 17.3 9.5 17 9.5ZM17 12.5C16.7 12.5 16.5 12.7 16.5 13S16.7 13.5 17 13.5 17.5 13.3 17.5 13 17.3 12.5 17 12.5Z"/></svg>` },
-        { id: 7, name: "Ноутбук", val: 4500, weight: 0.8, svg: `<svg class="svg-icon" viewBox="0 0 24 24"><path d="M4 5C2.9 5 2 5.9 2 7V16H22V7C22 5.9 21.1 5 20 5H4ZM0 18C0 17.4 0.4 17 1 17H23C23.6 17 24 17.4 24 18V19H0V18Z"/></svg>` },
-        { id: 8, name: "Ключ-Карта", val: 12000, weight: 0.2, svg: `<svg class="svg-icon" viewBox="0 0 24 24"><path d="M7 14C5.9 14 5 13.1 5 12C5 10.9 5.9 10 7 10C8.1 10 9 10.9 9 12C9 13.1 8.1 14 7 14ZM12.6 10H22V14H19V16H17V14H15V16H13V14H12.6C11.8 15.2 10.5 16 9 16C6.8 16 5 14.2 5 12C5 9.8 6.8 8 9 8C10.5 8 11.8 8.8 12.6 10Z"/></svg>` }
+        { id: 1, name: "Лапша", val: 25, weight: 45, rarity: "rarity-common", img: "https://cdn-icons-png.flaticon.com/512/3041/3041130.png" },
+        { id: 2, name: "Тазик", val: 60, weight: 28, rarity: "rarity-common", img: "https://cdn-icons-png.flaticon.com/512/3920/3920701.png" },
+        { id: 3, name: "Чайник", val: 150, weight: 14, rarity: "rarity-rare", img: "https://cdn-icons-png.flaticon.com/512/2933/2933866.png" },
+        { id: 4, name: "Микроволновка", val: 350, weight: 7, rarity: "rarity-rare", img: "https://cdn-icons-png.flaticon.com/512/2933/2933839.png" },
+        { id: 5, name: "Колонка JBL", val: 900, weight: 3.5, rarity: "rarity-epic", img: "https://cdn-icons-png.flaticon.com/512/3659/3659898.png" },
+        { id: 6, name: "Геймпад", val: 2000, weight: 1.5, rarity: "rarity-epic", img: "https://cdn-icons-png.flaticon.com/512/808/808439.png" },
+        { id: 7, name: "Ноутбук", val: 4500, weight: 0.8, rarity: "rarity-legendary", img: "https://cdn-icons-png.flaticon.com/512/428/428001.png" },
+        { id: 8, name: "Ключ-Карта", val: 12000, weight: 0.2, rarity: "rarity-legendary", img: "https://cdn-icons-png.flaticon.com/512/565/565547.png" }
     ];
 
     // Генерируем 80 комнат
@@ -314,124 +226,10 @@
         roomCard.onclick = () => selectRoom(i, price, roomCard);
         roomCard.innerHTML = `
             <div class="room-number">№${i}</div>
-            ${svgDoor}
+            <img src="https://cdn-icons-png.flaticon.com/512/2887/2887982.png" style="width:28px; height:28px;" />
             <div class="room-price">${price} 🪙</div>
         `;
         roomsGrid.appendChild(roomCard);
-    }
-
-    // Инициализация целей для апгрейда
-    const targetGrid = document.getElementById('targetGrid');
-    lootList.forEach(item => {
-        let div = document.createElement('div');
-        div.className = 'target-card';
-        div.onclick = () => selectTarget(item, div);
-        div.innerHTML = `
-            ${item.svg}
-            <div style="font-weight:bold;">${item.name}</div>
-            <div style="color:#66fcf1; font-weight:bold;">${item.val} 🪙</div>
-        `;
-        targetGrid.appendChild(div);
-    });
-
-    function updateInventoryUI() {
-        const list = document.getElementById('inventoryList');
-        document.getElementById('invCount').innerText = `${inventory.length} шт.`;
-        list.innerHTML = '';
-
-        if (inventory.length === 0) {
-            list.innerHTML = `<div style="font-size:11px; color:#5A5D73; padding:20px; text-align:center; width:100%;">Инвентарь пуст. Захватывай комнаты!</div>`;
-            calculateChance();
-            return;
-        }
-
-        inventory.forEach((item, index) => {
-            let div = document.createElement('div');
-            let isSelected = selectedInvIndices.includes(index);
-            div.className = `inv-card ${isSelected ? 'selected' : ''}`;
-            
-            div.innerHTML = `
-                ${item.svg}
-                <div style="font-size:9px; color:#66fcf1; font-weight:bold;">${item.val} 🪙</div>
-                <button class="inv-card-sell" onclick="sellItem(event, ${index})">Продать</button>
-            `;
-            div.onclick = (e) => {
-                if (e.target.tagName !== 'BUTTON') toggleSelectInvItem(index);
-            };
-            list.appendChild(div);
-        });
-        calculateChance();
-    }
-
-    function sellItem(event, index) {
-        event.stopPropagation();
-        let item = inventory[index];
-        balance += item.val;
-        document.getElementById('balance').innerText = balance;
-        
-        inventory.splice(index, 1);
-        selectedInvIndices = selectedInvIndices.filter(i => i !== index).map(i => i > index ? i - 1 : i);
-        updateInventoryUI();
-    }
-
-    function sellAllInventory() {
-        if (inventory.length === 0) return;
-        let total = inventory.reduce((sum, item) => sum + item.val, 0);
-        balance += total;
-        document.getElementById('balance').innerText = balance;
-        inventory = [];
-        selectedInvIndices = [];
-        updateInventoryUI();
-        alert(`💰 Продано предметов на сумму +${total} 🪙`);
-    }
-
-    function toggleSelectInvItem(index) {
-        if (selectedInvIndices.includes(index)) {
-            selectedInvIndices = selectedInvIndices.filter(i => i !== index);
-        } else {
-            selectedInvIndices.push(index);
-        }
-        updateInventoryUI();
-    }
-
-    function selectTarget(item, el) {
-        document.querySelectorAll('.target-card').forEach(c => c.classList.remove('selected'));
-        el.classList.add('selected');
-        selectedTargetItem = item;
-        calculateChance();
-    }
-
-    function calculateChance() {
-        if (!selectedTargetItem || selectedInvIndices.length === 0) {
-            setChanceUI(0);
-            return;
-        }
-
-        let mySum = selectedInvIndices.reduce((acc, idx) => acc + (inventory[idx] ? inventory[idx].val : 0), 0);
-        let chance = (mySum / selectedTargetItem.val) * 100;
-        
-        if (chance > 80) chance = 80;
-        if (chance < 0.5) chance = 0.5;
-
-        setChanceUI(chance.toFixed(1));
-    }
-
-    function setChanceUI(percent) {
-        document.getElementById('chancePercent').innerText = percent;
-        let dashVal = (percent / 100) * 251.2;
-        document.getElementById('winSector').setAttribute('stroke-dasharray', `${dashVal} 251.2`);
-    }
-
-    function switchTab(tab) {
-        document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
-        document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
-        if (tab === 'rooms') {
-            document.querySelectorAll('.tab-btn')[0].classList.add('active');
-            document.getElementById('tab-rooms').classList.add('active');
-        } else {
-            document.querySelectorAll('.tab-btn')[1].classList.add('active');
-            document.getElementById('tab-upgrade').classList.add('active');
-        }
     }
 
     function selectRoom(num, price, element) {
@@ -442,10 +240,60 @@
         document.getElementById('battleArea').style.display = 'block';
     }
 
+    function updateInventoryUI() {
+        const list = document.getElementById('inventoryList');
+        document.getElementById('invCount').innerText = `${inventory.length} шт.`;
+        list.innerHTML = '';
+
+        if (inventory.length === 0) {
+            list.innerHTML = `<div style="font-size:11px; color:#5A5D73; padding:20px; text-align:center; width:100%;">Инвентарь пуст. Захватывай комнаты!</div>`;
+            return;
+        }
+
+        inventory.forEach((item, index) => {
+            let div = document.createElement('div');
+            div.className = `inv-card ${item.rarity}`;
+            div.innerHTML = `
+                <img src="${item.img}" />
+                <div style="font-size:9px; color:#66fcf1; font-weight:bold;">${item.val} 🪙</div>
+                <button class="inv-card-sell" onclick="sellItem(event, ${index})">Продать</button>
+            `;
+            list.appendChild(div);
+        });
+    }
+
+    function sellItem(event, index) {
+        event.stopPropagation();
+        balance += inventory[index].val;
+        document.getElementById('balance').innerText = balance;
+        inventory.splice(index, 1);
+        updateInventoryUI();
+    }
+
+    function sellAllInventory() {
+        if (inventory.length === 0) return;
+        let total = inventory.reduce((sum, item) => sum + item.val, 0);
+        balance += total;
+        document.getElementById('balance').innerText = balance;
+        inventory = [];
+        updateInventoryUI();
+        alert(`💰 Продано предметов на сумму +${total} 🪙`);
+    }
+
     function deposit() {
         balance += 500;
         document.getElementById('balance').innerText = balance;
         alert("🎉 Депозит успешный! +500 🪙");
+    }
+
+    function getRandomLootByWeight() {
+        let rand = Math.random() * 100;
+        let cumulative = 0;
+        for (let item of lootList) {
+            cumulative += item.weight;
+            if (rand <= cumulative) return item;
+        }
+        return lootList[0];
     }
 
     function startBattle() {
@@ -461,34 +309,35 @@
         track.style.transform = 'translateX(0px)';
         track.innerHTML = '';
 
-        // Генерируем длинную ленту из 150 предметов
+        // Генерируем 200 элементов, чтобы рулетка ГАРАНТИРОВАННО не заканчивалась
         let items = [];
-        const TOTAL_ITEMS = 150;
+        const TOTAL_ITEMS = 200;
         for (let i = 0; i < TOTAL_ITEMS; i++) {
             let drop = getRandomLootByWeight();
             items.push(drop);
             let itemDiv = document.createElement('div');
-            itemDiv.className = 'drop-item';
+            itemDiv.className = `drop-item ${drop.rarity}`;
             itemDiv.innerHTML = `
-                <div class="drop-item-content">
-                    ${drop.svg}
-                    <div class="drop-item-title">${drop.name}</div>
-                </div>
+                <img src="${drop.img}" />
+                <div class="drop-item-title">${drop.name}</div>
+                <div class="drop-item-val">${drop.val} 🪙</div>
             `;
             track.appendChild(itemDiv);
         }
 
         setTimeout(() => {
-            track.style.transition = 'transform 5s cubic-bezier(0.1, 0.9, 0.1, 1)';
+            // Длительность прокрутки 5 секунд
+            track.style.transition = 'transform 5s cubic-bezier(0.08, 0.82, 0.17, 1)';
             
-            // Остановка между 110 и 130 предметом
-            let winningIndex = Math.floor(Math.random() * 20) + 110; 
+            // Выигрышная позиция (между 140 и 160 предметом)
+            let winningIndex = Math.floor(Math.random() * 20) + 140; 
             
-            // Расчет позиции для остановки ровно по центру указателя:
-            // (80px ширина карточки + 8px margin) = 88px на элемент.
-            let itemWidthWithMargin = 88;
+            // 90px ширина + 8px margin = 98px ширина одной карточки
+            let itemWidthWithMargin = 98;
             let containerWidth = document.getElementById('rouletteContainer').offsetWidth;
-            let offsetToCenter = (containerWidth / 2) - 44; 
+            
+            // Расчет сдвига ровно в центр указателя
+            let offsetToCenter = (containerWidth / 2) - (itemWidthWithMargin / 2); 
             let moveAmount = -(winningIndex * itemWidthWithMargin - offsetToCenter);
 
             track.style.transform = `translateX(${moveAmount}px)`;
@@ -497,54 +346,10 @@
                 let wonItem = items[winningIndex];
                 inventory.push(wonItem);
                 updateInventoryUI();
-                alert(`🎁 Выпало: ${wonItem.name}!\nПредмет добавлен в инвентарь.`);
+                alert(`🎁 Выпало: ${wonItem.name} (${wonItem.val} 🪙)!`);
                 document.getElementById('spinBtn').disabled = false;
             }, 5200);
         }, 100);
-    }
-
-    function getRandomLootByWeight() {
-        let rand = Math.random() * 100;
-        let cumulative = 0;
-        for (let item of lootList) {
-            cumulative += item.weight;
-            if (rand <= cumulative) return item;
-        }
-        return lootList[0];
-    }
-
-    function startUpgrade() {
-        if (selectedInvIndices.length === 0) { alert("Выбери предметы из инвентаря для ставки!"); return; }
-        if (!selectedTargetItem) { alert("Выбери желаемую вещь-цель!"); return; }
-
-        let chance = parseFloat(document.getElementById('chancePercent').innerText);
-        let arrow = document.getElementById('wheelArrow');
-        document.getElementById('upgradeBtn').disabled = true;
-
-        let randomDegree = Math.floor(Math.random() * 360);
-        let totalRotation = 1440 + randomDegree; 
-        arrow.style.transform = `translateX(-50%) rotate(${totalRotation}deg)`;
-
-        setTimeout(() => {
-            let winDegree = (chance / 100) * 360;
-            
-            if (randomDegree <= winDegree) {
-                alert(`🔥 АПГРЕЙД УСПЕШЕН!\nТы получил: ${selectedTargetItem.name}`);
-                selectedInvIndices.sort((a,b) => b-a).forEach(idx => inventory.splice(idx, 1));
-                inventory.push(selectedTargetItem);
-            } else {
-                alert(`❌ АПГРЕЙД СГОРЕЛ!\nПредметы уничтожены.`);
-                selectedInvIndices.sort((a,b) => b-a).forEach(idx => inventory.splice(idx, 1));
-            }
-
-            arrow.style.transition = 'none';
-            arrow.style.transform = `translateX(-50%) rotate(0deg)`;
-            setTimeout(() => arrow.style.transition = 'transform 3.5s cubic-bezier(0.15, 0.85, 0.15, 1)', 50);
-
-            selectedInvIndices = [];
-            updateInventoryUI();
-            document.getElementById('upgradeBtn').disabled = false;
-        }, 3600);
     }
 </script>
 </body>
